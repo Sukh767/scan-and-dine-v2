@@ -1,0 +1,26 @@
+{
+  "name": "scan-and-dine-v2",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "client",
+    "restaurant-admin",
+    "super-admin"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:client\" \"npm run dev:restaurant\" \"npm run dev:super\"",
+    "dev:backend": "npm run dev --workspace=backend",
+    "dev:client": "npm run dev --workspace=client",
+    "dev:restaurant": "npm run dev --workspace=restaurant-admin",
+    "dev:super": "npm run dev --workspace=super-admin",
+    "build": "npm run build --workspaces --if-present",
+    "install:all": "npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
