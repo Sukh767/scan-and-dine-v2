@@ -1,6 +1,6 @@
-const Table = require('../models/Table.model');
-const DiningSession = require('../models/DiningSession.model');
-const Order = require('../models/Order.model');
+import DiningSession from '../models/DiningSession.model.js';
+import Table from '../models/Table.model.js';
+import Order from '../models/Order.model.js';
 
 // ─── @POST /api/sessions/scan ─────────────────────────────────────────────────
 // Called when a customer scans a QR code.
@@ -133,4 +133,4 @@ const getActiveSessions = async (req, res) => {
   res.json({ success: true, data: { sessions } });
 };
 
-module.exports = { scanQR, getSession, getBill, closeSession, getActiveSessions };
+export { scanQR, getSession, getBill, closeSession, getActiveSessions };

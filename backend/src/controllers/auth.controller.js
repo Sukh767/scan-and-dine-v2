@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User.model');
-const Restaurant = require('../models/Restaurant.model');
+import jwt from 'jsonwebtoken';
+import User from '../models/User.model.js';
+import Restaurant from '../models/Restaurant.model.js';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const generateToken = (id) =>
@@ -108,4 +108,4 @@ const getMe = async (req, res) => {
   res.json({ success: true, data: { user: userPayload(req.user) } });
 };
 
-module.exports = { register, login, refresh, getMe };
+export { register, login, refresh, getMe };

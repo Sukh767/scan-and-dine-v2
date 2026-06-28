@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 // Each item line in an order
 const orderItemSchema = new mongoose.Schema(
@@ -92,4 +92,4 @@ orderSchema.index({ sessionId: 1, orderNumber: 1 });
 orderSchema.index({ restaurantId: 1, status: 1 });
 orderSchema.index({ restaurantId: 1, createdAt: -1 });
 
-module.exports = mongoose.model('Order', orderSchema);
+export default mongoose.model('Order', orderSchema);

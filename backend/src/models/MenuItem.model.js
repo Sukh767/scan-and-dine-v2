@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 // Variant/add-on sub-schema (e.g., size options, extra toppings)
 const variantSchema = new mongoose.Schema(
@@ -77,4 +77,4 @@ const menuItemSchema = new mongoose.Schema(
 menuItemSchema.index({ restaurantId: 1, categoryId: 1, isActive: 1, sortOrder: 1 });
 menuItemSchema.index({ restaurantId: 1, isFeatured: 1 });
 
-module.exports = mongoose.model('MenuItem', menuItemSchema);
+export default mongoose.model('MenuItem', menuItemSchema);

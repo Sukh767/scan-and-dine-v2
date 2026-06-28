@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const { v4: uuidv4 } = require('uuid');
+import mongoose from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
 
 const tableSchema = new mongoose.Schema(
   {
@@ -64,4 +64,4 @@ tableSchema.index({ restaurantId: 1, tableNumber: 1 }, { unique: true });
 tableSchema.index({ restaurantId: 1, status: 1 });
 tableSchema.index({ qrToken: 1 });
 
-module.exports = mongoose.model('Table', tableSchema);
+export default mongoose.model('Table', tableSchema);

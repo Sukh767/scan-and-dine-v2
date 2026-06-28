@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 /**
  * DiningSession
@@ -83,4 +83,4 @@ diningSessionSchema.index({ tableId: 1, status: 1 });
 diningSessionSchema.index({ customerId: 1 });
 diningSessionSchema.index({ restaurantId: 1, createdAt: -1 }); // for analytics
 
-module.exports = mongoose.model('DiningSession', diningSessionSchema);
+export default mongoose.model('DiningSession', diningSessionSchema);

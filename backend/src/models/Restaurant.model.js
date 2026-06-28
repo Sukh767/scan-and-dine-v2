@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 // ─── Operating Hours sub-schema ───────────────────────────────────────────────
 const dayHoursSchema = new mongoose.Schema(
@@ -140,4 +140,4 @@ restaurantSchema.pre('save', function (next) {
   next();
 });
 
-module.exports = mongoose.model('Restaurant', restaurantSchema);
+export default mongoose.model('Restaurant', restaurantSchema);
