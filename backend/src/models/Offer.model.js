@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const offerSchema = new mongoose.Schema(
   {
@@ -23,6 +23,12 @@ const offerSchema = new mongoose.Schema(
       required: true,
       min: 0,
     },
+
+    // Automatically apply to cart without needing a code
+    autoApply: { type: Boolean, default: false },
+    
+    // Resolves conflicts when multiple offers apply (higher number = applied first)
+    priority: { type: Number, default: 0 },
 
     // Minimum order value to apply offer
     minOrderValue: { type: Number, default: 0 },
@@ -53,4 +59,4 @@ const offerSchema = new mongoose.Schema(
 offerSchema.index({ restaurantId: 1, isActive: 1 });
 offerSchema.index({ code: 1 });
 
-module.exports = mongoose.model('Offer', offerSchema);
+export default mongoose.model('Offer', offerSchema);

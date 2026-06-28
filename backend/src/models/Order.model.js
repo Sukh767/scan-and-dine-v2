@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 // Each item line in an order
 const orderItemSchema = new mongoose.Schema(
@@ -75,6 +75,19 @@ const orderSchema = new mongoose.Schema(
       default: 'pending',
     },
 
+    // Identifies exactly WHICH friend at the table placed this specific sub-order
+    orderedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+
+    // Future-proofing: AI/Kitchen forecasting for when this specific order will be ready
+    estimatedReadyTime: { 
+      type: Date, 
+      default: null 
+    },
+
     // Whether restaurant accepted/rejected
     restaurantNote: String, // e.g., "Out of chicken today"
 
@@ -92,4 +105,4 @@ orderSchema.index({ sessionId: 1, orderNumber: 1 });
 orderSchema.index({ restaurantId: 1, status: 1 });
 orderSchema.index({ restaurantId: 1, createdAt: -1 });
 
-module.exports = mongoose.model('Order', orderSchema);
+export default mongoose.model('Order', orderSchema);

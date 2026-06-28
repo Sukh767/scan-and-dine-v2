@@ -1,5 +1,6 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User.model');
+import jwt from 'jsonwebtoken';
+import User from '../models/User.model.js';
+
 
 // ─── Verify JWT ───────────────────────────────────────────────────────────────
 const protect = async (req, res, next) => {
@@ -58,4 +59,4 @@ const ownRestaurant = (req, res, next) => {
   });
 };
 
-module.exports = { protect, authorise, ownRestaurant };
+export { protect, authorise, ownRestaurant };

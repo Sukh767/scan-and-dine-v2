@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -40,6 +40,13 @@ const reviewSchema = new mongoose.Schema(
       repliedBy:  { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     },
 
+    // Differentiates the expectations and experiences of different customer types
+    visitType: {
+      type: String,
+      enum: ['reservation', 'walk_in'],
+      default: 'walk_in',
+    },
+
     isPublic: { type: Boolean, default: true },
   },
   {
@@ -50,4 +57,4 @@ const reviewSchema = new mongoose.Schema(
 reviewSchema.index({ restaurantId: 1, isPublic: 1, createdAt: -1 });
 reviewSchema.index({ customerId: 1 });
 
-module.exports = mongoose.model('Review', reviewSchema);
+export default mongoose.model('Review', reviewSchema);

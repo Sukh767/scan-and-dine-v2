@@ -22,4 +22,5 @@ router.patch('/:sessionId/close', protect, closeSession);
 // Restaurant owner views live sessions
 router.get('/', protect, authorise('restaurant', 'super_admin'), getActiveSessions);
 
-module.exports = router;
+
+export default router;

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 // Variant/add-on sub-schema (e.g., size options, extra toppings)
 const variantSchema = new mongoose.Schema(
@@ -49,6 +49,18 @@ const menuItemSchema = new mongoose.Schema(
       default: 'none',
     },
 
+    // Marketing & Promotion
+    isFeatured:    { type: Boolean, default: false }, // General featured list
+    isBestSeller:  { type: Boolean, default: false }, // "Most Ordered" badge
+    isRecommended: { type: Boolean, default: false }, // "Chef's Choice" badge
+
+    // Nutrition & Serving Info (Future-proofed)
+    nutrition: {
+      calories: { type: Number },
+      servingSize: { type: String, trim: true }, // e.g., "250g", "2 pieces", "1 bowl"
+      // Room to add protein, carbs, fats later
+    },
+
     // Optional variants (if empty, price above is the only price)
     variants: [variantSchema],
 
@@ -59,9 +71,8 @@ const menuItemSchema = new mongoose.Schema(
 
     sortOrder: { type: Number, default: 0 },
 
-    isFeatured:    { type: Boolean, default: false },
-    isAvailable:   { type: Boolean, default: true },
-    isActive:      { type: Boolean, default: true },
+    isAvailable:   { type: Boolean, default: true }, // Temporarily out of stock
+    isActive:      { type: Boolean, default: true }, // Soft delete
 
     // Aggregate rating (denormalized)
     rating: {
@@ -75,6 +86,6 @@ const menuItemSchema = new mongoose.Schema(
 );
 
 menuItemSchema.index({ restaurantId: 1, categoryId: 1, isActive: 1, sortOrder: 1 });
-menuItemSchema.index({ restaurantId: 1, isFeatured: 1 });
+menuItemSchema.index({ restaurantId: 1, isBestSeller: 1 }); // Quick fetch for best sellers
 
-module.exports = mongoose.model('MenuItem', menuItemSchema);
+export default mongoose.model('MenuItem', menuItemSchema);

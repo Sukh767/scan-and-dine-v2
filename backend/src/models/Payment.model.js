@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const paymentSchema = new mongoose.Schema(
   {
@@ -40,6 +40,12 @@ const paymentSchema = new mongoose.Schema(
       enum: ['pending', 'completed', 'failed', 'refunded'],
       default: 'pending',
     },
+    // Tracks origin of the transaction for platform analytics
+    paymentSource: {
+      type: String,
+      enum: ['customer_app', 'restaurant_counter', 'upi_qr', 'gateway'],
+      default: 'customer_app',
+    },
 
     // For online payments (Razorpay / Stripe etc.)
     gateway: {
@@ -70,4 +76,4 @@ paymentSchema.index({ restaurantId: 1, createdAt: -1 });
 paymentSchema.index({ customerId: 1 });
 paymentSchema.index({ status: 1 });
 
-module.exports = mongoose.model('Payment', paymentSchema);
+export default mongoose.model('Payment', paymentSchema);

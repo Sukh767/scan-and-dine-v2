@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 // ─── Operating Hours sub-schema ───────────────────────────────────────────────
 const dayHoursSchema = new mongoose.Schema(
@@ -43,43 +43,71 @@ const addressSchema = new mongoose.Schema(
 // ─── Restaurant schema ────────────────────────────────────────────────────────
 const restaurantSchema = new mongoose.Schema(
   {
+    // Core Identity
     ownerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
-
     name: {
       type: String,
       required: [true, 'Restaurant name is required'],
       trim: true,
     },
-
     slug: {
       type: String,
       unique: true,
       lowercase: true,
       trim: true,
     },
-
     description: String,
-
+    
+    // Media
     logo: String,
     coverImage: String,
-    images: [String],
+    gallery: [String], // Renamed from 'images'
 
-    cuisineTypes: [String], // e.g. ['Indian', 'Chinese', 'Italian']
+    // Details & Meta
+    cuisineTypes: [String], 
+    priceRange: {
+      type: String,
+      enum: ['₹', '₹₹', '₹₹₹', '₹₹₹₹'],
+      default: '₹₹'
+    },
+    facilities: [{
+      type: String,
+      // Optional enum to enforce strict types, or leave as generic strings
+      enum: ['Parking', 'WiFi', 'AC', 'Rooftop', 'Family Dining', 'Live Music', 'Outdoor Seating']
+    }],
+    chefHighlights: [{
+      name: String,
+      experience: String,
+      specialty: String
+    }],
 
-    address: addressSchema,
-
+    // Contact & Location
     phone: String,
     email: String,
     website: String,
-
+    socialMedia: {
+      instagram: String,
+      facebook: String,
+      twitter: String
+    },
+    address: addressSchema,
     operatingHours: {
       type: operatingHoursSchema,
       default: () => ({}),
     },
+
+    // Statuses
+    operationalStatus: {
+      type: String,
+      enum: ['Open', 'Busy', 'Closed', 'Maintenance'],
+      default: 'Closed' // Managed daily by restaurant owner
+    },
+    isApproved: { type: Boolean, default: false }, // Platform Admin control
+    isActive:   { type: Boolean, default: true },  // Global soft-delete/suspend
 
     // Subscription & SaaS tier
     subscription: {
@@ -97,10 +125,6 @@ const restaurantSchema = new mongoose.Schema(
       currentPeriodEnd: Date,
     },
 
-    // Approval by super admin
-    isApproved: { type: Boolean, default: false },
-    isActive:   { type: Boolean, default: true },
-
     // Aggregate stats (denormalized for quick reads)
     stats: {
       totalOrders:   { type: Number, default: 0 },
@@ -109,6 +133,7 @@ const restaurantSchema = new mongoose.Schema(
       totalReviews:  { type: Number, default: 0 },
     },
 
+    // Payment & Ordering Rules
     settings: {
       acceptsReservations: { type: Boolean, default: true },
       acceptsOnlinePayment: { type: Boolean, default: true },
@@ -127,7 +152,8 @@ const restaurantSchema = new mongoose.Schema(
 restaurantSchema.index({ ownerId: 1 });
 restaurantSchema.index({ slug: 1 });
 restaurantSchema.index({ isApproved: 1, isActive: 1 });
-restaurantSchema.index({ 'address.coordinates': '2dsphere' }); // geo queries
+restaurantSchema.index({ operationalStatus: 1 }); // Useful for filtering open restaurants
+restaurantSchema.index({ 'address.coordinates': '2dsphere' });
 
 // Auto-generate slug from name
 restaurantSchema.pre('save', function (next) {
@@ -140,4 +166,4 @@ restaurantSchema.pre('save', function (next) {
   next();
 });
 
-module.exports = mongoose.model('Restaurant', restaurantSchema);
+export default mongoose.model('Restaurant', restaurantSchema);

@@ -1,5 +1,6 @@
-const mongoose = require('mongoose');
-const { v4: uuidv4 } = require('uuid');
+import mongoose from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
+import { TABLE_STATUSES } from '../utils/constants.js';
 
 const tableSchema = new mongoose.Schema(
   {
@@ -26,6 +27,19 @@ const tableSchema = new mongoose.Schema(
       min: 1,
     },
 
+    // ─── Location & Mapping (Future-Proofing) ──────────────────────────────
+    floor: {
+      type: String,
+      trim: true,
+      // e.g., 'Ground Floor', 'First Floor', 'Rooftop'
+    },
+
+    section: {
+      type: String,
+      trim: true,
+      // e.g., 'Window', 'VIP', 'Outdoor', 'Bar Area'
+    },
+
     // ─── QR ────────────────────────────────────────────────────────────────
     qrToken: {
       type: String,
@@ -41,7 +55,7 @@ const tableSchema = new mongoose.Schema(
     // ─── Status ────────────────────────────────────────────────────────────
     status: {
       type: String,
-      enum: ['available', 'reserved', 'occupied', 'inactive'],
+      enum: TABLE_STATUSES,
       default: 'available',
     },
 
@@ -64,4 +78,4 @@ tableSchema.index({ restaurantId: 1, tableNumber: 1 }, { unique: true });
 tableSchema.index({ restaurantId: 1, status: 1 });
 tableSchema.index({ qrToken: 1 });
 
-module.exports = mongoose.model('Table', tableSchema);
+export default mongoose.model('Table', tableSchema);

@@ -7,6 +7,6 @@ const router = express.Router();
 // Stub — implement controllers as you build each feature
 router.get('/', protect, (req, res) => res.json({ success: true, data: [], message: 'user routes — implement controller' }));
 
-module.exports = router;
+export default router;
 
 
