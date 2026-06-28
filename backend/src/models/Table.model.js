@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
+import { TABLE_STATUSES } from '../utils/constants.js';
 
 const tableSchema = new mongoose.Schema(
   {
@@ -54,7 +55,7 @@ const tableSchema = new mongoose.Schema(
     // ─── Status ────────────────────────────────────────────────────────────
     status: {
       type: String,
-      enum: ['available', 'reserved', 'occupied', 'inactive'],
+      enum: TABLE_STATUSES,
       default: 'available',
     },
 
