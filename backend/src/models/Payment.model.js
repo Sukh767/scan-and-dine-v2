@@ -40,6 +40,12 @@ const paymentSchema = new mongoose.Schema(
       enum: ['pending', 'completed', 'failed', 'refunded'],
       default: 'pending',
     },
+    // Tracks origin of the transaction for platform analytics
+    paymentSource: {
+      type: String,
+      enum: ['customer_app', 'restaurant_counter', 'upi_qr', 'gateway'],
+      default: 'customer_app',
+    },
 
     // For online payments (Razorpay / Stripe etc.)
     gateway: {

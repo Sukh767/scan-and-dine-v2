@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema(
     // super_admin    → uses Super Admin Portal
     role: {
       type: String,
-      enum: ['customer', 'restaurant', 'super_admin'],
+      enum: ['customer', 'restaurant_owner', 'super_admin'],
       default: 'customer',
     },
 

@@ -66,6 +66,20 @@ const diningSessionSchema = new mongoose.Schema(
     // Customer headcount (set when session starts or updated)
     guestCount: { type: Number, default: 1 },
 
+    // Handles dine-in, takeaway, or a mix of both in one single bill
+    sessionType: {
+      type: String,
+      enum: ['dine_in', 'takeaway', 'mixed'],
+      default: 'dine_in',
+    },
+
+    // Financial state of the session (separated from physical table status)
+    billStatus: {
+      type: String,
+      enum: ['open', 'payment_pending', 'paid', 'closed', 'refunded'],
+      default: 'open',
+    },
+
     // Special instructions for the whole table
     tableNote: String,
 

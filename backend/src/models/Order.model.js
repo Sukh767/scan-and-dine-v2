@@ -75,6 +75,19 @@ const orderSchema = new mongoose.Schema(
       default: 'pending',
     },
 
+    // Identifies exactly WHICH friend at the table placed this specific sub-order
+    orderedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+
+    // Future-proofing: AI/Kitchen forecasting for when this specific order will be ready
+    estimatedReadyTime: { 
+      type: Date, 
+      default: null 
+    },
+
     // Whether restaurant accepted/rejected
     restaurantNote: String, // e.g., "Out of chicken today"
 

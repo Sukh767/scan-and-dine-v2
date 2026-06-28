@@ -26,6 +26,19 @@ const tableSchema = new mongoose.Schema(
       min: 1,
     },
 
+    // ─── Location & Mapping (Future-Proofing) ──────────────────────────────
+    floor: {
+      type: String,
+      trim: true,
+      // e.g., 'Ground Floor', 'First Floor', 'Rooftop'
+    },
+
+    section: {
+      type: String,
+      trim: true,
+      // e.g., 'Window', 'VIP', 'Outdoor', 'Bar Area'
+    },
+
     // ─── QR ────────────────────────────────────────────────────────────────
     qrToken: {
       type: String,

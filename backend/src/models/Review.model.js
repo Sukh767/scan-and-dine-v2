@@ -40,6 +40,13 @@ const reviewSchema = new mongoose.Schema(
       repliedBy:  { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     },
 
+    // Differentiates the expectations and experiences of different customer types
+    visitType: {
+      type: String,
+      enum: ['reservation', 'walk_in'],
+      default: 'walk_in',
+    },
+
     isPublic: { type: Boolean, default: true },
   },
   {

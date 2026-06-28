@@ -51,6 +51,15 @@ const reservationSchema = new mongoose.Schema(
     // When the customer actually arrives and gets seated
     checkedInAt: Date,
 
+    reservationCode: {
+      type: String,
+      unique: true,
+      uppercase: true,
+      trim: true,
+      // Generates a quick 6-character code like "RSV8X2Q" automatically
+      default: () => 'RSV' + Math.random().toString(36).substring(2, 6).toUpperCase(),
+    },
+
     // Linked to the dining session created when they check in
     sessionId: {
       type: mongoose.Schema.Types.ObjectId,

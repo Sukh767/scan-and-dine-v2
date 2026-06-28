@@ -17,6 +17,12 @@ const categorySchema = new mongoose.Schema(
     description: String,
 
     image: String,
+    
+    // UI enhancement for mobile/web menus
+    icon: {
+      type: String, // Can store an Emoji "🍔" or an icon class name
+      trim: true,
+    },
 
     sortOrder: {
       type: Number,
@@ -33,4 +39,3 @@ const categorySchema = new mongoose.Schema(
 categorySchema.index({ restaurantId: 1, isActive: 1, sortOrder: 1 });
 
 export default mongoose.model('Category', categorySchema);
-  

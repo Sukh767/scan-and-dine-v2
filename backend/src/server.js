@@ -12,7 +12,7 @@ import connectDB from './config/db.js';
 import { errorHandler, notFound } from './middleware/errorMiddleware.js';
 
 // Route imports
-import authRoutes from './routes/auth.routes.js';
+import authRoutes from './routes/auth/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
 import restaurantRoutes from './routes/restaurant.routes.js';
 import tableRoutes from './routes/table.routes.js';

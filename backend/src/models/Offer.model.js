@@ -24,6 +24,12 @@ const offerSchema = new mongoose.Schema(
       min: 0,
     },
 
+    // Automatically apply to cart without needing a code
+    autoApply: { type: Boolean, default: false },
+    
+    // Resolves conflicts when multiple offers apply (higher number = applied first)
+    priority: { type: Number, default: 0 },
+
     // Minimum order value to apply offer
     minOrderValue: { type: Number, default: 0 },
 
