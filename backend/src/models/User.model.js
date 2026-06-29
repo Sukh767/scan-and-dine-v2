@@ -1,16 +1,21 @@
-import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs';
+import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
+import {
+  ROLE_VALUES,
+  ROLES,
+} from "../constants/index.js";
+
 
 const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Name is required'],
+      required: [true, "Name is required"],
       trim: true,
     },
     email: {
       type: String,
-      required: [true, 'Email is required'],
+      required: [true, "Email is required"],
       unique: true,
       lowercase: true,
       trim: true,
@@ -21,8 +26,8 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, 'Password is required'],
-      minlength: 6,
+      required: [true, "Password is required"],
+      minlength: 8,
       select: false, // never returned in queries by default
     },
 
@@ -31,15 +36,15 @@ const userSchema = new mongoose.Schema(
     // restaurant     → uses Restaurant Admin Portal
     // super_admin    → uses Super Admin Portal
     role: {
-      type: String,
-      enum: ['customer', 'restaurant_owner', 'super_admin'],
-      default: 'customer',
+    type: String,
+    enum: ROLES,
+    default: ROLES.CUSTOMER
     },
 
     // Set for restaurant owners — which restaurant they own
     restaurantId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Restaurant',
+      ref: "Restaurant",
       default: null,
     },
 
@@ -59,21 +64,40 @@ const userSchema = new mongoose.Schema(
     },
 
     // For email verification / password reset flows
-    verificationToken: String,
-    resetPasswordToken: String,
-    resetPasswordExpires: Date,
+    verificationToken: {
+      type: String,
+      select: false,
+    },
+
+    verificationTokenExpiresAt: {
+      type: Date,
+    },
+
+    resetPasswordToken: {
+      type: String,
+      select: false,
+    },
+
+    resetPasswordExpiresAt: {
+      type: Date,
+    },
+
+    refreshToken: {
+      type: String,
+      select: false,
+    },
 
     // Track last login for analytics
     lastLoginAt: Date,
   },
   {
     timestamps: true, // adds createdAt + updatedAt
-  }
+  },
 );
 
 // ─── Hash password before save ──────────────────────────────────────────────
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
@@ -84,8 +108,8 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
 };
 
 // ─── Indexes ─────────────────────────────────────────────────────────────────
-userSchema.index({ email: 1 });
+//userSchema.index({ email: 1 });
 userSchema.index({ role: 1 });
 userSchema.index({ restaurantId: 1 });
 
-export default mongoose.model('User', userSchema);
+export default mongoose.model("User", userSchema);

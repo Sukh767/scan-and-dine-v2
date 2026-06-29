@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { ROLES } from "../constants/enums.js";
 
 /**
  * -----------------------------------------
@@ -32,11 +31,6 @@ const password = z
     "Password must contain uppercase, lowercase, number and special character."
   );
 
-const role = z.enum([
-  ROLES[0],
-  ROLES[1],
-]);
-
 /**
  * -----------------------------------------
  * Register
@@ -49,7 +43,6 @@ export const registerSchema = z.object({
     email,
     phone,
     password,
-    role,
   }),
 });
 

@@ -1,4 +1,4 @@
-import User from "../models/user.model.js";
+import User from "../models/User.model.js";
 
 class AuthRepository {
   /**
@@ -8,6 +8,15 @@ class AuthRepository {
    */
   async createUser(userData) {
     return await User.create(userData);
+  }
+
+  /**
+   * Find user by email
+   * @param {string} email
+   * @returns {Promise<User | null>}
+   */
+  async findUserByEmail(email) {
+    return await User.findOne({ email });
   }
 }
 
