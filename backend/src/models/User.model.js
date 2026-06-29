@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
-import {
-  ROLE_VALUES,
-  ROLES,
-} from "../constants/index.js";
-
+import { ROLE_VALUES, ROLES } from "../constants/index.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -36,9 +32,9 @@ const userSchema = new mongoose.Schema(
     // restaurant     → uses Restaurant Admin Portal
     // super_admin    → uses Super Admin Portal
     role: {
-    type: String,
-    enum: ROLES,
-    default: ROLES.CUSTOMER
+      type: String,
+      enum: ROLES,
+      default: ROLES.CUSTOMER,
     },
 
     // Set for restaurant owners — which restaurant they own
@@ -85,6 +81,7 @@ const userSchema = new mongoose.Schema(
     refreshToken: {
       type: String,
       select: false,
+      default: null,
     },
 
     // Track last login for analytics

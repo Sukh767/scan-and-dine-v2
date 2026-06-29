@@ -31,5 +31,16 @@ export const AUTH_MESSAGES = Object.freeze({
   EMAIL_VERIFICATION_SENT: "Verification email has been sent.",
   VERIFICATION_EMAIL_RESENT: "Verification email sent successfully.",
   USER_NOT_FOUND: "User not found.",
+
+  INVALID_CREDENTIALS: "Invalid email or password.",
+
+ACCOUNT_NOT_VERIFIED:
+  "Please verify your email before logging in.",
+
+ACCOUNT_DEACTIVATED:
+  "Your account has been deactivated.",
+
+LOGIN_SUCCESS:
+  "Login successful.",
 });
 

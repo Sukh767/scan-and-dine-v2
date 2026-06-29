@@ -137,6 +137,59 @@ class AuthService {
 
     return;
   }
+
+  /**
+ * Login
+ */
+async login(email, password) {
+  const user = await authRepository.findUserByEmail(email);
+
+  /**
+   * Email not found
+   */
+  if (!user) {
+    throw new ApiError(
+      HTTP_STATUS.UNAUTHORIZED,
+      AUTH_MESSAGES.INVALID_CREDENTIALS
+    );
+  }
+
+  /**
+   * Password mismatch
+   */
+  const isPasswordValid =
+    await user.comparePassword(password);
+
+  if (!isPasswordValid) {
+    throw new ApiError(
+      HTTP_STATUS.UNAUTHORIZED,
+      AUTH_MESSAGES.INVALID_CREDENTIALS
+    );
+  }
+
+  /**
+   * Email not verified
+   */
+  if (!user.isVerified) {
+    throw new ApiError(
+      HTTP_STATUS.FORBIDDEN,
+      AUTH_MESSAGES.ACCOUNT_NOT_VERIFIED
+    );
+  }
+
+  /**
+   * Account inactive
+   */
+  if (!user.isActive) {
+    throw new ApiError(
+      HTTP_STATUS.FORBIDDEN,
+      AUTH_MESSAGES.ACCOUNT_DEACTIVATED
+    );
+  }
+
+  return user;
+}
+
 }
 
 export default new AuthService();

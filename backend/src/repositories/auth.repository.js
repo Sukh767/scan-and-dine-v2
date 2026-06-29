@@ -12,8 +12,10 @@ class AuthRepository {
    * Find user by email
    */
   async findUserByEmail(email) {
-    return await User.findOne({ email });
-  }
+  return await User.findOne({ email }).select(
+    "+password +refreshToken"
+  );
+}
 
   /**
    * Find user by verification token
@@ -70,14 +72,32 @@ class AuthRepository {
   }
 
   /**
- * Find unverified user by email
+   * Find unverified user by email
+   */
+  // async findUnverifiedUserByEmail(email) {
+  //   return await User.findOne({
+  //     email,
+  //     isVerified: false,
+  //   });
+  //   }
+
+  /**
+ * Update refresh token
  */
-// async findUnverifiedUserByEmail(email) {
-//   return await User.findOne({
-//     email,
-//     isVerified: false,
-//   });
-//   }
+async updateRefreshToken(userId, refreshToken) {
+  return await User.findByIdAndUpdate(
+    userId,
+    {
+      $set: {
+        refreshToken,
+        lastLoginAt: new Date(),
+      },
+    },
+    {
+      new: true,
+    }
+  );
+}
 
   async findUserById(id) {
     return await User.findById(id);

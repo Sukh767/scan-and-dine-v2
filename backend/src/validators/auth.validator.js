@@ -51,13 +51,19 @@ export const registerSchema = z.object({
  * Login
  * -----------------------------------------
  */
-
-export const loginSchema = z.object({
+  export const loginSchema = z.object({
   body: z.object({
-    email,
-    password: z.string().min(1, "Password is required."),
+    email: z
+      .string()
+      .trim()
+      .email("Please provide a valid email address."),
+
+    password: z
+      .string()
+      .min(1, "Password is required."),
   }),
 });
+
 
 /**
  * -----------------------------------------
@@ -119,3 +125,4 @@ export const resendVerificationSchema = z.object({
       .email("Please provide a valid email address."),
   }),
 });
+

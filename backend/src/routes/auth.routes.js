@@ -4,7 +4,7 @@ import authController from "../controllers/auth.controller.js";
 
 import validate from "../middlewares/validate.middleware.js";
 
-import { registerSchema, resendVerificationSchema } from "../validators/auth.validator.js";
+import { loginSchema, registerSchema, resendVerificationSchema } from "../validators/auth.validator.js";
 
 const router = Router();
 
@@ -29,4 +29,9 @@ router.post(
   authController.resendVerificationEmail
 );
 
+router.post(
+  "/login",
+  validate(loginSchema),
+  authController.login
+);
 export default router;

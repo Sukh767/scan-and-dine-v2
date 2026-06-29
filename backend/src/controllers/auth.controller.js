@@ -3,6 +3,9 @@ import { toUserResponse } from "../transformers/index.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { HTTP_STATUS, AUTH_MESSAGES } from "../constants/index.js";
+import authRepository from "../repositories/auth.repository.js";
+
+import { sendTokenResponse } from "../helpers/sendTokenResponse.js";
 
 class AuthController {
   register = asyncHandler(async (req, res) => {
@@ -28,21 +31,34 @@ class AuthController {
         new ApiResponse(HTTP_STATUS.OK, AUTH_MESSAGES.EMAIL_VERIFIED, result),
       );
   });
-  
-  resendVerificationEmail = asyncHandler(
-  async (req, res) => {
-    await authService.resendVerificationEmail(
-      req.body.email
-    );
 
-    return res.status(HTTP_STATUS.OK).json(
-      new ApiResponse(
-        HTTP_STATUS.OK,
-        AUTH_MESSAGES.VERIFICATION_EMAIL_RESENT
-        )
+  resendVerificationEmail = asyncHandler(async (req, res) => {
+    await authService.resendVerificationEmail(req.body.email);
+
+    return res
+      .status(HTTP_STATUS.OK)
+      .json(
+        new ApiResponse(
+          HTTP_STATUS.OK,
+          AUTH_MESSAGES.VERIFICATION_EMAIL_RESENT,
+        ),
       );
-    }
+  });
+
+  login = asyncHandler(async (req, res) => {
+  const user = await authService.login(
+    req.body.email,
+    req.body.password
   );
+
+  return await sendTokenResponse({
+    res,
+    statusCode: HTTP_STATUS.OK,
+    message: AUTH_MESSAGES.LOGIN_SUCCESS,
+    user,
+    authRepository,
+  });
+});
 }
 
 export default new AuthController();
