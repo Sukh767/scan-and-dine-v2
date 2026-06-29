@@ -3,8 +3,6 @@ import User from "../models/User.model.js";
 class AuthRepository {
   /**
    * Create a new user
-   * @param {Object} userData
-   * @returns {Promise<User>}
    */
   async createUser(userData) {
     return await User.create(userData);
@@ -12,11 +10,69 @@ class AuthRepository {
 
   /**
    * Find user by email
-   * @param {string} email
-   * @returns {Promise<User | null>}
    */
   async findUserByEmail(email) {
     return await User.findOne({ email });
+  }
+
+  /**
+   * Find user by verification token
+   */
+  async findUserByVerificationToken(token) {
+    return await User.findOne({
+      verificationToken: token,
+    }).select(
+      "+verificationToken +verificationTokenExpiresAt"
+    );
+  }
+
+  /**
+   * Save verification token
+   */
+  async updateVerificationToken(
+  userId,
+  verificationToken,
+  verificationTokenExpiresAt
+) {
+  return await User.findByIdAndUpdate(
+    userId,
+    {
+      $set: {
+        verificationToken,
+        verificationTokenExpiresAt,
+      },
+    },
+    {
+      new: true,
+    }
+  );
+}
+
+  /**
+   * Mark user as verified
+   */
+  async verifyUser(userId) {
+    return await User.findByIdAndUpdate(
+      userId,
+      {
+        $set: {
+          isVerified: true,
+        },
+        $unset: {
+          verificationToken: 1,
+          verificationTokenExpiresAt: 1,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+  }
+
+  
+
+  async findUserById(id) {
+    return await User.findById(id);
   }
 }
 

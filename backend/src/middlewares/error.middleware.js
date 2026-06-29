@@ -74,6 +74,7 @@ export const errorHandler = (err, req, res, next) => {
       statusCode = HTTP_STATUS.UNAUTHORIZED;
       message = AUTH_MESSAGES.TOKEN_EXPIRED;
     }
+    console.error("Original Error:", error);
 
     error = new ApiError(statusCode, message, errors);
   }

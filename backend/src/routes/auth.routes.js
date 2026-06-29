@@ -18,4 +18,9 @@ router.post(
   authController.register
 );
 
+router.get(
+  "/verify-email",
+  authController.verifyEmail
+);
+
 export default router;

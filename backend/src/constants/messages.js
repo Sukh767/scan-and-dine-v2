@@ -27,4 +27,7 @@ export const AUTH_MESSAGES = Object.freeze({
   INVALID_TOKEN: "Invalid or expired token.",
   TOKEN_EXPIRED: "Token has expired.",
   UNAUTHORIZED: "Unauthorized access.",
+  EMAIL_ALREADY_VERIFIED: "Email is already verified.",
+  EMAIL_VERIFICATION_SENT: "Verification email has been sent.",
 });
+
