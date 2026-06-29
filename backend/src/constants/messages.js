@@ -54,5 +54,8 @@ export const AUTH_MESSAGES = Object.freeze({
   ACCESS_TOKEN_MISSING: "Access token is missing.",
 
   INVALID_ACCESS_TOKEN: "Invalid or expired access token.",
-  
+  FORBIDDEN: "You are not authorized to perform this action.",
+  PASSWORD_CHANGED: "Password changed successfully. Please login again.",
+
+  INVALID_CURRENT_PASSWORD: "Current password is incorrect.",
 });

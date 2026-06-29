@@ -60,18 +60,14 @@ class AuthController {
   });
 
   resetPassword = asyncHandler(async (req, res) => {
-  await authService.resetPassword(
-    req.body.token,
-    req.body.password
-  );
+    await authService.resetPassword(req.body.token, req.body.password);
 
-  return res.status(HTTP_STATUS.OK).json(
-    new ApiResponse(
-      HTTP_STATUS.OK,
-      AUTH_MESSAGES.PASSWORD_RESET_SUCCESS
-    )
-  );
-});
+    return res
+      .status(HTTP_STATUS.OK)
+      .json(
+        new ApiResponse(HTTP_STATUS.OK, AUTH_MESSAGES.PASSWORD_RESET_SUCCESS),
+      );
+  });
 
   login = asyncHandler(async (req, res) => {
     const user = await authService.login(req.body.email, req.body.password);
@@ -108,14 +104,46 @@ class AuthController {
   });
 
   getCurrentUser = asyncHandler(async (req, res) => {
-  return res.status(HTTP_STATUS.OK).json(
-    new ApiResponse(
-      HTTP_STATUS.OK,
-      "Current user fetched successfully.",
-      toUserResponse(req.user)
-    )
-  );
-});
+    return res
+      .status(HTTP_STATUS.OK)
+      .json(
+        new ApiResponse(
+          HTTP_STATUS.OK,
+          "Current user fetched successfully.",
+          toUserResponse(req.user),
+        ),
+      );
+  });
+
+  updateProfile = asyncHandler(async (req, res) => {
+    const updatedUser = await authService.updateProfile(req.user.id, req.body);
+
+    return res
+      .status(HTTP_STATUS.OK)
+      .json(
+        new ApiResponse(
+          HTTP_STATUS.OK,
+          "Profile updated successfully.",
+          toUserResponse(updatedUser),
+        ),
+      );
+  });
+
+  changePassword = asyncHandler(async (req, res) => {
+    await authService.changePassword(
+      req.user.id,
+      req.body.currentPassword,
+      req.body.newPassword,
+    );
+
+    res.clearCookie("accessToken", clearCookieOptions);
+
+    res.clearCookie("refreshToken", clearCookieOptions);
+
+    return res
+      .status(HTTP_STATUS.OK)
+      .json(new ApiResponse(HTTP_STATUS.OK, AUTH_MESSAGES.PASSWORD_CHANGED));
+  });
 }
 
 export default new AuthController();

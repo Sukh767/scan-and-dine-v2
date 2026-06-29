@@ -390,6 +390,55 @@ class AuthService {
 
     await authRepository.clearRefreshToken(user.id);
   }
+
+  /**
+   * Update Profile
+   */
+  async updateProfile(userId, data) {
+    return await authRepository.updateProfile(userId, data);
+  }
+
+  /**
+   * Change Password
+   */
+  async changePassword(userId, currentPassword, newPassword) {
+    /**
+     * Find user
+     */
+    const user = await authRepository.findUserById(
+    userId,
+    true
+);
+
+    /**
+     * Verify current password
+     */
+    const isPasswordCorrect = await user.comparePassword(currentPassword);
+
+    if (!isPasswordCorrect) {
+      throw new ApiError(
+        HTTP_STATUS.BAD_REQUEST,
+        AUTH_MESSAGES.INVALID_CURRENT_PASSWORD,
+      );
+    }
+
+    /**
+     * Update password
+     */
+    user.password = newPassword;
+
+    /**
+     * Logout all devices
+     */
+    user.refreshToken = null;
+
+    /**
+     * Save
+     */
+    await user.save();
+
+    return;
+  }
 }
 
 export default new AuthService();

@@ -157,11 +157,33 @@ class AuthRepository {
   }
 
   /**
-   * Find user by ID
-   */
-  async findUserById(userId) {
-    return await User.findById(userId);
+ * Find user by ID
+ */
+async findUserById(userId, includePassword = false) {
+  const query = User.findById(userId);
+
+  if (includePassword) {
+    query.select("+password +refreshToken");
   }
+
+  return await query;
+}
+
+  /**
+ * Update profile
+ */
+async updateProfile(userId, data) {
+  return await User.findByIdAndUpdate(
+    userId,
+    {
+      $set: data,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+}
 }
 
 export default new AuthRepository();

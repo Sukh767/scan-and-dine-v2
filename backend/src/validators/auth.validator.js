@@ -108,8 +108,14 @@ export const resetPasswordSchema = z.object({
 
 export const changePasswordSchema = z.object({
   body: z.object({
-    currentPassword: z.string().min(1, "Current password is required."),
-    newPassword: password,
+    currentPassword: z
+      .string()
+      .min(8, "Current password is required."),
+
+    newPassword: z
+      .string()
+      .min(8, "Password must be at least 8 characters.")
+      .max(64, "Password cannot exceed 64 characters."),
   }),
 });
 
@@ -121,9 +127,24 @@ export const changePasswordSchema = z.object({
 
 export const updateProfileSchema = z.object({
   body: z.object({
-    name: name.optional(),
-    phone: phone.optional(),
-    avatar: z.string().url().optional(),
+    name: z
+      .string()
+      .trim()
+      .min(2)
+      .max(100)
+      .optional(),
+
+    phone: z
+      .string()
+      .trim()
+      .regex(/^[6-9]\d{9}$/)
+      .optional(),
+
+    avatar: z
+      .string()
+      .trim()
+      .url()
+      .optional(),
   }),
 });
 
@@ -135,4 +156,6 @@ export const resendVerificationSchema = z.object({
       .email("Please provide a valid email address."),
   }),
 });
+
+
 

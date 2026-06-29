@@ -11,6 +11,8 @@ import {
   registerSchema,
   resendVerificationSchema,
   resetPasswordSchema,
+  updateProfileSchema,
+  changePasswordSchema,
 } from "../validators/auth.validator.js";
 
 const router = Router();
@@ -48,5 +50,19 @@ router.post(
 );
 
 router.get("/me", authMiddleware, authController.getCurrentUser);
+
+router.patch(
+  "/me",
+  authMiddleware,
+  validate(updateProfileSchema),
+  authController.updateProfile,
+);
+
+router.post(
+  "/change-password",
+  authMiddleware,
+  validate(changePasswordSchema),
+  authController.changePassword
+);
 
 export default router;
