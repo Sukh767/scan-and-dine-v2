@@ -242,6 +242,28 @@ class AuthService {
 
     return user;
   }
+
+  /**
+   * Logout
+   */
+  async logout(refreshToken) {
+    /**
+     * Nothing to do
+     */
+    if (!refreshToken) {
+      return;
+    }
+
+    const hashedToken = hashToken(refreshToken);
+
+    const user = await authRepository.findUserByRefreshToken(hashedToken);
+
+    if (!user) {
+      return;
+    }
+
+    await authRepository.clearRefreshToken(user.id);
+  }
 }
 
 export default new AuthService();

@@ -107,6 +107,23 @@ class AuthRepository {
       refreshToken,
     }).select("+refreshToken");
   }
+
+  /**
+ * Remove refresh token
+ */
+async clearRefreshToken(userId) {
+  return await User.findByIdAndUpdate(
+    userId,
+    {
+      $set: {
+        refreshToken: null,
+      },
+    },
+    {
+      new: true,
+    }
+  );
+}
 }
 
 export default new AuthRepository();

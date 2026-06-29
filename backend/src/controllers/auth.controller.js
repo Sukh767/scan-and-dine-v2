@@ -6,6 +6,7 @@ import { HTTP_STATUS, AUTH_MESSAGES } from "../constants/index.js";
 // import authRepository from "../repositories/auth.repository.js";
 
 import { sendTokenResponse } from "../helpers/sendTokenResponse.js";
+import { clearCookieOptions } from "../helpers/cookieOptions.js";
 
 class AuthController {
   register = asyncHandler(async (req, res) => {
@@ -65,6 +66,18 @@ class AuthController {
       message: AUTH_MESSAGES.TOKEN_REFRESHED,
       user,
     });
+  });
+
+  logout = asyncHandler(async (req, res) => {
+    await authService.logout(req.cookies.refreshToken);
+
+    res.clearCookie("accessToken", clearCookieOptions);
+
+    res.clearCookie("refreshToken", clearCookieOptions);
+
+    return res
+      .status(HTTP_STATUS.OK)
+      .json(new ApiResponse(HTTP_STATUS.OK, AUTH_MESSAGES.LOGOUT_SUCCESS));
   });
 }
 

@@ -40,4 +40,5 @@ export const AUTH_MESSAGES = Object.freeze({
   LOGIN_SUCCESS: "Login successful.",
   UNAUTHORIZED: "Unauthorized.",
   TOKEN_REFRESHED: "Token refreshed successfully.",
+  LOGOUT_SUCCESS: "Logout successful.",
 });
