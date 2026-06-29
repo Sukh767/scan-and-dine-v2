@@ -41,4 +41,12 @@ export const AUTH_MESSAGES = Object.freeze({
   UNAUTHORIZED: "Unauthorized.",
   TOKEN_REFRESHED: "Token refreshed successfully.",
   LOGOUT_SUCCESS: "Logout successful.",
+  PASSWORD_RESET_EMAIL_SENT:
+    "If an account with that email exists, a password reset link has been sent.",
+  RESET_PASSWORD: "Reset your Scan & Dine password",
+  PASSWORD_RESET_EMAIL_SENT:
+    "If an account with that email exists, a password reset link has been sent.",
+  PASSWORD_RESET_SUCCESS: "Password has been reset successfully.",
+
+  INVALID_RESET_TOKEN: "Invalid or expired reset token.",
 });

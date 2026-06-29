@@ -5,6 +5,7 @@ import verificationEmailTemplate from "../templates/auth/verificationEmail.templ
 import welcomeEmailTemplate from "../templates/auth/welcomeEmail.template.js";
 
 import { MAIL_SUBJECTS } from "../constants/index.js";
+import resetPasswordTemplate from "../templates/auth/resetPassword.template.js";
 
 class MailService {
   /**
@@ -42,6 +43,19 @@ class MailService {
     return await this.sendMail({
       to,
       subject: MAIL_SUBJECTS.WELCOME,
+      html,
+    });
+  }
+
+  /**
+   * Reset Password Email
+   */
+  async sendResetPasswordEmail({ to, data }) {
+    const html = resetPasswordTemplate(data);
+
+    return await this.sendMail({
+      to,
+      subject: MAIL_SUBJECTS.RESET_PASSWORD,
       html,
     });
   }

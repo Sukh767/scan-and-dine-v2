@@ -46,6 +46,33 @@ class AuthController {
       );
   });
 
+  forgotPassword = asyncHandler(async (req, res) => {
+    await authService.forgotPassword(req.body.email);
+
+    return res
+      .status(HTTP_STATUS.OK)
+      .json(
+        new ApiResponse(
+          HTTP_STATUS.OK,
+          AUTH_MESSAGES.PASSWORD_RESET_EMAIL_SENT,
+        ),
+      );
+  });
+
+  resetPassword = asyncHandler(async (req, res) => {
+  await authService.resetPassword(
+    req.body.token,
+    req.body.password
+  );
+
+  return res.status(HTTP_STATUS.OK).json(
+    new ApiResponse(
+      HTTP_STATUS.OK,
+      AUTH_MESSAGES.PASSWORD_RESET_SUCCESS
+    )
+  );
+});
+
   login = asyncHandler(async (req, res) => {
     const user = await authService.login(req.body.email, req.body.password);
 

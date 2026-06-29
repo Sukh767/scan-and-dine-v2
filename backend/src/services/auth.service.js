@@ -140,6 +140,132 @@ class AuthService {
   }
 
   /**
+   * Forgot Password
+   */
+  async forgotPassword(email) {
+    /**
+     * Find user
+     */
+    const user = await authRepository.findUserByEmail(email);
+
+    /**
+     * Prevent email enumeration.
+     * Return silently if user doesn't exist.
+     */
+    if (!user) {
+      return;
+    }
+
+    /**
+     * Generate reset token
+     */
+    const resetPasswordToken = generateToken();
+
+    /**
+     * Hash token
+     */
+    const hashedResetToken = hashToken(resetPasswordToken);
+
+    /**
+     * Expiry
+     */
+    const expiresAt = new Date(Date.now() + VERIFICATION_TOKEN_EXPIRY);
+
+    /**
+     * Save token
+     */
+    await authRepository.updateResetPasswordToken(
+      user.id,
+      hashedResetToken,
+      expiresAt,
+    );
+
+    /**
+     * Development URL
+     */
+    const resetPasswordUrl = `${process.env.API_URL}/api/v1/auth/reset-password?token=${resetPasswordToken}`;
+
+    /**
+     * Send email
+     */
+    await mailService.sendResetPasswordEmail({
+      to: user.email,
+      data: {
+        name: user.name,
+        resetPasswordUrl,
+      },
+    });
+  }
+
+  /**
+   * Reset Password
+   */
+  async resetPassword(token, password) {
+    /**
+     * Token missing
+     */
+    if (!token) {
+      throw new ApiError(
+        HTTP_STATUS.BAD_REQUEST,
+        AUTH_MESSAGES.INVALID_RESET_TOKEN,
+      );
+    }
+
+    /**
+     * Hash incoming token
+     */
+    const hashedToken = hashToken(token);
+
+    /**
+     * Find user
+     */
+    const user = await authRepository.findUserByResetPasswordToken(hashedToken);
+
+    if (!user) {
+      throw new ApiError(
+        HTTP_STATUS.BAD_REQUEST,
+        AUTH_MESSAGES.INVALID_RESET_TOKEN,
+      );
+    }
+
+    /**
+     * Token expired
+     */
+    if (
+      !user.resetPasswordExpiresAt ||
+      user.resetPasswordExpiresAt < new Date()
+    ) {
+      throw new ApiError(
+        HTTP_STATUS.BAD_REQUEST,
+        AUTH_MESSAGES.INVALID_RESET_TOKEN,
+      );
+    }
+
+    /**
+     * Update password
+     */
+    user.password = password;
+
+    /**
+     * Remove reset token
+     */
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpiresAt = undefined;
+
+    /**
+     * Logout all devices
+     */
+    user.refreshToken = null;
+
+    /**
+     * Save user
+     */
+    await user.save();
+
+    return;
+  }
+
+  /**
    * Login
    */
   async login(email, password) {

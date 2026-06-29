@@ -109,20 +109,51 @@ class AuthRepository {
   }
 
   /**
- * Remove refresh token
- */
-async clearRefreshToken(userId) {
-  return await User.findByIdAndUpdate(
-    userId,
-    {
-      $set: {
-        refreshToken: null,
+   * Remove refresh token
+   */
+  async clearRefreshToken(userId) {
+    return await User.findByIdAndUpdate(
+      userId,
+      {
+        $set: {
+          refreshToken: null,
+        },
       },
-    },
-    {
-      new: true,
-    }
-  );
+      {
+        new: true,
+      },
+    );
+  }
+
+  /**
+   * Save reset password token
+   */
+  async updateResetPasswordToken(
+    userId,
+    resetPasswordToken,
+    resetPasswordExpiresAt,
+  ) {
+    return await User.findByIdAndUpdate(
+      userId,
+      {
+        $set: {
+          resetPasswordToken,
+          resetPasswordExpiresAt,
+        },
+      },
+      {
+        new: true,
+      },
+    );
+  }
+
+  /**
+ * Find user by reset password token
+ */
+async findUserByResetPasswordToken(resetPasswordToken) {
+  return await User.findOne({
+    resetPasswordToken,
+  }).select("+password +refreshToken");
 }
 }
 

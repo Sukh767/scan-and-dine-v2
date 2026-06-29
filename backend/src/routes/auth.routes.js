@@ -4,7 +4,13 @@ import authController from "../controllers/auth.controller.js";
 
 import validate from "../middlewares/validate.middleware.js";
 
-import { loginSchema, registerSchema, resendVerificationSchema } from "../validators/auth.validator.js";
+import {
+  forgotPasswordSchema,
+  loginSchema,
+  registerSchema,
+  resendVerificationSchema,
+  resetPasswordSchema,
+} from "../validators/auth.validator.js";
 
 const router = Router();
 
@@ -12,36 +18,31 @@ const router = Router();
  * Authentication Routes
  */
 
-router.post(
-  "/register",
-  validate(registerSchema),
-  authController.register
-);
+router.post("/register", validate(registerSchema), authController.register);
 
-router.get(
-  "/verify-email",
-  authController.verifyEmail
-);
+router.get("/verify-email", authController.verifyEmail);
 
 router.post(
   "/resend-verification",
   validate(resendVerificationSchema),
-  authController.resendVerificationEmail
+  authController.resendVerificationEmail,
+);
+
+router.post("/login", validate(loginSchema), authController.login);
+
+router.post("/refresh-token", authController.refreshToken);
+
+router.post("/logout", authController.logout);
+
+router.post(
+  "/forgot-password",
+  validate(forgotPasswordSchema),
+  authController.forgotPassword,
 );
 
 router.post(
-  "/login",
-  validate(loginSchema),
-  authController.login
-);
-
-router.post(
-  "/refresh-token",
-  authController.refreshToken
-);
-
-router.post(
-  "/logout",
-  authController.logout
+  "/reset-password",
+  validate(resetPasswordSchema),
+  authController.resetPassword,
 );
 export default router;
