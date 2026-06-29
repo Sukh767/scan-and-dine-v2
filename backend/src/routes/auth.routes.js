@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import authController from "../controllers/auth.controller.js";
+import authMiddleware from "../middlewares/auth.middleware.js";
 
 import validate from "../middlewares/validate.middleware.js";
 
@@ -45,4 +46,7 @@ router.post(
   validate(resetPasswordSchema),
   authController.resetPassword,
 );
+
+router.get("/me", authMiddleware, authController.getCurrentUser);
+
 export default router;

@@ -95,9 +95,9 @@ class AuthRepository {
     );
   }
 
-  async findUserById(id) {
-    return await User.findById(id);
-  }
+  // async findUserById(id) {
+  //   return await User.findById(id);
+  // }
 
   /**
    * Find user by refresh token
@@ -148,13 +148,20 @@ class AuthRepository {
   }
 
   /**
- * Find user by reset password token
- */
-async findUserByResetPasswordToken(resetPasswordToken) {
-  return await User.findOne({
-    resetPasswordToken,
-  }).select("+password +refreshToken");
-}
+   * Find user by reset password token
+   */
+  async findUserByResetPasswordToken(resetPasswordToken) {
+    return await User.findOne({
+      resetPasswordToken,
+    }).select("+password +refreshToken");
+  }
+
+  /**
+   * Find user by ID
+   */
+  async findUserById(userId) {
+    return await User.findById(userId);
+  }
 }
 
 export default new AuthRepository();

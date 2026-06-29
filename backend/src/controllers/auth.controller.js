@@ -106,6 +106,16 @@ class AuthController {
       .status(HTTP_STATUS.OK)
       .json(new ApiResponse(HTTP_STATUS.OK, AUTH_MESSAGES.LOGOUT_SUCCESS));
   });
+
+  getCurrentUser = asyncHandler(async (req, res) => {
+  return res.status(HTTP_STATUS.OK).json(
+    new ApiResponse(
+      HTTP_STATUS.OK,
+      "Current user fetched successfully.",
+      toUserResponse(req.user)
+    )
+  );
+});
 }
 
 export default new AuthController();

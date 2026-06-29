@@ -49,4 +49,10 @@ export const AUTH_MESSAGES = Object.freeze({
   PASSWORD_RESET_SUCCESS: "Password has been reset successfully.",
 
   INVALID_RESET_TOKEN: "Invalid or expired reset token.",
+  UNAUTHORIZED: "Authentication required.",
+
+  ACCESS_TOKEN_MISSING: "Access token is missing.",
+
+  INVALID_ACCESS_TOKEN: "Invalid or expired access token.",
+  
 });
