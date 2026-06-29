@@ -170,3 +170,135 @@ npm run build
 8. **Reviews**
 9. **Analytics**
 10. **Super admin** — tenant management, subscription billing
+
+---
+
+POST   /api/v1/auth/register
+
+POST   /api/v1/auth/login
+
+POST   /api/v1/auth/logout
+
+POST   /api/v1/auth/refresh-token
+
+GET    /api/v1/auth/profile
+
+PATCH  /api/v1/auth/profile
+
+PATCH  /api/v1/auth/change-password
+
+POST   /api/v1/auth/forgot-password
+
+POST   /api/v1/auth/reset-password
+
+---
+
+```bash
+git add .
+git commit -m "feat: finalize backend foundation architecture"
+```
+
+If you want more granular commits (my preferred approach), use these in order:
+
+```bash
+git add .
+git commit -m "feat: finalize SaaS database schema and model relationships"
+```
+
+```bash
+git add .
+git commit -m "feat: add backend project foundation and folder structure"
+```
+
+```bash
+git add .
+git commit -m "feat: implement shared utilities and helper modules"
+```
+
+```bash
+git add .
+git commit -m "feat: add global middleware, security, and error handling"
+```
+
+```bash
+git add .
+git commit -m "feat: integrate cloudinary, mail service, and JWT utilities"
+```
+
+```bash
+git add .
+git commit -m "feat: add application constants, enums, and response helpers"
+```
+
+```bash
+git add .
+git commit -m "docs: add backend architecture and project documentation"
+```
+
+```bash
+git add .
+git commit -m "feat(auth): initialize authentication module with Zod validation design"
+```
+
+---
+
+## If you're making **one commit for today**, I'd use this:
+
+```bash
+git add .
+git commit -m "feat: complete backend foundation and initialize authentication architecture"
+```
+
+This accurately reflects what you've accomplished:
+
+* Backend infrastructure completed.
+* Models finalized.
+* Shared utilities and helpers added.
+* Middleware and security configured.
+* Cloudinary and mail integration prepared.
+* Authentication architecture planned.
+* Zod chosen and validation design started.
+
+---
+
+## Tomorrow's first commit
+
+Once we complete the authentication validator and middleware:
+
+```bash
+git commit -m "feat(auth): implement request validation with Zod"
+```
+
+Then:
+
+```bash
+git commit -m "feat(auth): implement authentication repository"
+```
+
+```bash
+git commit -m "feat(auth): implement authentication service"
+```
+
+```bash
+git commit -m "feat(auth): implement authentication controller"
+```
+
+```bash
+git commit -m "feat(auth): add authentication routes and middleware"
+```
+
+---
+
+### One Git convention I'd like us to follow throughout this project
+
+We'll use the **Conventional Commits** specification consistently:
+
+* `feat:` → New feature
+* `fix:` → Bug fix
+* `refactor:` → Code improvements without changing behavior
+* `docs:` → Documentation
+* `style:` → Formatting only
+* `test:` → Tests
+* `chore:` → Tooling, dependencies, configuration
+
+By the time Scan & Dine is finished, your Git history itself will look professional, which is a nice touch if you ever showcase the project on GitHub or discuss your development process in interviews.
