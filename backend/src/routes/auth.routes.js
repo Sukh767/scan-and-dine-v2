@@ -34,4 +34,9 @@ router.post(
   validate(loginSchema),
   authController.login
 );
+
+router.post(
+  "/refresh-token",
+  authController.refreshToken
+);
 export default router;

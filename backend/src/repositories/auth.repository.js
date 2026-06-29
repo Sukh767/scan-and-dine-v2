@@ -12,10 +12,8 @@ class AuthRepository {
    * Find user by email
    */
   async findUserByEmail(email) {
-  return await User.findOne({ email }).select(
-    "+password +refreshToken"
-  );
-}
+    return await User.findOne({ email }).select("+password +refreshToken");
+  }
 
   /**
    * Find user by verification token
@@ -23,32 +21,30 @@ class AuthRepository {
   async findUserByVerificationToken(token) {
     return await User.findOne({
       verificationToken: token,
-    }).select(
-      "+verificationToken +verificationTokenExpiresAt"
-    );
+    }).select("+verificationToken +verificationTokenExpiresAt");
   }
 
   /**
    * Save verification token
    */
   async updateVerificationToken(
-  userId,
-  verificationToken,
-  verificationTokenExpiresAt
-) {
-  return await User.findByIdAndUpdate(
     userId,
-    {
-      $set: {
-        verificationToken,
-        verificationTokenExpiresAt,
+    verificationToken,
+    verificationTokenExpiresAt,
+  ) {
+    return await User.findByIdAndUpdate(
+      userId,
+      {
+        $set: {
+          verificationToken,
+          verificationTokenExpiresAt,
+        },
       },
-    },
-    {
-      new: true,
-    }
-  );
-}
+      {
+        new: true,
+      },
+    );
+  }
 
   /**
    * Mark user as verified
@@ -67,7 +63,7 @@ class AuthRepository {
       },
       {
         new: true,
-      }
+      },
     );
   }
 
@@ -82,25 +78,34 @@ class AuthRepository {
   //   }
 
   /**
- * Update refresh token
- */
-async updateRefreshToken(userId, refreshToken) {
-  return await User.findByIdAndUpdate(
-    userId,
-    {
-      $set: {
-        refreshToken,
-        lastLoginAt: new Date(),
+   * Update refresh token
+   */
+  async updateRefreshToken(userId, refreshToken) {
+    return await User.findByIdAndUpdate(
+      userId,
+      {
+        $set: {
+          refreshToken,
+          lastLoginAt: new Date(),
+        },
       },
-    },
-    {
-      new: true,
-    }
-  );
-}
+      {
+        new: true,
+      },
+    );
+  }
 
   async findUserById(id) {
     return await User.findById(id);
+  }
+
+  /**
+   * Find user by refresh token
+   */
+  async findUserByRefreshToken(refreshToken) {
+    return await User.findOne({
+      refreshToken,
+    }).select("+refreshToken");
   }
 }
 

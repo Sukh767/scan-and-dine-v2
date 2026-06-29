@@ -6,7 +6,6 @@ export const GENERAL_MESSAGES = Object.freeze({
   VALIDATION_FAILED: "Validation failed.",
   SOMETHING_WENT_WRONG: "Something went wrong.",
   ROUTE_NOT_FOUND: "Requested route not found.",
-  
 });
 
 export const AUTH_MESSAGES = Object.freeze({
@@ -34,13 +33,11 @@ export const AUTH_MESSAGES = Object.freeze({
 
   INVALID_CREDENTIALS: "Invalid email or password.",
 
-ACCOUNT_NOT_VERIFIED:
-  "Please verify your email before logging in.",
+  ACCOUNT_NOT_VERIFIED: "Please verify your email before logging in.",
 
-ACCOUNT_DEACTIVATED:
-  "Your account has been deactivated.",
+  ACCOUNT_DEACTIVATED: "Your account has been deactivated.",
 
-LOGIN_SUCCESS:
-  "Login successful.",
+  LOGIN_SUCCESS: "Login successful.",
+  UNAUTHORIZED: "Unauthorized.",
+  TOKEN_REFRESHED: "Token refreshed successfully.",
 });
-

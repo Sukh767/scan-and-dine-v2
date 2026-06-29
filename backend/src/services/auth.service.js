@@ -9,6 +9,7 @@ import {
   AUTH_MESSAGES,
   VERIFICATION_TOKEN_EXPIRY,
 } from "../constants/index.js";
+import { verifyRefreshToken } from "../utils/jwt.js";
 
 class AuthService {
   /**
@@ -139,57 +140,108 @@ class AuthService {
   }
 
   /**
- * Login
- */
-async login(email, password) {
-  const user = await authRepository.findUserByEmail(email);
-
-  /**
-   * Email not found
+   * Login
    */
-  if (!user) {
-    throw new ApiError(
-      HTTP_STATUS.UNAUTHORIZED,
-      AUTH_MESSAGES.INVALID_CREDENTIALS
-    );
+  async login(email, password) {
+    const user = await authRepository.findUserByEmail(email);
+
+    /**
+     * Email not found
+     */
+    if (!user) {
+      throw new ApiError(
+        HTTP_STATUS.UNAUTHORIZED,
+        AUTH_MESSAGES.INVALID_CREDENTIALS,
+      );
+    }
+
+    /**
+     * Password mismatch
+     */
+    const isPasswordValid = await user.comparePassword(password);
+
+    if (!isPasswordValid) {
+      throw new ApiError(
+        HTTP_STATUS.UNAUTHORIZED,
+        AUTH_MESSAGES.INVALID_CREDENTIALS,
+      );
+    }
+
+    /**
+     * Email not verified
+     */
+    if (!user.isVerified) {
+      throw new ApiError(
+        HTTP_STATUS.FORBIDDEN,
+        AUTH_MESSAGES.ACCOUNT_NOT_VERIFIED,
+      );
+    }
+
+    /**
+     * Account inactive
+     */
+    if (!user.isActive) {
+      throw new ApiError(
+        HTTP_STATUS.FORBIDDEN,
+        AUTH_MESSAGES.ACCOUNT_DEACTIVATED,
+      );
+    }
+
+    return user;
   }
 
   /**
-   * Password mismatch
+   * Refresh Access Token
    */
-  const isPasswordValid =
-    await user.comparePassword(password);
+  async refreshToken(refreshToken) {
+    /**
+     * Cookie missing
+     */
+    if (!refreshToken) {
+      throw new ApiError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.UNAUTHORIZED);
+    }
 
-  if (!isPasswordValid) {
-    throw new ApiError(
-      HTTP_STATUS.UNAUTHORIZED,
-      AUTH_MESSAGES.INVALID_CREDENTIALS
+    /**
+     * Verify JWT
+     */
+    let payload;
+
+    try {
+      payload = verifyRefreshToken(refreshToken);
+    } catch (error) {
+      throw new ApiError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.INVALID_TOKEN);
+    }
+
+    /**
+     * Find user using hashed refresh token
+     */
+    const user = await authRepository.findUserByRefreshToken(
+      hashToken(refreshToken),
     );
+
+    if (!user) {
+      throw new ApiError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.INVALID_TOKEN);
+    }
+
+    /**
+     * Token belongs to another user?
+     */
+    if (user.id !== payload.id) {
+      throw new ApiError(HTTP_STATUS.UNAUTHORIZED, AUTH_MESSAGES.INVALID_TOKEN);
+    }
+
+    /**
+     * Account disabled
+     */
+    if (!user.isActive) {
+      throw new ApiError(
+        HTTP_STATUS.FORBIDDEN,
+        AUTH_MESSAGES.ACCOUNT_DEACTIVATED,
+      );
+    }
+
+    return user;
   }
-
-  /**
-   * Email not verified
-   */
-  if (!user.isVerified) {
-    throw new ApiError(
-      HTTP_STATUS.FORBIDDEN,
-      AUTH_MESSAGES.ACCOUNT_NOT_VERIFIED
-    );
-  }
-
-  /**
-   * Account inactive
-   */
-  if (!user.isActive) {
-    throw new ApiError(
-      HTTP_STATUS.FORBIDDEN,
-      AUTH_MESSAGES.ACCOUNT_DEACTIVATED
-    );
-  }
-
-  return user;
-}
-
 }
 
 export default new AuthService();

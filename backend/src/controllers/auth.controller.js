@@ -3,7 +3,7 @@ import { toUserResponse } from "../transformers/index.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { HTTP_STATUS, AUTH_MESSAGES } from "../constants/index.js";
-import authRepository from "../repositories/auth.repository.js";
+// import authRepository from "../repositories/auth.repository.js";
 
 import { sendTokenResponse } from "../helpers/sendTokenResponse.js";
 
@@ -46,19 +46,26 @@ class AuthController {
   });
 
   login = asyncHandler(async (req, res) => {
-  const user = await authService.login(
-    req.body.email,
-    req.body.password
-  );
+    const user = await authService.login(req.body.email, req.body.password);
 
-  return await sendTokenResponse({
-    res,
-    statusCode: HTTP_STATUS.OK,
-    message: AUTH_MESSAGES.LOGIN_SUCCESS,
-    user,
-    authRepository,
+    return await sendTokenResponse({
+      res,
+      statusCode: HTTP_STATUS.OK,
+      message: AUTH_MESSAGES.LOGIN_SUCCESS,
+      user,
+    });
   });
-});
+
+  refreshToken = asyncHandler(async (req, res) => {
+    const user = await authService.refreshToken(req.cookies.refreshToken);
+
+    return await sendTokenResponse({
+      res,
+      statusCode: HTTP_STATUS.OK,
+      message: AUTH_MESSAGES.TOKEN_REFRESHED,
+      user,
+    });
+  });
 }
 
 export default new AuthController();
