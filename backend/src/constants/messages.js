@@ -29,5 +29,7 @@ export const AUTH_MESSAGES = Object.freeze({
   UNAUTHORIZED: "Unauthorized access.",
   EMAIL_ALREADY_VERIFIED: "Email is already verified.",
   EMAIL_VERIFICATION_SENT: "Verification email has been sent.",
+  VERIFICATION_EMAIL_RESENT: "Verification email sent successfully.",
+  USER_NOT_FOUND: "User not found.",
 });
 

@@ -69,7 +69,15 @@ class AuthRepository {
     );
   }
 
-  
+  /**
+ * Find unverified user by email
+ */
+// async findUnverifiedUserByEmail(email) {
+//   return await User.findOne({
+//     email,
+//     isVerified: false,
+//   });
+//   }
 
   async findUserById(id) {
     return await User.findById(id);

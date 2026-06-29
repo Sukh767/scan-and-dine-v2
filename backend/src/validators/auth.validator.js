@@ -110,3 +110,12 @@ export const updateProfileSchema = z.object({
     avatar: z.string().url().optional(),
   }),
 });
+
+export const resendVerificationSchema = z.object({
+  body: z.object({
+    email: z
+      .string()
+      .trim()
+      .email("Please provide a valid email address."),
+  }),
+});

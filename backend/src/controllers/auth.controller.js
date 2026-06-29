@@ -28,6 +28,21 @@ class AuthController {
         new ApiResponse(HTTP_STATUS.OK, AUTH_MESSAGES.EMAIL_VERIFIED, result),
       );
   });
+  
+  resendVerificationEmail = asyncHandler(
+  async (req, res) => {
+    await authService.resendVerificationEmail(
+      req.body.email
+    );
+
+    return res.status(HTTP_STATUS.OK).json(
+      new ApiResponse(
+        HTTP_STATUS.OK,
+        AUTH_MESSAGES.VERIFICATION_EMAIL_RESENT
+        )
+      );
+    }
+  );
 }
 
 export default new AuthController();

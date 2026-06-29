@@ -12,12 +12,53 @@ import {
 
 class AuthService {
   /**
+   * Generate verification token and send verification email
+   */
+  async sendVerificationEmail(user) {
+    const verificationToken = generateToken();
+
+    const hashedVerificationToken = hashToken(verificationToken);
+
+    const expiresAt = new Date(Date.now() + VERIFICATION_TOKEN_EXPIRY);
+
+    await authRepository.updateVerificationToken(
+      user.id,
+      hashedVerificationToken,
+      expiresAt,
+    );
+
+    // During backend development
+    const verificationUrl = `${process.env.API_URL}/api/v1/auth/verify-email?token=${verificationToken}`;
+
+    // Later switch to:
+    // `${process.env.CUSTOMER_APP_URL}/verify-email?token=${verificationToken}`
+
+    await mailService.sendVerificationEmail({
+      to: user.email,
+      data: {
+        name: user.name,
+        verificationUrl,
+      },
+    });
+  }
+
+  /**
    * Register Customer
    */
   async register(userData) {
     const existingUser = await authRepository.findUserByEmail(userData.email);
 
     if (existingUser) {
+      /**
+       * User exists but hasn't verified email.
+       * Send a fresh verification email.
+       */
+      if (!existingUser.isVerified) {
+        await this.sendVerificationEmail(existingUser);
+
+        return existingUser;
+      }
+
       throw new ApiError(
         HTTP_STATUS.CONFLICT,
         AUTH_MESSAGES.EMAIL_ALREADY_EXISTS,
@@ -26,48 +67,7 @@ class AuthService {
 
     const user = await authRepository.createUser(userData);
 
-    /**
-     * Generate verification token
-     */
-    const verificationToken = generateToken();
-
-    /**
-     * Hash verification token
-     */
-    const hashedVerificationToken = hashToken(verificationToken);
-
-    /**
-     * Token expiry
-     */
-    const expiresAt = new Date(Date.now() + VERIFICATION_TOKEN_EXPIRY);
-
-    /**
-     * Save token
-     */
-    await authRepository.updateVerificationToken(
-      user.id,
-      hashedVerificationToken,
-      expiresAt,
-    );
-
-    /**
-     * Verification URL
-     */
-    /** While frontend is being implemented */
-    //const verificationUrl = `${process.env.CUSTOMER_APP_URL}/verify-email?token=${verificationToken}`;
-
-    const verificationUrl = `${process.env.API_URL}/api/v1/auth/verify-email?token=${verificationToken}`;
-
-    /**
-     * Send verification email
-     */
-    await mailService.sendVerificationEmail({
-      to: user.email,
-      data: {
-        name: user.name,
-        verificationUrl,
-      },
-    });
+    await this.sendVerificationEmail(user);
 
     return user;
   }
@@ -80,23 +80,14 @@ class AuthService {
       throw new ApiError(HTTP_STATUS.BAD_REQUEST, AUTH_MESSAGES.INVALID_TOKEN);
     }
 
-    /**
-     * Hash incoming token
-     */
     const hashedToken = hashToken(token);
 
-    /**
-     * Find user
-     */
     const user = await authRepository.findUserByVerificationToken(hashedToken);
 
     if (!user) {
       throw new ApiError(HTTP_STATUS.BAD_REQUEST, AUTH_MESSAGES.INVALID_TOKEN);
     }
 
-    /**
-     * Token expired
-     */
     if (
       !user.verificationTokenExpiresAt ||
       user.verificationTokenExpiresAt < new Date()
@@ -104,9 +95,6 @@ class AuthService {
       throw new ApiError(HTTP_STATUS.BAD_REQUEST, AUTH_MESSAGES.TOKEN_EXPIRED);
     }
 
-    /**
-     * Already verified
-     */
     if (user.isVerified) {
       throw new ApiError(
         HTTP_STATUS.BAD_REQUEST,
@@ -114,9 +102,6 @@ class AuthService {
       );
     }
 
-    /**
-     * Verify account
-     */
     const verifiedUser = await authRepository.verifyUser(user.id);
 
     await mailService.sendWelcomeEmail({
@@ -129,6 +114,28 @@ class AuthService {
     return {
       verified: true,
     };
+  }
+
+  /**
+   * Resend Verification Email
+   */
+  async resendVerificationEmail(email) {
+    const user = await authRepository.findUserByEmail(email);
+
+    if (!user) {
+      throw new ApiError(HTTP_STATUS.NOT_FOUND, AUTH_MESSAGES.USER_NOT_FOUND);
+    }
+
+    if (user.isVerified) {
+      throw new ApiError(
+        HTTP_STATUS.BAD_REQUEST,
+        AUTH_MESSAGES.EMAIL_ALREADY_VERIFIED,
+      );
+    }
+
+    await this.sendVerificationEmail(user);
+
+    return;
   }
 }
 
