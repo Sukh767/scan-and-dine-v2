@@ -1,43 +1,56 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+
+import {
+  RESTAURANT_OPERATIONAL_STATUS,
+  RESTAURANT_OPERATIONAL_STATUS_VALUES,
+  RESTAURANT_APPROVAL_STATUS,
+  RESTAURANT_APPROVAL_STATUS_VALUES,
+  RESTAURANT_PRICE_RANGE,
+  RESTAURANT_FACILITIES_VALUES,
+  SUBSCRIPTION_PLANS,
+  SUBSCRIPTION_PLAN_VALUES,
+  SUBSCRIPTION_STATUS,
+  SUBSCRIPTION_STATUS_VALUES,
+} from "../constants/index.js";
 
 // ─── Operating Hours sub-schema ───────────────────────────────────────────────
 const dayHoursSchema = new mongoose.Schema(
   {
     isOpen: { type: Boolean, default: true },
-    open: { type: String, default: '09:00' },   // "HH:mm"
-    close: { type: String, default: '22:00' },
+    open: { type: String, default: "09:00" }, // "HH:mm"
+    close: { type: String, default: "22:00" },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const operatingHoursSchema = new mongoose.Schema(
   {
-    monday:    dayHoursSchema,
-    tuesday:   dayHoursSchema,
+    monday: dayHoursSchema,
+    tuesday: dayHoursSchema,
     wednesday: dayHoursSchema,
-    thursday:  dayHoursSchema,
-    friday:    dayHoursSchema,
-    saturday:  dayHoursSchema,
-    sunday:    dayHoursSchema,
+    thursday: dayHoursSchema,
+    friday: dayHoursSchema,
+    saturday: dayHoursSchema,
+    sunday: dayHoursSchema,
   },
-  { _id: false }
+  { _id: false },
 );
 
 // ─── Address sub-schema ───────────────────────────────────────────────────────
 const addressSchema = new mongoose.Schema(
   {
-    street:  String,
-    city:    String,
-    state:   String,
+    street: String,
+    city: String,
+    state: String,
     country: String,
     pincode: String,
     // GeoJSON for location-based search
     coordinates: {
-      type: { type: String, enum: ['Point'], default: 'Point' },
+      type: { type: String, enum: ["Point"], default: "Point" },
       coordinates: { type: [Number], default: [0, 0] }, // [lng, lat]
     },
   },
-  { _id: false }
+  { _id: false },
 );
 
 // ─── Restaurant schema ────────────────────────────────────────────────────────
@@ -46,12 +59,12 @@ const restaurantSchema = new mongoose.Schema(
     // Core Identity
     ownerId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true,
     },
     name: {
       type: String,
-      required: [true, 'Restaurant name is required'],
+      required: [true, "Restaurant name is required"],
       trim: true,
     },
     slug: {
@@ -61,39 +74,69 @@ const restaurantSchema = new mongoose.Schema(
       trim: true,
     },
     description: String,
-    
+
     // Media
-    logo: String,
-    coverImage: String,
-    gallery: [String], // Renamed from 'images'
+    logo: {
+      url: String,
+      publicId: String,
+    },
+
+    coverImage: {
+      url: String,
+      publicId: String,
+    },
+
+    gallery: [
+      {
+        url: String,
+        publicId: String,
+        caption: String,
+      },
+    ],
 
     // Details & Meta
-    cuisineTypes: [String], 
+    cuisineTypes: [String],
+
     priceRange: {
       type: String,
-      enum: ['₹', '₹₹', '₹₹₹', '₹₹₹₹'],
-      default: '₹₹'
+      enum: Object.values(RESTAURANT_PRICE_RANGE),
+      default: RESTAURANT_PRICE_RANGE.MEDIUM,
     },
-    facilities: [{
-      type: String,
-      // Optional enum to enforce strict types, or leave as generic strings
-      enum: ['Parking', 'WiFi', 'AC', 'Rooftop', 'Family Dining', 'Live Music', 'Outdoor Seating']
-    }],
-    chefHighlights: [{
-      name: String,
-      experience: String,
-      specialty: String
-    }],
+
+    facilities: [
+      {
+        type: String,
+        enum: RESTAURANT_FACILITIES_VALUES,
+      },
+    ],
+    chefHighlights: [
+      {
+        name: String,
+        experience: String,
+        specialty: String,
+      },
+    ],
 
     // Contact & Location
-    phone: String,
-    email: String,
+    phone: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      lowercase: true,
+      trim: true,
+    },
     website: String,
     socialMedia: {
       instagram: String,
       facebook: String,
-      twitter: String
+      x: String,
+      youtube: String,
     },
+
     address: addressSchema,
     operatingHours: {
       type: operatingHoursSchema,
@@ -103,67 +146,82 @@ const restaurantSchema = new mongoose.Schema(
     // Statuses
     operationalStatus: {
       type: String,
-      enum: ['Open', 'Busy', 'Closed', 'Maintenance'],
-      default: 'Closed' // Managed daily by restaurant owner
+      enum: RESTAURANT_OPERATIONAL_STATUS_VALUES,
+      default: RESTAURANT_OPERATIONAL_STATUS.CLOSED,
     },
-    isApproved: { type: Boolean, default: false }, // Platform Admin control
-    isActive:   { type: Boolean, default: true },  // Global soft-delete/suspend
+
+    approvalStatus: {
+      type: String,
+      enum: RESTAURANT_APPROVAL_STATUS_VALUES,
+      default: RESTAURANT_APPROVAL_STATUS.PENDING,
+    },
+    isActive: { type: Boolean, default: true }, // Global soft-delete/suspend
 
     // Subscription & SaaS tier
     subscription: {
       plan: {
         type: String,
-        enum: ['free', 'basic', 'pro', 'enterprise'],
-        default: 'free',
+        enum: SUBSCRIPTION_PLAN_VALUES,
+        default: SUBSCRIPTION_PLANS.FREE,
       },
+
       status: {
         type: String,
-        enum: ['active', 'inactive', 'suspended', 'trial'],
-        default: 'trial',
+        enum: SUBSCRIPTION_STATUS_VALUES,
+        default: SUBSCRIPTION_STATUS.TRIAL,
       },
+
       trialEndsAt: Date,
+
       currentPeriodEnd: Date,
+
+      startedAt: Date,
+
+      renewedAt: Date,
     },
 
     // Aggregate stats (denormalized for quick reads)
     stats: {
-      totalOrders:   { type: Number, default: 0 },
-      totalRevenue:  { type: Number, default: 0 },
+      totalOrders: { type: Number, default: 0 },
+      totalRevenue: { type: Number, default: 0 },
       averageRating: { type: Number, default: 0 },
-      totalReviews:  { type: Number, default: 0 },
+      totalReviews: { type: Number, default: 0 },
     },
 
     // Payment & Ordering Rules
     settings: {
       acceptsReservations: { type: Boolean, default: true },
       acceptsOnlinePayment: { type: Boolean, default: true },
-      autoAcceptOrders:     { type: Boolean, default: false },
-      taxRate:              { type: Number, default: 0 }, // percentage
-      serviceCharge:        { type: Number, default: 0 }, // percentage
-      currency:             { type: String, default: 'INR' },
+      autoAcceptOrders: { type: Boolean, default: false },
+      taxRate: { type: Number, default: 0 }, // percentage
+      serviceCharge: { type: Number, default: 0 }, // percentage
+      currency: { type: String, default: "INR" },
     },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // ─── Indexes ──────────────────────────────────────────────────────────────────
 restaurantSchema.index({ ownerId: 1 });
 restaurantSchema.index({ slug: 1 });
-restaurantSchema.index({ isApproved: 1, isActive: 1 });
+restaurantSchema.index({
+  approvalStatus: 1,
+  isActive: 1,
+});
 restaurantSchema.index({ operationalStatus: 1 }); // Useful for filtering open restaurants
-restaurantSchema.index({ 'address.coordinates': '2dsphere' });
+restaurantSchema.index({ "address.coordinates": "2dsphere" });
 
 // Auto-generate slug from name
-restaurantSchema.pre('save', function (next) {
-  if (this.isModified('name') && !this.slug) {
+restaurantSchema.pre("save", function (next) {
+  if (this.isModified("name") && !this.slug) {
     this.slug = this.name
       .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
   }
   next();
 });
 
-export default mongoose.model('Restaurant', restaurantSchema);
+export default mongoose.model("Restaurant", restaurantSchema);

@@ -25,5 +25,34 @@ export const SUBSCRIPTION_STATUS = Object.freeze({
   TRIAL: "trial",
 });
 
+export const RESTAURANT_APPROVAL_STATUS_VALUES =
+  Object.values(RESTAURANT_APPROVAL_STATUS);
+
+export const RESTAURANT_FACILITIES = Object.freeze({
+  PARKING: "Parking",
+  WIFI: "WiFi",
+  AC: "AC",
+  ROOFTOP: "Rooftop",
+  FAMILY_DINING: "Family Dining",
+  LIVE_MUSIC: "Live Music",
+  OUTDOOR_SEATING: "Outdoor Seating",
+});
+
+export const RESTAURANT_FACILITIES_VALUES =
+  Object.values(RESTAURANT_FACILITIES);
+
+export const RESTAURANT_APPROVAL_STATUS = {
+    PENDING: "pending",
+    APPROVED: "approved",
+    REJECTED: "rejected",
+};
+
+export const RESTAURANT_PRICE_RANGE = {
+    LOW: "₹",
+    MEDIUM: "₹₹",
+    HIGH: "₹₹₹",
+    PREMIUM: "₹₹₹₹",
+};
+
 export const SUBSCRIPTION_STATUS_VALUES =
   Object.values(SUBSCRIPTION_STATUS);
