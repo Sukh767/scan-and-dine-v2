@@ -9,6 +9,8 @@ import routes from "./routes/index.js";
 
 import { errorHandler, notFound } from "./middlewares/error.middleware.js";
 
+import restaurantRoutes from "./routes/restaurant.routes.js";
+
 const app = express();
 
 /**
@@ -75,7 +77,7 @@ if (process.env.NODE_ENV === "development") {
  * API Routes
  */
 app.use("/api/v1", routes);
-
+app.use("/api/v1/restaurants", restaurantRoutes);
 /**
  * 404
  */

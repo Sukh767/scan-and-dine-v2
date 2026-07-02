@@ -48,7 +48,7 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
 
-    customerId: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,

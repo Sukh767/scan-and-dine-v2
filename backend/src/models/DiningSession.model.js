@@ -25,7 +25,7 @@ const diningSessionSchema = new mongoose.Schema(
       required: true,
     },
 
-    customerId: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
@@ -94,7 +94,7 @@ const diningSessionSchema = new mongoose.Schema(
 
 diningSessionSchema.index({ restaurantId: 1, status: 1 });
 diningSessionSchema.index({ tableId: 1, status: 1 });
-diningSessionSchema.index({ customerId: 1 });
+diningSessionSchema.index({ userId: 1 });
 diningSessionSchema.index({ restaurantId: 1, createdAt: -1 }); // for analytics
 
 export default mongoose.model('DiningSession', diningSessionSchema);

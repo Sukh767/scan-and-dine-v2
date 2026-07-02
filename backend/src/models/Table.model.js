@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 import { TABLE_STATUSES } from '../utils/constants.js';
+import { TABLE_STATUS_VALUES } from '../constants/index.js';
 
 const tableSchema = new mongoose.Schema(
   {
@@ -47,15 +48,15 @@ const tableSchema = new mongoose.Schema(
       default: () => uuidv4(), // stable UUID — embedded in the printed QR
     },
 
-    qrImageUrl: {
-      type: String, // Cloudinary URL of the generated QR image
-      default: null,
-    },
+qrImage:{
+url,
+publicId
+},
 
     // ─── Status ────────────────────────────────────────────────────────────
     status: {
       type: String,
-      enum: TABLE_STATUSES,
+      enum: TABLE_STATUS_VALUES,
       default: 'available',
     },
 

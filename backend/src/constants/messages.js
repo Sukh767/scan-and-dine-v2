@@ -59,3 +59,13 @@ export const AUTH_MESSAGES = Object.freeze({
 
   INVALID_CURRENT_PASSWORD: "Current password is incorrect.",
 });
+
+export const RESTAURANT_AUTH_MESSAGES = Object.freeze({
+  REGISTRATION_SUCCESS:
+    "Restaurant partner registered successfully. Please verify your email.",
+
+  EMAIL_VERIFIED: "Restaurant partner email verified successfully.",
+
+  LOGIN_SUCCESS: "Restaurant partner logged in successfully.",
+});
+

@@ -16,6 +16,11 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
+    role: {
+    type: String,
+    enum: ROLE_VALUES,
+    default: ROLES.USER,
+},
     phone: {
       type: String,
       trim: true,
@@ -25,23 +30,6 @@ const userSchema = new mongoose.Schema(
       required: [true, "Password is required"],
       minlength: 8,
       select: false, // never returned in queries by default
-    },
-
-    // ─── Role ──────────────────────────────────────────────────────────────
-    // customer       → uses Customer Portal
-    // restaurant     → uses Restaurant Admin Portal
-    // super_admin    → uses Super Admin Portal
-    role: {
-      type: String,
-      enum: ROLES,
-      default: ROLES.CUSTOMER,
-    },
-
-    // Set for restaurant owners — which restaurant they own
-    restaurantId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Restaurant",
-      default: null,
     },
 
     avatar: {
@@ -106,7 +94,7 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
 
 // ─── Indexes ─────────────────────────────────────────────────────────────────
 //userSchema.index({ email: 1 });
-userSchema.index({ role: 1 });
-userSchema.index({ restaurantId: 1 });
+//userSchema.index({ role: 1 });
+//userSchema.index({ restaurantId: 1 });
 
 export default mongoose.model("User", userSchema);

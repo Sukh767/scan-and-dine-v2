@@ -11,6 +11,7 @@ import {
   SUBSCRIPTION_PLAN_VALUES,
   SUBSCRIPTION_STATUS,
   SUBSCRIPTION_STATUS_VALUES,
+  RESTAURANT_STAFF_ROLE_VALUES,
 } from "../constants/index.js";
 
 // ─── Operating Hours sub-schema ───────────────────────────────────────────────
@@ -91,6 +92,29 @@ const restaurantSchema = new mongoose.Schema(
         url: String,
         publicId: String,
         caption: String,
+      },
+    ],
+
+    staff: [
+      {
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+
+        role: {
+          type: String,
+          enum: RESTAURANT_STAFF_ROLE_VALUES,
+          required: true,
+        },
+
+        joinedAt: Date,
+
+        isActive: {
+          type: Boolean,
+          default: true,
+        },
       },
     ],
 

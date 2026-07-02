@@ -14,6 +14,7 @@ import {
   updateProfileSchema,
   changePasswordSchema,
 } from "../validators/auth.validator.js";
+import { restaurantRegisterSchema } from "../validators/restaurantAuth.validator.js";
 
 const router = Router();
 
@@ -62,7 +63,16 @@ router.post(
   "/change-password",
   authMiddleware,
   validate(changePasswordSchema),
-  authController.changePassword
+  authController.changePassword,
+);
+
+/**
+ * Restaurant Partner Registration
+ */
+router.post(
+  "/restaurant/register",
+  validate(restaurantRegisterSchema),
+  authController.registerRestaurantPartner,
 );
 
 export default router;

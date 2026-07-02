@@ -8,7 +8,7 @@ const reviewSchema = new mongoose.Schema(
       required: true,
     },
 
-    customerId: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
@@ -55,6 +55,6 @@ const reviewSchema = new mongoose.Schema(
 );
 
 reviewSchema.index({ restaurantId: 1, isPublic: 1, createdAt: -1 });
-reviewSchema.index({ customerId: 1 });
+reviewSchema.index({ userId: 1 });
 
 export default mongoose.model('Review', reviewSchema);

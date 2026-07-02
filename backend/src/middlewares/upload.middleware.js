@@ -29,8 +29,9 @@ const storage = multer.diskStorage({
   },
 
   filename(req, file, cb) {
-    const uniqueName =
-      `${Date.now()}-${Math.round(Math.random() * 1e9)}${path.extname(file.originalname)}`;
+    const uniqueName = `${Date.now()}-${Math.round(
+      Math.random() * 1e9
+    )}${path.extname(file.originalname)}`;
 
     cb(null, uniqueName);
   },
@@ -41,7 +42,9 @@ const storage = multer.diskStorage({
  */
 const fileFilter = (req, file, cb) => {
   if (
-    !ALLOWED_IMAGE_TYPES.includes(file.mimetype)
+    !ALLOWED_IMAGE_TYPES.includes(
+      file.mimetype
+    )
   ) {
     return cb(
       new ApiError(
@@ -55,16 +58,47 @@ const fileFilter = (req, file, cb) => {
 };
 
 /**
- * Upload Factory
+ * Create Upload Middleware
  */
-export const uploadSingle = ({
-  fieldName,
-  maxSize,
-}) =>
+const createUpload = ({ maxSize }) =>
   multer({
     storage,
     fileFilter,
     limits: {
       fileSize: maxSize,
     },
+  });
+
+/**
+ * Upload Single File
+ */
+export const uploadSingle = ({
+  fieldName,
+  maxSize,
+}) =>
+  createUpload({
+    maxSize,
   }).single(fieldName);
+
+/**
+ * Upload Multiple Files
+ */
+export const uploadMultiple = ({
+  fieldName,
+  maxCount,
+  maxSize,
+}) =>
+  createUpload({
+    maxSize,
+  }).array(fieldName, maxCount);
+
+/**
+ * Upload Multiple Named Fields
+ */
+export const uploadFields = ({
+  fields,
+  maxSize,
+}) =>
+  createUpload({
+    maxSize,
+  }).fields(fields);

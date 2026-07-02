@@ -15,7 +15,7 @@ const paymentSchema = new mongoose.Schema(
       unique: true, // one payment per session
     },
 
-    customerId: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
@@ -73,7 +73,7 @@ const paymentSchema = new mongoose.Schema(
 );
 
 paymentSchema.index({ restaurantId: 1, createdAt: -1 });
-paymentSchema.index({ customerId: 1 });
+paymentSchema.index({ userId: 1 });
 paymentSchema.index({ status: 1 });
 
 export default mongoose.model('Payment', paymentSchema);

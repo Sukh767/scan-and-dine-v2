@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const notificationSchema = new mongoose.Schema(
   {
-    customerId: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
@@ -25,6 +25,6 @@ const notificationSchema = new mongoose.Schema(
 );
 
 // Index to quickly fetch a user's unread notifications
-notificationSchema.index({ customerId: 1, read: 1, createdAt: -1 });
+notificationSchema.index({ userId: 1, read: 1, createdAt: -1 });
 
 export default mongoose.model('Notification', notificationSchema);

@@ -14,7 +14,6 @@ export const toUserResponse = (user) => {
     avatar,
     isVerified,
     isActive,
-    restaurantId,
     createdAt,
     updatedAt,
   } = user;
@@ -28,7 +27,6 @@ export const toUserResponse = (user) => {
     avatar,
     isVerified,
     isActive,
-    restaurantId,
     createdAt,
     updatedAt,
   };

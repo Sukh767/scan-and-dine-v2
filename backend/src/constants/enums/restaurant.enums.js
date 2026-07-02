@@ -25,8 +25,7 @@ export const SUBSCRIPTION_STATUS = Object.freeze({
   TRIAL: "trial",
 });
 
-export const RESTAURANT_APPROVAL_STATUS_VALUES =
-  Object.values(RESTAURANT_APPROVAL_STATUS);
+
 
 export const RESTAURANT_FACILITIES = Object.freeze({
   PARKING: "Parking",
@@ -56,3 +55,69 @@ export const RESTAURANT_PRICE_RANGE = {
 
 export const SUBSCRIPTION_STATUS_VALUES =
   Object.values(SUBSCRIPTION_STATUS);
+
+  export const RESTAURANT_APPROVAL_STATUS_VALUES =
+  Object.values(RESTAURANT_APPROVAL_STATUS);
+
+/*
+|--------------------------------------------------------------------------
+| Restaurant Staff Roles
+|--------------------------------------------------------------------------
+*/
+
+export const RESTAURANT_STAFF_ROLES = Object.freeze({
+  OWNER: "owner",
+  MANAGER: "manager",
+  WAITER: "waiter",
+  CASHIER: "cashier",
+  KITCHEN: "kitchen",
+});
+
+export const RESTAURANT_STAFF_ROLE_VALUES =
+  Object.values(RESTAURANT_STAFF_ROLES);
+
+/*
+|--------------------------------------------------------------------------
+| Staff Invitation Status
+|--------------------------------------------------------------------------
+*/
+
+export const STAFF_INVITATION_STATUS = Object.freeze({
+  PENDING: "pending",
+  ACCEPTED: "accepted",
+  REJECTED: "rejected",
+  CANCELLED: "cancelled",
+  EXPIRED: "expired",
+});
+
+export const STAFF_INVITATION_STATUS_VALUES =
+  Object.values(STAFF_INVITATION_STATUS);
+
+  export const RESTAURANT_MESSAGES = Object.freeze({
+  CREATED:
+    "Restaurant registration submitted successfully.",
+
+  ALREADY_EXISTS:
+    "You already own a restaurant.",
+
+  EMAIL_EXISTS:
+    "Restaurant email already exists.",
+
+  PHONE_EXISTS:
+    "Restaurant phone already exists.",
+
+  LOGO_REQUIRED:
+    "Restaurant logo is required.",
+
+  NOT_FOUND:
+    "Restaurant not found.",
+
+  UPDATED:
+    "Restaurant updated successfully.",
+
+  APPROVED:
+    "Restaurant approved successfully.",
+
+  REJECTED:
+    "Restaurant rejected successfully.",
+});

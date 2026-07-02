@@ -8,7 +8,7 @@ const reservationSchema = new mongoose.Schema(
       required: true,
     },
 
-    customerId: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
@@ -73,7 +73,7 @@ const reservationSchema = new mongoose.Schema(
 );
 
 reservationSchema.index({ restaurantId: 1, date: 1, status: 1 });
-reservationSchema.index({ customerId: 1, status: 1 });
+reservationSchema.index({ userId: 1, status: 1 });
 reservationSchema.index({ tableId: 1, date: 1 });
 
 export default mongoose.model('Reservation', reservationSchema);

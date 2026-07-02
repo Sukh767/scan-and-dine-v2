@@ -11,8 +11,6 @@ Relations use ObjectId references (`.populate()` in Mongoose).
 {
   _id, name, email, phone,
   password,          // bcrypt-hashed, select:false
-  role,              // 'customer' | 'restaurant' | 'super_admin'
-  restaurantId,      // → restaurants._id  (restaurant role only)
   avatar, isVerified, isActive, lastLoginAt,
   createdAt, updatedAt
 }

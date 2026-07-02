@@ -100,6 +100,13 @@ class AuthRepository {
   // }
 
   /**
+ * Find User By Id
+ */
+async findById(id) {
+  return User.findById(id);
+}
+
+  /**
    * Find user by refresh token
    */
   async findUserByRefreshToken(refreshToken) {

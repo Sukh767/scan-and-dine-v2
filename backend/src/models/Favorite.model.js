@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const favoriteSchema = new mongoose.Schema(
   {
-    customerId: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
@@ -25,8 +25,8 @@ const favoriteSchema = new mongoose.Schema(
 );
 
 // Indexes for lightning-fast homepage loading ("Continue Dining", "Favorite Food")
-favoriteSchema.index({ customerId: 1, restaurantId: 1 });
-favoriteSchema.index({ customerId: 1, menuItemId: 1 });
+favoriteSchema.index({ userId: 1, restaurantId: 1 });
+favoriteSchema.index({ userId: 1, menuItemId: 1 });
 // Index for platform analytics (e.g., finding trending items)
 favoriteSchema.index({ menuItemId: 1, createdAt: -1 });
 
