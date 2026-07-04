@@ -3,6 +3,7 @@ import mailService from "./mail.service.js";
 
 import ApiError from "../utils/ApiError.js";
 import { generateToken, hashToken } from "../utils/crypto.js";
+import bcrypt from "bcryptjs";
 
 import {
   HTTP_STATUS,
@@ -270,6 +271,8 @@ class AuthService {
    */
   async login(email, password) {
     const user = await authRepository.findUserByEmail(email);
+    console.log("Login attempt for email:", email);
+    console.log(user);
 
     /**
      * Email not found
@@ -284,7 +287,13 @@ class AuthService {
     /**
      * Password mismatch
      */
-    const isPasswordValid = await user.comparePassword(password);
+    //const isPasswordValid = await user.comparePassword(password);
+    console.log("Entered Password:", password);
+    console.log("Stored Hash:", user.password);
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    console.log("Password Match:", isPasswordValid);
 
     if (!isPasswordValid) {
       throw new ApiError(
@@ -405,10 +414,7 @@ class AuthService {
     /**
      * Find user
      */
-    const user = await authRepository.findUserById(
-    userId,
-    true
-);
+    const user = await authRepository.findUserById(userId, true);
 
     /**
      * Verify current password

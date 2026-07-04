@@ -24,14 +24,26 @@ export const MAIL_SUBJECTS = Object.freeze({
   OFFER: "Special Offer for You",
 
   SUBSCRIPTION_RENEWAL: "Subscription Renewal",
+
+  RESTAURANT_CREATED: "Restaurant registration received",
+
+  RESTAURANT_APPROVED: "🎉 Your restaurant has been approved",
+
+  RESTAURANT_REJECTED: "Restaurant verification update",
+
+  RESTAURANT_CREATED: "Restaurant registration received",
+
+  RESTAURANT_APPROVED: "🎉 Your restaurant has been approved",
+
+  RESTAURANT_REJECTED: "Restaurant onboarding requires changes",
 });
 
 export const MAIL_BUTTONS = Object.freeze({
-    VERIFY_EMAIL: "Verify Email",
+  VERIFY_EMAIL: "Verify Email",
 
-    RESET_PASSWORD: "Reset Password",
+  RESET_PASSWORD: "Reset Password",
 
-    VIEW_RESERVATION: "View Reservation",
+  VIEW_RESERVATION: "View Reservation",
 
-    VIEW_ORDER: "View Order",
+  VIEW_ORDER: "View Order",
 });

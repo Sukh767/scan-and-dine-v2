@@ -36,12 +36,10 @@ app.use(
         return callback(null, true);
       }
 
-      return callback(
-        new Error(`CORS policy: ${origin} is not allowed.`)
-      );
+      return callback(new Error(`CORS policy: ${origin} is not allowed.`));
     },
     credentials: true,
-  })
+  }),
 );
 
 /**
@@ -56,7 +54,7 @@ app.use(
       success: false,
       message: "Too many requests. Please try again later.",
     },
-  })
+  }),
 );
 
 /**
@@ -78,6 +76,7 @@ if (process.env.NODE_ENV === "development") {
  */
 app.use("/api/v1", routes);
 app.use("/api/v1/restaurants", restaurantRoutes);
+
 /**
  * 404
  */

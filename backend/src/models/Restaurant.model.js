@@ -179,7 +179,26 @@ const restaurantSchema = new mongoose.Schema(
       enum: RESTAURANT_APPROVAL_STATUS_VALUES,
       default: RESTAURANT_APPROVAL_STATUS.PENDING,
     },
+
     isActive: { type: Boolean, default: true }, // Global soft-delete/suspend
+
+    approval: {
+      approvedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+
+      approvedAt: Date,
+
+      rejectedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+
+      rejectedAt: Date,
+
+      rejectionReason: String,
+    },
 
     // Subscription & SaaS tier
     subscription: {

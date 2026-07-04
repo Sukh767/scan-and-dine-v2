@@ -1,5 +1,6 @@
 import { Router } from "express";
 import authRoutes from "./auth.routes.js";
+import adminRestaurantRoutes from "./admin.restaurant.routes.js";
 
 const router = Router();
 
@@ -12,5 +13,7 @@ router.get("/health", (req, res) => {
 });
 
 router.use("/auth", authRoutes);
+
+router.use("/admin/restaurants", adminRestaurantRoutes);
 
 export default router;
