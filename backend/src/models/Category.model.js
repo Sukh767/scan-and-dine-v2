@@ -1,23 +1,26 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const categorySchema = new mongoose.Schema(
   {
     restaurantId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Restaurant',
+      ref: "Restaurant",
       required: true,
     },
 
     name: {
       type: String,
-      required: [true, 'Category name is required'],
+      required: [true, "Category name is required"],
       trim: true,
     },
 
     description: String,
 
-    image: String,
-    
+    image: {
+      url: String,
+      publicId: String,
+    },
+
     // UI enhancement for mobile/web menus
     icon: {
       type: String, // Can store an Emoji "🍔" or an icon class name
@@ -33,9 +36,18 @@ const categorySchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 categorySchema.index({ restaurantId: 1, isActive: 1, sortOrder: 1 });
+categorySchema.index(
+  {
+    restaurantId: 1,
+    name: 1,
+  },
+  {
+    unique: true,
+  },
+);
 
-export default mongoose.model('Category', categorySchema);
+export default mongoose.model("Category", categorySchema);

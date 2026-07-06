@@ -204,6 +204,16 @@ class RestaurantRepository {
 
     return restaurant;
   }
+
+  async findByOwnerOrFail(ownerId) {
+    const restaurant = await this.findByOwner(ownerId);
+
+    if (!restaurant) {
+      throw new ApiError(HTTP_STATUS.NOT_FOUND, RESTAURANT_MESSAGES.NOT_FOUND);
+    }
+
+    return restaurant;
+  }
 }
 
 export default new RestaurantRepository();

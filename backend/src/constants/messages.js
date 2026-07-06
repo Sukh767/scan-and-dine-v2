@@ -76,3 +76,16 @@ export const RESTAURANT_AUTH_MESSAGES = Object.freeze({
 
   COVER_UPDATED: "Restaurant cover image updated successfully.",
 });
+
+export const CATEGORY_MESSAGES = Object.freeze({
+  CREATED: "Category created successfully.",
+  FETCHED: "Categories fetched successfully.",
+  DETAILS_FETCHED: "Category fetched successfully.",
+  UPDATED: "Category updated successfully.",
+  DELETED: "Category deleted successfully.",
+  REORDERED: "Categories reordered successfully.",
+  STATUS_UPDATED: "Category status updated successfully.",
+
+  NOT_FOUND: "Category not found.",
+  ALREADY_EXISTS: "Category already exists.",
+});

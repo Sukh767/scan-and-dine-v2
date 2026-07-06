@@ -2,6 +2,7 @@ import { Router } from "express";
 import authRoutes from "./auth.routes.js";
 import adminRestaurantRoutes from "./admin.restaurant.routes.js";
 import restaurantProfileRoutes from "./restaurantProfile.routes.js";
+import categoryRoutes from "./category.routes.js";
 
 const router = Router();
 
@@ -17,5 +18,7 @@ router.use("/auth", authRoutes);
 
 router.use("/admin/restaurants", adminRestaurantRoutes);
 router.use("/restaurants/me", restaurantProfileRoutes);
+
+router.use("/categories", categoryRoutes);
 
 export default router;
