@@ -67,5 +67,12 @@ export const RESTAURANT_AUTH_MESSAGES = Object.freeze({
   EMAIL_VERIFIED: "Restaurant partner email verified successfully.",
 
   LOGIN_SUCCESS: "Restaurant partner logged in successfully.",
-});
 
+  PROFILE_FETCHED: "Restaurant profile fetched successfully.",
+
+  PROFILE_UPDATED: "Restaurant profile updated successfully.",
+
+  LOGO_UPDATED: "Restaurant logo updated successfully.",
+
+  COVER_UPDATED: "Restaurant cover image updated successfully.",
+});
