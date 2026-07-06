@@ -1,0 +1,57 @@
+export const typography = {
+  fonts: {
+    display: '"Clash Display", "Plus Jakarta Sans", system-ui, sans-serif',
+    body: '"Inter", "DM Sans", system-ui, sans-serif',
+    mono: '"JetBrains Mono", "Fira Code", monospace',
+  },
+  scale: {
+    "2xs": ["10px", { lineHeight: "14px", letterSpacing: "0.05em" }],
+    xs: ["12px", { lineHeight: "16px", letterSpacing: "0.03em" }],
+    sm: ["14px", { lineHeight: "20px", letterSpacing: "0.01em" }],
+    md: ["16px", { lineHeight: "24px", letterSpacing: "0" }],
+    lg: ["18px", { lineHeight: "28px", letterSpacing: "-0.01em" }],
+    xl: ["22px", { lineHeight: "30px", letterSpacing: "-0.02em" }],
+    "2xl": ["28px", { lineHeight: "36px", letterSpacing: "-0.03em" }],
+    "3xl": ["36px", { lineHeight: "44px", letterSpacing: "-0.04em" }],
+    "4xl": ["48px", { lineHeight: "56px", letterSpacing: "-0.05em" }],
+    "5xl": ["64px", { lineHeight: "72px", letterSpacing: "-0.06em" }],
+    "6xl": ["80px", { lineHeight: "88px", letterSpacing: "-0.07em" }],
+    "7xl": ["96px", { lineHeight: "104px", letterSpacing: "-0.08em" }],
+  },
+};
+export const spacing = {
+  // 4px base unit. Use multiples of 4 only.
+  px: "1px",
+  0: "0px",
+  0.5: "2px",
+  1: "4px",
+  1.5: "6px",
+  2: "8px",
+  2.5: "10px",
+  3: "12px",
+  3.5: "14px",
+  4: "16px",
+  5: "20px",
+  6: "24px",
+  7: "28px",
+  8: "32px",
+  9: "36px",
+  10: "40px",
+  12: "48px",
+  14: "56px",
+  16: "64px",
+  20: "80px",
+  24: "96px",
+  28: "112px",
+  32: "128px",
+};
+
+export const radius = {
+  sm: "6px",
+  md: "10px",
+  lg: "14px",
+  xl: "18px",
+  "2xl": "24px",
+  "3xl": "32px",
+  full: "9999px",
+};

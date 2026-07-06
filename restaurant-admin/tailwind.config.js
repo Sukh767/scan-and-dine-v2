@@ -1,6 +1,19 @@
-/** @type {import('tailwindcss').Config} */
+import baseConfig from "../tailwind.config.base.js";
+import forms from "@tailwindcss/forms";
+import typography from "@tailwindcss/typography";
+import aspectRatio from "@tailwindcss/aspect-ratio";
+
 export default {
-  content: ['./index.html', './src/**/*.{js,jsx}'],
-  theme: { extend: {} },
-  plugins: [],
+  ...baseConfig,
+
+  content: [
+    "./index.html",
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
+
+  plugins: [
+    forms,
+    typography,
+    aspectRatio,
+  ],
 };
