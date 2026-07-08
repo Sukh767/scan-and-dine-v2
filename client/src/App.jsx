@@ -6,6 +6,15 @@ import {
     clearAccessToken,
 } from "@scan/api";
 
+import { ApiError } from "@scan/api";
+
+const error = new ApiError({
+    message: "Unauthorized",
+    statusCode: 401,
+});
+
+console.log(error);
+
 
 import { env } from "@scan/config";
 // Protected route wrapper
