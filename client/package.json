@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@scan/ui": "workspace:*",
     "@scan/config": "workspace:*",
     "@scan/api": "workspace:*",
     "@scan/query": "workspace:*",

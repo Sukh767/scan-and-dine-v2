@@ -32,6 +32,9 @@ importers:
       '@scan/query':
         specifier: workspace:*
         version: link:../packages/query
+      '@scan/ui':
+        specifier: workspace:*
+        version: link:../packages/ui
       '@tanstack/react-query':
         specifier: ^5.101.2
         version: 5.101.2(react@18.3.1)
@@ -160,7 +163,14 @@ importers:
 
   packages/types: {}
 
-  packages/ui: {}
+  packages/ui:
+    dependencies:
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      tailwind-merge:
+        specifier: ^3.3.1
+        version: 3.6.0
 
   packages/utils: {}
 
@@ -169,6 +179,9 @@ importers:
       '@scan/auth':
         specifier: workspace:*
         version: link:../packages/auth
+      '@scan/ui':
+        specifier: workspace:*
+        version: link:../packages/ui
       '@tanstack/react-query':
         specifier: ^5.17.19
         version: 5.101.2(react@18.3.1)
@@ -276,6 +289,9 @@ importers:
       '@scan/auth':
         specifier: workspace:*
         version: link:../packages/auth
+      '@scan/ui':
+        specifier: workspace:*
+        version: link:../packages/ui
       '@tanstack/react-query':
         specifier: ^5.17.19
         version: 5.101.2(react@18.3.1)

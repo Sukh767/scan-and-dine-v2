@@ -2,20 +2,16 @@ import React from 'react'
 
 
 import {
-    ProtectedRoute,
-    GuestRoute,
-    ROLES,
-    hasPermission,
-} from "@scan/auth";
+    cn,
+    COMPONENT_SIZES,
+    COMPONENT_VARIANTS,
+} from "@scan/ui";
 
-console.log(ROLES);
+console.log(cn("px-4", "px-6"));
 
-console.log(
-    hasPermission(
-        ROLES.CUSTOMER,
-        [ROLES.CUSTOMER]
-    )
-);
+console.log(COMPONENT_SIZES);
+
+console.log(COMPONENT_VARIANTS);
 
 function App() {
   return (
