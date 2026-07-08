@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@scan/config": "workspace:*",
+    "@scan/api": "workspace:*",
     "@gsap/react": "^2.1.2",
     "@hookform/resolvers": "^5.4.0",
     "@tanstack/react-query": "^5.101.2",

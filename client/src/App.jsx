@@ -1,9 +1,11 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import useAuthStore from './stores/auth.store.js';
+import {
+    setAccessToken,
+    getAccessToken,
+    clearAccessToken,
+} from "@scan/api";
 
-// Pages
-//import Discovery    from './pages/Discovery.jsx';
-import LandingPage from './features/landing/LandingPage.jsx';
 
 import { env } from "@scan/config";
 // Protected route wrapper
@@ -11,6 +13,15 @@ const ProtectedRoute = ({ children }) => {
   const user = useAuthStore((s) => s.user);
   return user ? children : <Navigate to="/login" replace />;
 };
+
+
+setAccessToken("abc123");
+
+console.log(getAccessToken());
+
+clearAccessToken();
+
+console.log(getAccessToken());
 
 export default function App() {
 

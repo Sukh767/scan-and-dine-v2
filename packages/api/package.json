@@ -11,6 +11,7 @@
     "src"
   ],
   "dependencies": {
+    "@scan/config": "workspace:*",
     "axios": "^1.11.0"
   }
 }

@@ -20,6 +20,9 @@ importers:
       '@hookform/resolvers':
         specifier: ^5.4.0
         version: 5.4.0(react-hook-form@7.81.0(react@18.3.1))
+      '@scan/api':
+        specifier: workspace:*
+        version: link:../packages/api
       '@scan/config':
         specifier: workspace:*
         version: link:../packages/config
@@ -111,6 +114,9 @@ importers:
 
   packages/api:
     dependencies:
+      '@scan/config':
+        specifier: workspace:*
+        version: link:../config
       axios:
         specifier: ^1.11.0
         version: 1.18.1
