@@ -1,20 +1,5 @@
 import React from 'react'
-import { useAuthStore } from "@scan/auth";
 
-function Test() {
-
-    const {
-        user,
-        isAuthenticated,
-        setUser,
-        clearUser,
-    } = useAuthStore();
-
-    console.log(user);
-    console.log(isAuthenticated);
-
-    return null;
-}
 
 function App() {
   return (
