@@ -3,40 +3,25 @@
   "version": "1.0.0",
   "private": true,
 
-  "workspaces": [
-    "backend",
-    "client",
-    "restaurant-admin",
-    "super-admin",
-    "packages/*"
-  ],
+  "packageManager": "pnpm@11.3.0",
 
   "scripts": {
-    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:client\" \"npm run dev:restaurant\" \"npm run dev:super\"",
+    "dev": "concurrently \"pnpm run client\" \"pnpm run restaurant\" \"pnpm run admin\" \"pnpm run server\"",
+    "client": "pnpm --filter client dev",
+    "restaurant": "pnpm --filter restaurant-admin dev",
+    "admin": "pnpm --filter super-admin dev",
+    "server": "pnpm --filter server dev",
 
-    "dev:backend": "npm run dev --workspace=backend",
-    "dev:client": "npm run dev --workspace=client",
-    "dev:restaurant": "npm run dev --workspace=restaurant-admin",
-    "dev:super": "npm run dev --workspace=super-admin",
+    "build": "pnpm -r build",
 
-    "build": "npm run build --workspaces --if-present",
-
-    "install:all": "npm install"
+    "install:all": "pnpm install"
   },
 
   "devDependencies": {
-    "concurrently": "^8.2.2",
-
-    "tailwindcss": "^3.4.0",
-    "postcss": "^8.4.32",
-    "autoprefixer": "^10.4.16",
-
-    "@tailwindcss/forms": "^0.5.7",
-    "@tailwindcss/typography": "^0.5.10",
-    "@tailwindcss/aspect-ratio": "^0.4.2"
+    "concurrently": "^8.2.2"
   },
 
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22"
   }
 }

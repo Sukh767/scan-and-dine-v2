@@ -1,0 +1,8 @@
+packages:
+  - "client"
+  - "restaurant-admin"
+  - "super-admin"
+  - "server"
+  - "packages/*"
+allowBuilds:
+  esbuild: true

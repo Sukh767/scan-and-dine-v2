@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@scan/api": ["packages/api/src"],
+            "@scan/auth": ["packages/auth/src"],
+            "@scan/config": ["packages/config/src"],
+            "@scan/constants": ["packages/constants/src"],
+            "@scan/forms": ["packages/forms/src"],
+            "@scan/hooks": ["packages/hooks/src"],
+            "@scan/query": ["packages/query/src"],
+            "@scan/theme": ["packages/theme/src"],
+            "@scan/types": ["packages/types/src"],
+            "@scan/ui": ["packages/ui/src"],
+            "@scan/utils": ["packages/utils/src"]
+        }
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}

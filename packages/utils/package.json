@@ -1,6 +1,7 @@
 {
-  "name": "@scan-dine/utils",
-  "version": "1.0.0",
-  "private": true,
-  "type": "module"
+    "name": "@scan/utils",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "main": "./src/index.js"
 }
