@@ -15,6 +15,13 @@ const error = new ApiError({
 
 console.log(error);
 
+import { request } from "@scan/api";
+
+console.log(typeof request.get);
+console.log(typeof request.post);
+console.log(typeof request.put);
+console.log(typeof request.patch);
+console.log(typeof request.delete);
 
 import { env } from "@scan/config";
 // Protected route wrapper
