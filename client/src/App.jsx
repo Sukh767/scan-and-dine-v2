@@ -17,6 +17,10 @@ console.log(error);
 
 import { request } from "@scan/api";
 
+import { queryClient } from "@scan/query";
+
+console.log(queryClient);
+
 console.log(typeof request.get);
 console.log(typeof request.post);
 console.log(typeof request.put);
