@@ -38,9 +38,6 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.101.2
         version: 5.101.2(react@18.3.1)
-      axios:
-        specifier: ^1.18.1
-        version: 1.18.1
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -95,9 +92,6 @@ importers:
       zod:
         specifier: ^3.25.76
         version: 3.25.76
-      zustand:
-        specifier: ^4.5.7
-        version: 4.5.7(@types/react@18.3.31)(immer@11.1.11)(react@18.3.1)
     devDependencies:
       '@types/react':
         specifier: ^18.2.55
@@ -138,17 +132,19 @@ importers:
       '@scan/query':
         specifier: workspace:*
         version: link:../query
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-router-dom:
+        specifier: ^6.30.1
+        version: 6.30.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       zustand:
         specifier: ^5.0.8
-        version: 5.0.14(@types/react@18.3.31)(immer@11.1.11)(react@18.3.1)(use-sync-external-store@1.6.0(react@18.3.1))
+        version: 5.0.14(@types/react@18.3.31)(immer@11.1.11)(react@18.3.1)
 
   packages/config: {}
 
   packages/constants: {}
-
-  packages/forms: {}
-
-  packages/hooks: {}
 
   packages/query:
     dependencies:
@@ -158,10 +154,9 @@ importers:
       '@tanstack/react-query-devtools':
         specifier: ^5.84.2
         version: 5.101.2(@tanstack/react-query@5.101.2(react@18.3.1))(react@18.3.1)
-
-  packages/theme: {}
-
-  packages/types: {}
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
 
   packages/ui:
     dependencies:
@@ -174,26 +169,33 @@ importers:
       prop-types:
         specifier: ^15.8.1
         version: 15.8.1
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.6.0
 
-  packages/utils: {}
-
   restaurant-admin:
     dependencies:
+      '@scan/api':
+        specifier: workspace:*
+        version: link:../packages/api
       '@scan/auth':
         specifier: workspace:*
         version: link:../packages/auth
+      '@scan/config':
+        specifier: workspace:*
+        version: link:../packages/config
+      '@scan/query':
+        specifier: workspace:*
+        version: link:../packages/query
       '@scan/ui':
         specifier: workspace:*
         version: link:../packages/ui
       '@tanstack/react-query':
         specifier: ^5.17.19
         version: 5.101.2(react@18.3.1)
-      axios:
-        specifier: ^1.6.5
-        version: 1.18.1
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -204,7 +206,7 @@ importers:
         specifier: ^2.4.1
         version: 2.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-router-dom:
-        specifier: ^6.21.3
+        specifier: ^6.30.1
         version: 6.30.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       recharts:
         specifier: ^2.10.4
@@ -212,9 +214,6 @@ importers:
       socket.io-client:
         specifier: ^4.7.4
         version: 4.8.3
-      zustand:
-        specifier: ^4.4.7
-        version: 4.5.7(@types/react@18.3.31)(immer@11.1.11)(react@18.3.1)
     devDependencies:
       '@vitejs/plugin-react':
         specifier: ^4.2.1
@@ -292,18 +291,24 @@ importers:
 
   super-admin:
     dependencies:
+      '@scan/api':
+        specifier: workspace:*
+        version: link:../packages/api
       '@scan/auth':
         specifier: workspace:*
         version: link:../packages/auth
+      '@scan/config':
+        specifier: workspace:*
+        version: link:../packages/config
+      '@scan/query':
+        specifier: workspace:*
+        version: link:../packages/query
       '@scan/ui':
         specifier: workspace:*
         version: link:../packages/ui
       '@tanstack/react-query':
         specifier: ^5.17.19
         version: 5.101.2(react@18.3.1)
-      axios:
-        specifier: ^1.6.5
-        version: 1.18.1
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -314,14 +319,11 @@ importers:
         specifier: ^2.4.1
         version: 2.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-router-dom:
-        specifier: ^6.21.3
+        specifier: ^6.30.1
         version: 6.30.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       recharts:
         specifier: ^2.10.4
         version: 2.15.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      zustand:
-        specifier: ^4.4.7
-        version: 4.5.7(@types/react@18.3.31)(immer@11.1.11)(react@18.3.1)
     devDependencies:
       '@vitejs/plugin-react':
         specifier: ^4.2.1
@@ -2125,11 +2127,6 @@ packages:
     peerDependencies:
       browserslist: '>= 4.21.0'
 
-  use-sync-external-store@1.6.0:
-    resolution: {integrity: sha512-Pp6GSwGP/NrPIrxVFAIkOQeyw8lFenOHijQWkUTrDvrF4ALqylP2C/KCkeS9dpUM3KvYRQhna5vt7IL95+ZQ9w==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -2247,21 +2244,6 @@ packages:
 
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
-
-  zustand@4.5.7:
-    resolution: {integrity: sha512-CHOUy7mu3lbD6o6LJLfllpjkzhHXSBlX8B9+qPddUsIfeF5S/UZ5q0kmCsnRqT1UHFQZchNFDDzMbQsuesHWlw==}
-    engines: {node: '>=12.7.0'}
-    peerDependencies:
-      '@types/react': '>=16.8'
-      immer: '>=9.0.6'
-      react: '>=16.8'
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      immer:
-        optional: true
-      react:
-        optional: true
 
   zustand@5.0.14:
     resolution: {integrity: sha512-/8tAspM5LMPr28b3fwLYrtdj77ECpfZviaP75CMTnwO8ISyaE4GDIG/9rDDYq/cH9D2Xw2A2RXglLInmVBQB/g==}
@@ -3995,10 +3977,6 @@ snapshots:
       escalade: 3.2.0
       picocolors: 1.1.1
 
-  use-sync-external-store@1.6.0(react@18.3.1):
-    dependencies:
-      react: 18.3.1
-
   util-deprecate@1.0.2: {}
 
   utils-merge@1.0.1: {}
@@ -4098,17 +4076,8 @@ snapshots:
 
   zod@3.25.76: {}
 
-  zustand@4.5.7(@types/react@18.3.31)(immer@11.1.11)(react@18.3.1):
-    dependencies:
-      use-sync-external-store: 1.6.0(react@18.3.1)
+  zustand@5.0.14(@types/react@18.3.31)(immer@11.1.11)(react@18.3.1):
     optionalDependencies:
       '@types/react': 18.3.31
       immer: 11.1.11
       react: 18.3.1
-
-  zustand@5.0.14(@types/react@18.3.31)(immer@11.1.11)(react@18.3.1)(use-sync-external-store@1.6.0(react@18.3.1)):
-    optionalDependencies:
-      '@types/react': 18.3.31
-      immer: 11.1.11
-      react: 18.3.1
-      use-sync-external-store: 1.6.0(react@18.3.1)

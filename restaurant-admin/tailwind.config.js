@@ -8,12 +8,9 @@ export default {
 
   content: [
     "./index.html",
-    "./src/**/*.{js,jsx,ts,tsx}",
+    "./src/**/*.{js,jsx}",
+    "../packages/ui/src/**/*.{js,jsx}",
   ],
 
-  plugins: [
-    forms,
-    typography,
-    aspectRatio,
-  ],
+  plugins: [],
 };
