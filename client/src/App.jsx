@@ -2,31 +2,36 @@ import React from 'react'
 
 import {
     Button,
-    IconButton,
-    ButtonGroup,
+    Input,
+    Textarea,
 } from "@scan/ui";
+
 
 
 function App() {
   return (
     <>
-    
-    <h1 className='text-2xl text-blue-500 font-bold'>Welcome to Scan and Dine</h1>
-  <ButtonGroup>
-            <Button>Save</Button>
+        <div className="space-y-6 max-w-md p-8 bg-gray-100">
+            <Input
+                label="Restaurant Name"
+                placeholder="Enter restaurant"
+                helperText="Visible to customers"
+            />
 
-            <Button variant="outline">
-                Cancel
-            </Button>
+            <Input
+                label="Email"
+                error="Email already exists"
+            />
 
-            <Button loading>
+            <Textarea
+                label="Description"
+                rows={4}
+            />
+
+            <Button>
                 Save
             </Button>
-
-            <IconButton aria-label="Delete">
-                X
-            </IconButton>
-        </ButtonGroup>
+        </div>
     </>
   )
 }
