@@ -1,4 +1,15 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+import {
+  SESSION_STATUS,
+  SESSION_STATUS_VALUES,
+  BILL_STATUS,
+  BILL_STATUS_VALUES,
+  SESSION_TYPE,
+  SESSION_TYPE_VALUES,
+  SESSION_CREATED_BY,
+  SESSION_CREATED_BY_VALUES,
+  SESSION_END_REASON_VALUES,
+} from "../constants/index.js";
 
 /**
  * DiningSession
@@ -15,26 +26,58 @@ const diningSessionSchema = new mongoose.Schema(
   {
     restaurantId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Restaurant',
+      ref: "Restaurant",
       required: true,
     },
 
     tableId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Table',
+      ref: "Table",
       required: true,
     },
 
-    userId: {
+    customerId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
+      default: null,
+    },
+
+    sessionToken: {
+      type: String,
       required: true,
+      unique: true,
+    },
+
+    lastActivityAt: {
+      type: Date,
+      default: Date.now,
+    },
+
+    expiresAt: {
+      type: Date,
+      default: null,
+    },
+
+    createdBy: {
+      type: String,
+
+      enum: SESSION_CREATED_BY_VALUES,
+
+      default: SESSION_CREATED_BY.CUSTOMER,
+    },
+
+    endReason: {
+      type: String,
+
+      enum: SESSION_END_REASON_VALUES,
+
+      default: null,
     },
 
     // Optional: linked reservation that triggered this session
     reservationId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Reservation',
+      ref: "Reservation",
       default: null,
     },
 
@@ -43,23 +86,25 @@ const diningSessionSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ['active', 'awaiting_payment', 'paid', 'closed', 'abandoned'],
-      default: 'active',
+
+      enum: SESSION_STATUS_VALUES,
+
+      default: SESSION_STATUS.ACTIVE,
     },
 
     // Running totals (updated each time a new order is placed)
     totals: {
-      subtotal:      { type: Number, default: 0 },
-      discount:      { type: Number, default: 0 }, // from offers
-      tax:           { type: Number, default: 0 },
+      subtotal: { type: Number, default: 0 },
+      discount: { type: Number, default: 0 }, // from offers
+      tax: { type: Number, default: 0 },
       serviceCharge: { type: Number, default: 0 },
-      grandTotal:    { type: Number, default: 0 },
+      grandTotal: { type: Number, default: 0 },
     },
 
     // The applied offer, if any
     appliedOfferId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Offer',
+      ref: "Offer",
       default: null,
     },
 
@@ -69,32 +114,49 @@ const diningSessionSchema = new mongoose.Schema(
     // Handles dine-in, takeaway, or a mix of both in one single bill
     sessionType: {
       type: String,
-      enum: ['dine_in', 'takeaway', 'mixed'],
-      default: 'dine_in',
+
+      enum: SESSION_TYPE_VALUES,
+
+      default: SESSION_TYPE.DINE_IN,
     },
 
     // Financial state of the session (separated from physical table status)
     billStatus: {
       type: String,
-      enum: ['open', 'payment_pending', 'paid', 'closed', 'refunded'],
-      default: 'open',
+
+      enum: BILL_STATUS_VALUES,
+
+      default: BILL_STATUS.OPEN,
     },
 
     // Special instructions for the whole table
     tableNote: String,
 
+    deviceId: {
+      type: String,
+      default: null,
+    },
+
     // Timestamps for lifecycle tracking
-    startedAt:  { type: Date, default: Date.now },
-    closedAt:   { type: Date, default: null },
+    startedAt: { type: Date, default: Date.now },
+    closedAt: { type: Date, default: null },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 diningSessionSchema.index({ restaurantId: 1, status: 1 });
 diningSessionSchema.index({ tableId: 1, status: 1 });
 diningSessionSchema.index({ userId: 1 });
-diningSessionSchema.index({ restaurantId: 1, createdAt: -1 }); // for analytics
+diningSessionSchema.index({ restaurantId: 1, createdAt: -1 });
+diningSessionSchema.index(
+  {
+    sessionToken: 1,
+  },
+  {
+    unique: true,
+  },
+); // for analytics
 
-export default mongoose.model('DiningSession', diningSessionSchema);
+export default mongoose.model("DiningSession", diningSessionSchema);

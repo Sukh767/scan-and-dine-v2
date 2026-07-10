@@ -126,3 +126,24 @@ export const TABLE_MESSAGES = Object.freeze({
 
   ALREADY_EXISTS: "Table number already exists.",
 });
+
+export const DINING_SESSION_MESSAGES = Object.freeze({
+  STARTED: "Dining session started successfully.",
+
+  RESUMED: "Dining session resumed successfully.",
+
+  FETCHED: "Dining sessions fetched successfully.",
+
+  DETAILS_FETCHED: "Dining session fetched successfully.",
+
+  GUEST_COUNT_UPDATED: "Guest count updated successfully.",
+
+  ENDED: "Dining session ended successfully.",
+
+  NOT_FOUND: "Dining session not found.",
+
+  ACTIVE_SESSION_EXISTS:
+    "An active dining session already exists for this table.",
+
+  NO_ACTIVE_SESSION: "No active dining session found.",
+});

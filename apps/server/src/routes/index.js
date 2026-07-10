@@ -5,7 +5,7 @@ import restaurantProfileRoutes from "./restaurantProfile.routes.js";
 import categoryRoutes from "./category.routes.js";
 import menuRoutes from "./menu.routes.js";
 import tableRoutes from "./table.routes.js";
-
+import diningSessionRoutes from "./diningSession.routes.js";
 
 const router = Router();
 
@@ -28,5 +28,7 @@ router.use("/categories", categoryRoutes);
 router.use("/menu", menuRoutes);
 
 router.use("/tables", tableRoutes);
+
+router.use("/sessions", diningSessionRoutes);
 
 export default router;
