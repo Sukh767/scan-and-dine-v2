@@ -1,31 +1,33 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 // Variant/add-on sub-schema (e.g., size options, extra toppings)
 const variantSchema = new mongoose.Schema(
   {
-    name:  { type: String, required: true }, // "Large", "Extra Cheese"
+    name: { type: String, required: true }, // "Large", "Extra Cheese"
     price: { type: Number, required: true },
+    isAvailable: Boolean,
+    sortOrder: Number,
   },
-  { _id: true }
+  { _id: true },
 );
 
 const menuItemSchema = new mongoose.Schema(
   {
     restaurantId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Restaurant',
+      ref: "Restaurant",
       required: true,
     },
 
     categoryId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Category',
+      ref: "Category",
       required: true,
     },
 
     name: {
       type: String,
-      required: [true, 'Item name is required'],
+      required: [true, "Item name is required"],
       trim: true,
     },
 
@@ -33,25 +35,31 @@ const menuItemSchema = new mongoose.Schema(
 
     price: {
       type: Number,
-      required: [true, 'Price is required'],
+      required: [true, "Price is required"],
       min: 0,
     },
 
-    images: [String],
+    images: [
+      {
+        url: String,
+        publicId: String,
+      },
+    ],
 
     // Dietary tags
-    isVeg:      { type: Boolean, default: false },
-    isVegan:    { type: Boolean, default: false },
+    isVeg: { type: Boolean, default: false },
+    isVegan: { type: Boolean, default: false },
     isGlutenFree: { type: Boolean, default: false },
+    isJain: { type: Boolean, default: false },
     spiceLevel: {
       type: String,
-      enum: ['none', 'mild', 'medium', 'hot', 'extra_hot'],
-      default: 'none',
+      enum: ["none", "mild", "medium", "hot", "extra_hot"],
+      default: "none",
     },
 
     // Marketing & Promotion
-    isFeatured:    { type: Boolean, default: false }, // General featured list
-    isBestSeller:  { type: Boolean, default: false }, // "Most Ordered" badge
+    isFeatured: { type: Boolean, default: false }, // General featured list
+    isBestSeller: { type: Boolean, default: false }, // "Most Ordered" badge
     isRecommended: { type: Boolean, default: false }, // "Chef's Choice" badge
 
     // Nutrition & Serving Info (Future-proofed)
@@ -71,21 +79,46 @@ const menuItemSchema = new mongoose.Schema(
 
     sortOrder: { type: Number, default: 0 },
 
-    isAvailable:   { type: Boolean, default: true }, // Temporarily out of stock
-    isActive:      { type: Boolean, default: true }, // Soft delete
+    isAvailable: { type: Boolean, default: true }, // Temporarily out of stock
+    isActive: { type: Boolean, default: true }, // Soft delete
 
     // Aggregate rating (denormalized)
     rating: {
       average: { type: Number, default: 0 },
-      count:   { type: Number, default: 0 },
+      count: { type: Number, default: 0 },
     },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
-menuItemSchema.index({ restaurantId: 1, categoryId: 1, isActive: 1, sortOrder: 1 });
+menuItemSchema.index({
+  restaurantId: 1,
+  categoryId: 1,
+  isActive: 1,
+  sortOrder: 1,
+});
+// menuItemSchema.index(
+//   {
+//     restaurantId: 1,
+//     categoryId: 1,
+//     name: 1,
+//   },
+//   {
+//     unique: true,
+//   },
+// );
+
+menuItemSchema.index(
+  {
+    restaurantId: 1,
+    name: 1,
+  },
+  {
+    unique: true,
+  },
+);
 menuItemSchema.index({ restaurantId: 1, isBestSeller: 1 }); // Quick fetch for best sellers
 
-export default mongoose.model('MenuItem', menuItemSchema);
+export default mongoose.model("MenuItem", menuItemSchema);

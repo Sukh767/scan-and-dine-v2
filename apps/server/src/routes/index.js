@@ -3,7 +3,7 @@ import authRoutes from "./auth.routes.js";
 import adminRestaurantRoutes from "./admin.restaurant.routes.js";
 import restaurantProfileRoutes from "./restaurantProfile.routes.js";
 import categoryRoutes from "./category.routes.js";
-
+import menuRoutes from "./menu.routes.js";
 const router = Router();
 
 router.get("/health", (req, res) => {
@@ -20,5 +20,7 @@ router.use("/admin/restaurants", adminRestaurantRoutes);
 router.use("/restaurants/me", restaurantProfileRoutes);
 
 router.use("/categories", categoryRoutes);
+
+router.use("/menu", menuRoutes);
 
 export default router;

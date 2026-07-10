@@ -89,3 +89,22 @@ export const CATEGORY_MESSAGES = Object.freeze({
   NOT_FOUND: "Category not found.",
   ALREADY_EXISTS: "Category already exists.",
 });
+
+export const MENU_MESSAGES = Object.freeze({
+  CREATED: "Menu item created successfully.",
+  FETCHED: "Menu items fetched successfully.",
+  DETAILS_FETCHED: "Menu item fetched successfully.",
+  UPDATED: "Menu item updated successfully.",
+  DELETED: "Menu item deleted successfully.",
+
+  STATUS_UPDATED: "Menu item status updated successfully.",
+  AVAILABILITY_UPDATED: "Menu item availability updated successfully.",
+
+  IMAGE_UPLOADED: "Menu item image uploaded successfully.",
+  IMAGE_DELETED: "Menu item image deleted successfully.",
+
+  NOT_FOUND: "Menu item not found.",
+  ALREADY_EXISTS: "Menu item already exists.",
+
+  CATEGORY_NOT_FOUND: "Category not found.",
+});
