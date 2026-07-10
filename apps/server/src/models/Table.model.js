@@ -1,19 +1,33 @@
-import mongoose from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
-import { TABLE_STATUSES } from '../utils/constants.js';
-import { TABLE_STATUS_VALUES } from '../constants/index.js';
+import mongoose from "mongoose";
+import { v4 as uuidv4 } from "uuid";
+import { TABLE_STATUS_VALUES } from "../constants/index.js";
 
 const tableSchema = new mongoose.Schema(
   {
     restaurantId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Restaurant',
+      ref: "Restaurant",
       required: true,
+    },
+
+    description: {
+      type: String,
+      trim: true,
     },
 
     tableNumber: {
       type: String,
       required: true,
+      trim: true,
+    },
+
+    sortOrder: {
+      type: Number,
+      default: 0,
+    },
+
+    notes: {
+      type: String,
       trim: true,
     },
 
@@ -48,22 +62,29 @@ const tableSchema = new mongoose.Schema(
       default: () => uuidv4(), // stable UUID — embedded in the printed QR
     },
 
-qrImage:{
-url,
-publicId
-},
+    qrImage: {
+      url: {
+        type: String,
+      },
+
+      publicId: {
+        type: String,
+      },
+    },
 
     // ─── Status ────────────────────────────────────────────────────────────
     status: {
       type: String,
+
       enum: TABLE_STATUS_VALUES,
-      default: 'available',
+
+      default: TABLE_STATUS_VALUES[0], // default to the first status in the enum
     },
 
     // Active dining session for this table
     currentSessionId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'DiningSession',
+      ref: "DiningSession",
       default: null,
     },
 
@@ -71,7 +92,7 @@ publicId
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // ─── Compound index: a restaurant can't have two tables with the same number ──
@@ -79,4 +100,14 @@ tableSchema.index({ restaurantId: 1, tableNumber: 1 }, { unique: true });
 tableSchema.index({ restaurantId: 1, status: 1 });
 tableSchema.index({ qrToken: 1 });
 
-export default mongoose.model('Table', tableSchema);
+tableSchema.index({
+  restaurantId: 1,
+  floor: 1,
+});
+
+tableSchema.index({
+  restaurantId: 1,
+  section: 1,
+});
+
+export default mongoose.model("Table", tableSchema);

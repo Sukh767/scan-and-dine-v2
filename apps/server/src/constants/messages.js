@@ -108,3 +108,21 @@ export const MENU_MESSAGES = Object.freeze({
 
   CATEGORY_NOT_FOUND: "Category not found.",
 });
+
+export const TABLE_MESSAGES = Object.freeze({
+  CREATED: "Table created successfully.",
+  FETCHED: "Tables fetched successfully.",
+  DETAILS_FETCHED: "Table fetched successfully.",
+  UPDATED: "Table updated successfully.",
+  DELETED: "Table deleted successfully.",
+
+  STATUS_UPDATED: "Table status updated successfully.",
+
+  ACTIVE_STATUS_UPDATED: "Table active status updated successfully.",
+
+  QR_GENERATED: "QR code generated successfully.",
+
+  NOT_FOUND: "Table not found.",
+
+  ALREADY_EXISTS: "Table number already exists.",
+});

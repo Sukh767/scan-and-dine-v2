@@ -1,13 +1,46 @@
-import express from 'express';
+import { Router } from "express";
 
-// When you are ready to use the middleware, uncomment this. 
-// Remember to include the .js extension!
-import { protect, authorise } from '../middleware/authMiddleware.js';
+import tableController from "../controllers/table.controller.js";
 
-const router = express.Router();
+import authMiddleware from "../middlewares/auth.middleware.js";
+import authorize from "../middlewares/authorize.middleware.js";
+import validate from "../middlewares/validate.middleware.js";
 
-// Stub — implement controllers as you build each feature
-// (I temporarily removed 'protect' from the arguments so your stub doesn't crash before the middleware is built)
-router.get('/', protect, authorise, (req, res) => res.json({ success: true, data: [], message: 'user routes — implement controller' }));
+import {
+  createTableSchema,
+  updateTableSchema,
+  updateTableStatusSchema,
+  updateTableActiveSchema,
+} from "../validators/table.validator.js";
+
+import { ROLES } from "../constants/index.js";
+
+const router = Router();
+
+router.use(authMiddleware);
+
+router.use(authorize(ROLES.RESTAURANT_OWNER));
+
+router.post("/", validate(createTableSchema), tableController.createTable);
+
+router.get("/", tableController.getTables);
+
+router.get("/:id", tableController.getTable);
+
+router.patch(
+  "/:id/status",
+  validate(updateTableStatusSchema),
+  tableController.updateStatus,
+);
+
+router.patch(
+  "/:id/active",
+  validate(updateTableActiveSchema),
+  tableController.updateActiveStatus,
+);
+
+router.patch("/:id", validate(updateTableSchema), tableController.updateTable);
+
+router.delete("/:id", tableController.deleteTable);
 
 export default router;
