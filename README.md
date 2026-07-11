@@ -1,159 +1,916 @@
-# Turborepo starter
+# 🏛 Scan & Dine Ecosystem
 
-This Turborepo starter is maintained by the Turborepo core team.
-
-## Using this example
-
-Run the following command:
-
-```sh
-npx create-turbo@latest
+```text
+                    PLATFORM
+                       │
+        ┌──────────────┴──────────────┐
+        │                             │
+ Platform Admin                Restaurant Owner
+        │                             │
+        ▼                             ▼
+Restaurant Approval         Restaurant Dashboard
+                                          │
+                                          ▼
+                              Customer QR Ordering
 ```
 
-## What's inside?
+There are **4 different applications**.
 
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
+```
+1. Platform Admin Dashboard
+2. Restaurant Admin Dashboard
+3. Customer Web App (QR)
+4. Marketing Website
 ```
 
-Without global `turbo`, use your package manager:
+---
 
-```sh
-cd my-turborepo
-npx turbo build
-pnpm dlx turbo build
-pnpm exec turbo build
+# 1. Marketing Website
+
+```
+/
+
+Features
+
+Pricing
+
+About
+
+Contact
+
+Restaurant Registration
+
+Restaurant Login
+
+Customer Login
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+Purpose:
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+- Sell the SaaS
+- Restaurant onboarding
+- Subscription plans
+- Documentation
 
-```sh
-turbo build --filter=docs
+---
+
+# 2. Platform Admin Dashboard
+
+```
+Platform Admin Login
+        │
+        ▼
+Dashboard
 ```
 
-Without global `turbo`:
+Modules
 
-```sh
-npx turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+```
+Dashboard
+
+Restaurants
+
+Restaurant Requests
+
+Subscriptions
+
+Users
+
+Payments
+
+Coupons
+
+Analytics
+
+Notifications
+
+Settings
 ```
 
-### Develop
+### Restaurant Approval Flow
 
-To develop all apps and packages, run the following command:
+```
+Restaurant Registers
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+↓
 
-```sh
-cd my-turborepo
-turbo dev
+Pending
+
+↓
+
+Admin Reviews
+
+↓
+
+Approve
+
+or
+
+Reject
 ```
 
-Without global `turbo`, use your package manager:
+Restaurant receives email immediately.
 
-```sh
-cd my-turborepo
-npx turbo dev
-pnpm exec turbo dev
-pnpm exec turbo dev
+---
+
+# 3. Restaurant Owner Dashboard
+
+After login
+
+```
+Overview Dashboard
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+Modules
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+```
+Dashboard
 
-```sh
-turbo dev --filter=web
+Restaurant Profile
+
+Categories
+
+Menu
+
+Tables
+
+QR Codes
+
+Dining Sessions
+
+Orders
+
+Reservations
+
+Customers
+
+Reviews
+
+Analytics
+
+Staff
+
+Subscription
+
+Settings
 ```
 
-Without global `turbo`:
+---
 
-```sh
-npx turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
+# Restaurant Setup Flow
+
+A newly approved restaurant sees
+
+```
+Restaurant Profile
+        │
+        ▼
+Categories
+        │
+        ▼
+Menu
+        │
+        ▼
+Tables
+        │
+        ▼
+Generate QR
+        │
+        ▼
+Ready
 ```
 
-### Remote Caching
+Restaurant cannot accept customers before setup is complete.
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+---
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+# Table Flow
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+```
+Restaurant
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+↓
 
-```sh
-cd my-turborepo
-turbo login
+Create Table
+
+↓
+
+T-01
+
+↓
+
+QR Token Generated
+
+↓
+
+Generate QR PNG
+
+↓
+
+Print
+
+↓
+
+Paste on Table
 ```
 
-Without global `turbo`, use your package manager:
+Each table has
 
-```sh
-cd my-turborepo
-npx turbo login
-pnpm exec turbo login
-pnpm exec turbo login
+```
+QR Token
+
+QR Image
+
+Status
+
+Current Session
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+---
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+# Customer Journey
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+Customer sits.
 
-```sh
-turbo link
+```
+Table
+
+↓
+
+Scans QR
 ```
 
-Without global `turbo`:
+QR contains only
 
-```sh
-npx turbo link
-pnpm exec turbo link
-pnpm exec turbo link
+```
+https://app.scanndine.com/scan/{qrToken}
 ```
 
-## Useful Links
+Nothing else.
 
-Learn more about the power of Turborepo:
+---
 
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+# Scan Flow
+
+```
+QR Token
+
+↓
+
+Resolve Table
+
+↓
+
+Restaurant Active?
+
+↓
+
+Table Active?
+
+↓
+
+Find ACTIVE Session
+```
+
+If exists
+
+```
+Resume
+```
+
+Else
+
+```
+Create Session
+```
+
+---
+
+# Session Flow
+
+```
+Dining Session
+
+↓
+
+Session Token
+
+↓
+
+Guest Count
+
+↓
+
+Restaurant
+
+↓
+
+Table
+```
+
+Session owns everything.
+
+---
+
+# Authentication
+
+## First Visit
+
+Customer scans.
+
+```
+Browse Menu
+
+↓
+
+Add to Cart
+```
+
+No login.
+
+When placing the order:
+
+```
+Continue
+
+↓
+
+Login
+
+or
+
+Register
+
+↓
+
+OTP / Password
+
+↓
+
+Account Linked
+
+↓
+
+Continue
+```
+
+This removes friction.
+
+---
+
+# Returning Customer
+
+```
+Scan
+
+↓
+
+Session Token
+
+↓
+
+Customer Found
+
+↓
+
+Continue
+```
+
+No repeated onboarding.
+
+---
+
+# Menu Flow
+
+```
+Restaurant
+
+↓
+
+Categories
+
+↓
+
+Menu
+
+↓
+
+Variants
+
+↓
+
+Offers
+```
+
+Customer sees only
+
+```
+Available Items
+```
+
+Hidden items never appear.
+
+---
+
+# Cart
+
+Cart belongs to
+
+```
+Dining Session
+```
+
+Not User.
+
+Reason
+
+```
+Guest
+
+↓
+
+Login Later
+
+↓
+
+Cart Stays
+```
+
+---
+
+# Ordering
+
+```
+Cart
+
+↓
+
+Place Order
+
+↓
+
+Kitchen
+
+↓
+
+Preparing
+
+↓
+
+Ready
+
+↓
+
+Served
+```
+
+Order Status
+
+```
+Pending
+
+Confirmed
+
+Preparing
+
+Ready
+
+Served
+
+Completed
+
+Cancelled
+```
+
+---
+
+# Multiple Orders
+
+Example
+
+```
+Starter
+
+↓
+
+Order #1
+
+20 min
+
+↓
+
+Main Course
+
+↓
+
+Order #2
+
+30 min
+
+↓
+
+Dessert
+
+↓
+
+Order #3
+```
+
+Everything belongs to
+
+```
+One Dining Session
+```
+
+One final bill.
+
+---
+
+# Kitchen
+
+Kitchen sees
+
+```
+Incoming Orders
+
+↓
+
+Preparing
+
+↓
+
+Ready
+```
+
+No payment logic.
+
+Only food.
+
+---
+
+# Waiter
+
+Waiter sees
+
+```
+Table
+
+↓
+
+Order Ready
+
+↓
+
+Serve
+```
+
+Future module.
+
+---
+
+# Billing
+
+Session continuously updates
+
+```
+Subtotal
+
+Discount
+
+Tax
+
+Service Charge
+
+Grand Total
+```
+
+Real-time.
+
+---
+
+# Payment
+
+Customer
+
+```
+Pay Online
+
+or
+
+Pay at Counter
+```
+
+If online
+
+```
+Razorpay
+
+↓
+
+Success
+
+↓
+
+Bill Paid
+
+↓
+
+Close Session
+```
+
+If counter
+
+```
+Restaurant
+
+↓
+
+Mark Paid
+
+↓
+
+Close Session
+```
+
+---
+
+# Session Completion
+
+```
+Paid
+
+↓
+
+Session Completed
+
+↓
+
+Table AVAILABLE
+
+↓
+
+Feedback
+```
+
+---
+
+# Reviews
+
+Only after
+
+```
+Completed Session
+```
+
+can customer review.
+
+Prevents fake reviews.
+
+---
+
+# Reservation Flow
+
+Customer
+
+```
+Reserve Table
+
+↓
+
+Restaurant Confirms
+
+↓
+
+Arrival
+
+↓
+
+Reservation
+
+↓
+
+Dining Session
+```
+
+Reservation ends.
+
+Session begins.
+
+---
+
+# Dashboard Analytics
+
+Restaurant
+
+```
+Revenue
+
+Orders
+
+Average Bill
+
+Peak Hours
+
+Popular Items
+
+Table Utilization
+
+Customer Retention
+
+Best Selling Items
+```
+
+---
+
+# Platform Analytics
+
+Admin
+
+```
+Restaurants
+
+MRR
+
+ARR
+
+Subscriptions
+
+Active Restaurants
+
+Orders
+
+Revenue
+
+Growth
+```
+
+---
+
+# Security
+
+Authentication
+
+```
+Customer
+
+Restaurant Owner
+
+Platform Admin
+```
+
+JWT
+
+↓
+
+Refresh Token
+
+↓
+
+Role Authorization
+
+↓
+
+Tenant Isolation
+
+Restaurant can never access another restaurant's data.
+
+---
+
+# Backend Architecture
+
+Every module follows the same structure:
+
+```
+Validator
+
+↓
+
+Repository
+
+↓
+
+Transformer
+
+↓
+
+Service
+
+↓
+
+Controller
+
+↓
+
+Routes
+```
+
+Repositories only access data.
+
+Services contain business logic.
+
+Controllers handle HTTP.
+
+Transformers shape API responses.
+
+---
+
+# Monorepo Structure
+
+```
+apps/
+├── client
+├── restaurant-admin
+├── super-admin
+└── server
+
+packages/
+├── ui
+├── auth
+├── api
+├── query
+├── config
+└── utils
+```
+
+---
+
+# Current Backend Progress
+
+```
+Authentication
+├── ✅ Customer Auth
+├── ✅ Restaurant Auth
+├── ✅ Platform Admin Auth
+├── ✅ Email Verification
+├── ✅ Password Reset
+
+Restaurant
+├── ✅ Registration
+├── ✅ Approval
+├── ✅ Profile
+├── ✅ Categories
+├── ✅ Menu
+├── ✅ Tables
+└── ✅ Dining Sessions
+
+Pending
+├── ⬜ Customer Scan Flow
+├── ⬜ QR Generation
+├── ⬜ Cart
+├── ⬜ Orders
+├── ⬜ Kitchen Management
+├── ⬜ Payments
+├── ⬜ Reservations
+├── ⬜ Reviews
+├── ⬜ Analytics
+├── ⬜ Notifications
+├── ⬜ Staff Management
+└── ⬜ Subscription & Billing
+```
+
+---
+
+# One Architectural Change I'd Make Before the Frontend
+
+After everything we've built, there is **one change** I would make to the roadmap:
+
+```
+Customer Scan
+        ↓
+Session Bootstrap
+        ↓
+Restaurant Metadata
+        ↓
+Categories
+        ↓
+Menu
+        ↓
+Cart
+        ↓
+Authentication (only when required)
+        ↓
+Order
+        ↓
+Payment
+```
+
+Instead of making the frontend fetch restaurant info, categories, menu, table, and session separately, I'd design a **single "Session Bootstrap API"**.
+
+For example:
+
+```http
+GET /scan/:qrToken
+```
+
+would return:
+
+```json
+{
+  "restaurant": { ... },
+  "table": { ... },
+  "session": { ... },
+  "customer": null,
+  "categories": [ ... ],
+  "menu": [ ... ]
+}
+```
