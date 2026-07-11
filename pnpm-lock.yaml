@@ -20,6 +20,9 @@ importers:
 
   apps/client:
     dependencies:
+      '@animateicons/react':
+        specifier: ^0.3.4
+        version: 0.3.4(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@scan/api':
         specifier: workspace:*
         version: link:../../packages/api
@@ -285,6 +288,13 @@ importers:
         version: 3.6.0
 
 packages:
+
+  '@animateicons/react@0.3.4':
+    resolution: {integrity: sha512-7IO7aLBdp7p4awGx3sOTVVcU8s9kzHXBK2R27y1gGKfk3nI1gYh8+McVCtCkwa7ouiFwmBEDwrUEODpNOv+bSQ==}
+    engines: {node: '>=18.17.0'}
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
 
   '@babel/code-frame@7.29.7':
     resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
@@ -3700,6 +3710,11 @@ packages:
         optional: true
 
 snapshots:
+
+  '@animateicons/react@0.3.4(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+    dependencies:
+      react: 19.2.7
+      react-dom: 19.2.7(react@19.2.7)
 
   '@babel/code-frame@7.29.7':
     dependencies:

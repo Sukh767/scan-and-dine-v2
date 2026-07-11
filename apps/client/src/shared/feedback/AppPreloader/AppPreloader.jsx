@@ -1,15 +1,20 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { QrCode, UtensilsCrossed } from "lucide-react";
+import { ScanQrCodeIcon } from "@animateicons/react/lucide";
 
-export default function PremiumLoader({ onComplete }) {
+export const AppPreloader = ({ onComplete }) => {
   const [phase, setPhase] = useState(0);
 
   useEffect(() => {
     const t1 = setTimeout(() => setPhase(1), 400);
     const t2 = setTimeout(() => setPhase(2), 1000);
     const t3 = setTimeout(() => onComplete?.(), 1800);
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
   }, [onComplete]);
 
   return (
@@ -32,7 +37,12 @@ export default function PremiumLoader({ onComplete }) {
               className="relative"
             >
               <div className="w-20 h-20 rounded-2xl bg-primary flex items-center justify-center shadow-2xl shadow-primary/30">
-                <QrCode className="w-10 h-10 text-primary-foreground" />
+                <ScanQrCodeIcon
+                  className="text-primary-foreground"
+                  size={160}
+                  duration={1}
+                  color="#e95a2b"
+                />
               </div>
               <motion.div
                 className="absolute inset-0 rounded-2xl border-2 border-primary"
@@ -53,7 +63,9 @@ export default function PremiumLoader({ onComplete }) {
                 <span className="text-primary">Scan</span>
                 <span className="text-foreground"> & Dine</span>
               </h1>
-              <p className="text-muted-foreground text-sm mt-1">The future of dining</p>
+              <p className="text-muted-foreground text-sm mt-1">
+                The future of dining
+              </p>
             </motion.div>
 
             {/* Progress bar */}
@@ -75,4 +87,4 @@ export default function PremiumLoader({ onComplete }) {
       )}
     </AnimatePresence>
   );
-}
+};

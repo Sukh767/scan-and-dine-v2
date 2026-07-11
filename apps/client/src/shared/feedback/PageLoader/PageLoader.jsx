@@ -1,12 +1,6 @@
 export const PageLoader = () => {
   return (
-    <div
-      style={{
-        display: "grid",
-        placeItems: "center",
-        minHeight: "60vh",
-      }}
-    >
+    <div>
       <h3>Loading...</h3>
     </div>
   );

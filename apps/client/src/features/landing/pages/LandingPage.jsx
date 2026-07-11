@@ -1,7 +1,18 @@
+import { EmptyState, PageLoader, AppPreloader, NotFound } from "@/shared";
+
 export const LandingPage = () => {
   return (
-    <div>
-      <h1>Landing Page</h1>
-    </div>
+    <>
+      <AppPreloader />
+
+      <PageLoader />
+
+      <EmptyState
+        title="No Restaurants"
+        description="Restaurants will appear here."
+      />
+
+      <NotFound />
+    </>
   );
 };
