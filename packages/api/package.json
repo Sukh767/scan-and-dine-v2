@@ -1,0 +1,17 @@
+{
+  "name": "@scan/api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "src"
+  ],
+  "dependencies": {
+    "@scan/config": "workspace:*",
+    "axios": "^1.11.0"
+  }
+}

@@ -10,6 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@scan/ui": "workspace:*",
+    "@scan/config": "workspace:*",
+    "@scan/api": "workspace:*",
+    "@scan/query": "workspace:*",
+    "@scan/auth": "workspace:*",
     "@tailwindcss/vite": "^4.3.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

@@ -1,12 +1,11 @@
-import { RouterProvider } from "react-router-dom";
-
-import { router } from "@/router";
 import { ErrorBoundary } from "@/shared";
+
+import { AppBootstrap } from "./AppBootstrap";
 
 export const App = () => {
   return (
     <ErrorBoundary>
-      <RouterProvider router={router} />
+      <AppBootstrap />
     </ErrorBoundary>
   );
 };
