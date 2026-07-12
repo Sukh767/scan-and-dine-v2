@@ -1,6 +1,9 @@
 import { MainLayout } from "@/layouts";
-import { LandingPage } from "@/features/landing";
+import { lazy } from "react";
+
 import { NotFound } from "@/shared";
+
+const LandingPage = lazy(() => import("@/features/landing/pages/LandingPage"));
 
 export const routes = [
   {

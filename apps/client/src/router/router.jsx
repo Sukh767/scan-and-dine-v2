@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
 
 import { PageLoader } from "@/shared";
+
 import { routes } from "./routes";
 
 const wrapRoutes = (routes) =>

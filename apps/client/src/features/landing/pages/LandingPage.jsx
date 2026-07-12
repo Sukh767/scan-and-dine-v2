@@ -1,9 +1,11 @@
 import { EmptyState, PageLoader, AppPreloader, NotFound } from "@/shared";
+import { useState } from "react";
 
-export const LandingPage = () => {
+const LandingPage = () => {
+  const [loaded, setLoaded] = useState(false);
   return (
     <>
-      <AppPreloader />
+      <AppPreloader onCompleted={() => setLoaded(true)} />
 
       <PageLoader />
 
@@ -16,3 +18,5 @@ export const LandingPage = () => {
     </>
   );
 };
+
+export default LandingPage;
