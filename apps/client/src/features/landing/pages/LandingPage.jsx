@@ -1,17 +1,11 @@
-import { useTheme } from "@/shared";
-import { http } from "@scan/api";
+import { useAuth } from "@scan/auth";
 
 const LandingPage = () => {
-  const theme = useTheme();
-  console.log(http.defaults.baseURL);
+  const auth = useAuth();
 
-  console.log(theme);
+  console.log(auth);
 
-  return (
-    <div>
-      <h1>Landing Page</h1>
-    </div>
-  );
+  return <h1>Landing Page</h1>;
 };
 
 export default LandingPage;

@@ -1,1 +1,1 @@
-export * from "./restore-session";
+export * from "./session.manager";

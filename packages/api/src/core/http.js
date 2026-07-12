@@ -1,15 +1,24 @@
 import axios from "axios";
 
-import { API_TIMEOUT, CONTENT_TYPES } from "../constants";
+import { env, runtimeConfig } from "@scan/config";
+
+import { CONTENT_TYPES } from "../constants";
+import {
+  setupRequestInterceptor,
+  setupResponseInterceptor,
+} from "../interceptors";
 
 export const http = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: env.apiUrl,
 
-  timeout: API_TIMEOUT,
-
-  withCredentials: true,
+  timeout: runtimeConfig.requestTimeout,
 
   headers: {
     "Content-Type": CONTENT_TYPES.JSON,
   },
+
+  withCredentials: true,
 });
+
+setupRequestInterceptor(http);
+setupResponseInterceptor(http);

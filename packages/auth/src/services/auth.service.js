@@ -1,4 +1,4 @@
-import { request } from "@scan/api";
+import { api } from "@scan/api";
 
 /**
  * Shared authentication service.
@@ -32,44 +32,44 @@ import { request } from "@scan/api";
 
 export const authService = {
   login(payload) {
-    return request.post("/auth/login", payload);
+    return api.post("/auth/login", payload);
   },
 
   register(payload) {
-    return request.post("/auth/register", payload);
+    return api.post("/auth/register", payload);
   },
 
   logout() {
-    return request.post("/auth/logout");
+    return api.post("/auth/logout");
   },
 
   refreshSession() {
-    return request.post("/auth/refresh-token");
+    return api.post("/auth/refresh-token");
   },
 
   verifyEmail(token) {
-    return request.post("/auth/verify-email", {
+    return api.post("/auth/verify-email", {
       token,
     });
   },
 
   resendVerificationEmail(email) {
-    return request.post("/auth/resend-verification-email", {
+    return api.post("/auth/resend-verification-email", {
       email,
     });
   },
 
   forgotPassword(email) {
-    return request.post("/auth/forgot-password", {
+    return api.post("/auth/forgot-password", {
       email,
     });
   },
 
   resetPassword(payload) {
-    return request.post("/auth/reset-password", payload);
+    return api.post("/auth/reset-password", payload);
   },
 
   getCurrentUser() {
-    return request.get("/auth/me");
+    return api.get("/auth/me");
   },
 };

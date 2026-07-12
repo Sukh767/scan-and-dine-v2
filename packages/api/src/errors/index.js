@@ -1,2 +1,2 @@
-export * from "./api-error";
-export * from "./normalize-error";
+export * from "./ApiError";
+export * from "./normalizeApiError";

@@ -22,7 +22,7 @@ export const restoreSession = async () => {
      * }
      */
 
-    setUser(response.data);
+    setUser(response);
   } catch (error) {
     clearUser();
   } finally {
