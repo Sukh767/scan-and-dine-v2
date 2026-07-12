@@ -1,13 +1,17 @@
 import { QueryProvider } from "@scan/query";
 import { AuthProvider } from "@scan/auth";
 
-import { ThemeProvider } from "@/shared";
+import { ThemeProvider, ToastProvider } from "@/shared";
 
 export const AppProvider = ({ children }) => {
   return (
     <QueryProvider>
       <AuthProvider>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          {children}
+
+          <ToastProvider />
+        </ThemeProvider>
       </AuthProvider>
     </QueryProvider>
   );
