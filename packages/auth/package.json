@@ -4,19 +4,17 @@
     "private": true,
     "type": "module",
     "main": "./src/index.js",
-
     "exports": {
         ".": "./src/index.js"
     },
-
     "files": [
         "src"
     ],
-  "dependencies": {
-    "@scan/api": "workspace:*",
-    "@scan/query": "workspace:*",
-    "react": "^19.2.7",
-    "react-router-dom": "^6.30.1",
-    "zustand": "^5.0.8"
-  }
+    "dependencies": {
+        "@scan/api": "workspace:*",
+        "@scan/query": "workspace:*",
+        "react": "^19.2.7",
+        "react-router-dom": "^6.30.4",
+        "zustand": "^5.0.8"
+    }
 }
