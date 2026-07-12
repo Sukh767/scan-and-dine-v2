@@ -1,32 +1,22 @@
-import { Component } from "react";
+import { isRouteErrorResponse, useRouteError } from "react-router-dom";
 
-import { ErrorFallback } from "./ErrorFallback";
+export const ErrorBoundary = () => {
+  const error = useRouteError();
 
-export class ErrorBoundary extends Component {
-  constructor(props) {
-    super(props);
+  console.error(error);
 
-    this.state = {
-      hasError: false,
-    };
+  if (isRouteErrorResponse(error)) {
+    return (
+      <div>
+        <h1>{error.status}</h1>
+        <p>{error.statusText}</p>
+      </div>
+    );
   }
 
-  static getDerivedStateFromError() {
-    return {
-      hasError: true,
-    };
-  }
-
-  componentDidCatch(error, info) {
-    console.error(error);
-    console.error(info);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return <ErrorFallback />;
-    }
-
-    return this.props.children;
-  }
-}
+  return (
+    <div>
+      <h1>Something went wrong.</h1>
+    </div>
+  );
+};

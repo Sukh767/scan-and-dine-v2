@@ -1,13 +1,15 @@
 import { Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
 
-import { PageLoader } from "@/shared";
+import { PageLoader, ErrorBoundary } from "@/shared";
 
 import { routes } from "./routes";
 
 const wrapRoutes = (routes) =>
   routes.map((route) => ({
     ...route,
+
+    errorElement: <ErrorBoundary />,
 
     element: <Suspense fallback={<PageLoader />}>{route.element}</Suspense>,
 
