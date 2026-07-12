@@ -1,21 +1,14 @@
-import { EmptyState, PageLoader, AppPreloader, NotFound } from "@/shared";
-import { useState } from "react";
+import { useTheme } from "@/shared";
 
 const LandingPage = () => {
-  const [loaded, setLoaded] = useState(false);
+  const theme = useTheme();
+
+  console.log(theme);
+
   return (
-    <>
-      <AppPreloader onCompleted={() => setLoaded(true)} />
-
-      <PageLoader />
-
-      <EmptyState
-        title="No Restaurants"
-        description="Restaurants will appear here."
-      />
-
-      <NotFound />
-    </>
+    <div>
+      <h1>Landing Page</h1>
+    </div>
   );
 };
 
