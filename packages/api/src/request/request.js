@@ -1,4 +1,4 @@
-import { apiClient } from "../client";
+import { apiClient } from "../core";
 import { HTTP_METHODS } from "../constants";
 
 /**

@@ -6,10 +6,11 @@ import {
   THEME_STORAGE_KEY,
 } from "../constants/theme.constants";
 
-import { useThemeStore } from "../stores/theme.store";
+//import { useThemeStore } from "../stores/theme.store";
+import { useTheme } from "@/shared";
 
 export const ThemeProvider = ({ children }) => {
-  const { theme, setTheme, setResolvedTheme } = useThemeStore();
+  const { theme, setTheme, setResolvedTheme } = useTheme();
 
   useEffect(() => {
     const savedTheme = localStorage.getItem(THEME_STORAGE_KEY) || DEFAULT_THEME;
