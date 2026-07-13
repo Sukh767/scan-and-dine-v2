@@ -1,22 +1,22 @@
-import { useAuth } from "@scan/auth";
-import { toast } from "sonner";
+import { useState } from "react";
+import PageTransition from "../../../shared/transitions/PageTransition";
+import { AppPreloader } from "../../../shared/feedback/AppPreloader/AppPreloader";
 
-const LandingPage = () => {
-  const auth = useAuth();
-
-  console.log(auth);
+export default function LandingPage() {
+  const [loaded, setLoaded] = useState(false);
 
   return (
-    <div className="main">
-      Landing Page
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded"
-        onClick={() => toast.success("Working")}
-      >
-        Test Toast
-      </button>
+    <div className="min-h-screen bg-surface flex flex-col pt-0 text-gray-500">
+      <AppPreloader onComplete={() => setLoaded(true)} />
+      {loaded && (
+        <PageTransition>
+          <main>
+            Hero Section
+            <section>Features Section</section>
+            <section>CTA Section</section>
+          </main>
+        </PageTransition>
+      )}
     </div>
   );
-};
-
-export default LandingPage;
+}
