@@ -1,6 +1,8 @@
 import { useState } from "react";
 import PageTransition from "../../../shared/transitions/PageTransition";
 import { AppPreloader } from "../../../shared/feedback/AppPreloader/AppPreloader";
+import HeroSection from "../components/HeroSection/HeroSection";
+import TrustedBySection from "../components/TrustedSection/TrustedBySection";
 
 export default function LandingPage() {
   const [loaded, setLoaded] = useState(false);
@@ -11,9 +13,8 @@ export default function LandingPage() {
       {loaded && (
         <PageTransition>
           <main>
-            Hero Section
-            <section>Features Section</section>
-            <section>CTA Section</section>
+            <HeroSection />
+            <TrustedBySection />
           </main>
         </PageTransition>
       )}

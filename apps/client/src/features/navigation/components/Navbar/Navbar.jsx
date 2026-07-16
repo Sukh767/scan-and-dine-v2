@@ -95,7 +95,7 @@ function NavDropdown({ items, isOpen }) {
                 </div>
                 <ArrowUpRight
                   size={12}
-                  className="text-muted-foreground group-hover:text-brand mt-0.5 transition-colors flex-shrink-0"
+                  className="text-muted-foreground group-hover:text-brand mt-0.5 transition-colors shrink-0"
                 />
               </Link>
             </motion.div>
@@ -206,11 +206,11 @@ function FullScreenMenu({ open, onClose, isAuthenticated, user, logout }) {
   const handleLogout = async () => {
     try {
       const response = await logout();
+      console.log("Logout response:", response);
+
+      toast.success("Logged out successfully");
 
       clearUser();
-      if (response.success) {
-        toast.success(response.message || "Logged out successfully");
-      }
     } catch (error) {
       toast.error(error?.message || "Failed to logout");
 
@@ -225,7 +225,7 @@ function FullScreenMenu({ open, onClose, isAuthenticated, user, logout }) {
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-[100] bg-background/98 backdrop-blur-xl text-foreground overflow-hidden flex flex-col"
+          className="fixed inset-0 z-100 bg-background/98 backdrop-blur-xl text-foreground overflow-hidden flex flex-col"
           initial={{ opacity: 0, clipPath: "inset(0 0 100% 0)" }}
           animate={{ opacity: 1, clipPath: "inset(0 0 0% 0)" }}
           exit={{ opacity: 0, clipPath: "inset(0 0 100% 0)" }}

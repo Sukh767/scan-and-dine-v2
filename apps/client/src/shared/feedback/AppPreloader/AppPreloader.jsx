@@ -24,7 +24,7 @@ export const AppPreloader = ({ onComplete }) => {
     <AnimatePresence onExitComplete={() => onComplete?.()}>
       {isVisible && (
         <motion.div
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-background overflow-hidden text-foreground"
+          className="fixed inset-0 z-9999 flex items-center justify-center bg-background overflow-hidden text-foreground"
           exit={{ opacity: 0, y: -20, filter: "blur(10px)" }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
