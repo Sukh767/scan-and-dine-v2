@@ -45,5 +45,7 @@ export const ThemeProvider = ({ children }) => {
     return () => media.removeEventListener("change", resolveTheme);
   }, [theme, setResolvedTheme]);
 
+  
+
   return children;
 };

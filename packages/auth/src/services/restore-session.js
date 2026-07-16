@@ -6,6 +6,7 @@ import { useAuthStore } from "../store";
  *
  * Runs once during application startup.
  */
+
 export const restoreSession = async () => {
   const { setUser, clearUser, setInitializing } = useAuthStore.getState();
 
@@ -22,8 +23,12 @@ export const restoreSession = async () => {
      * }
      */
 
-    setUser(response);
-  } catch (error) {
+    if (response.success) {
+      setUser(response.data);
+    } else {
+      clearUser();
+    }
+  } catch {
     clearUser();
   } finally {
     setInitializing(false);

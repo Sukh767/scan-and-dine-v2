@@ -1,85 +1,105 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
-import { QrCode, UtensilsCrossed } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
 import { ScanQrCodeIcon } from "@animateicons/react/lucide";
 
 export const AppPreloader = ({ onComplete }) => {
-  const [phase, setPhase] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
+  const timerStarted = useRef(false);
 
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase(1), 400);
-    const t2 = setTimeout(() => setPhase(2), 1000);
-    const t3 = setTimeout(() => onComplete?.(), 1800);
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
-    };
-  }, [onComplete]);
+    // Prevents double-firing in React 18 Strict Mode
+    if (timerStarted.current) return;
+    timerStarted.current = true;
+
+    // Wait for progress bar to finish (1.5s), then trigger exit
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+    }, 1800);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <AnimatePresence>
-      {phase < 2 && (
+    // onExitComplete ensures the app only loads AFTER the fade-out finishes
+    <AnimatePresence onExitComplete={() => onComplete?.()}>
+      {isVisible && (
         <motion.div
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-background"
-          exit={{ opacity: 0, scale: 1.05 }}
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-background overflow-hidden text-foreground"
+          exit={{ opacity: 0, y: -20, filter: "blur(10px)" }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
-          {/* Background gradient */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-orange-500/5" />
+          {/* Base Textures from index.css */}
+          <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
+          <div className="absolute inset-0 bg-dots opacity-10 animate-grain pointer-events-none" />
 
-          <div className="relative flex flex-col items-center gap-6">
-            {/* Logo mark */}
+          {/* Theme Responsive Glow */}
+          <motion.div
+            className="absolute w-96 h-96 bg-brand/10 blur-3xl rounded-full pointer-events-none"
+            animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.7, 0.4] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          />
+
+          <div className="relative flex flex-col items-center gap-8 z-10">
+            {/* Logo Mark */}
             <motion.div
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="relative"
+              initial={{ scale: 0.8, opacity: 0, rotate: -5 }}
+              animate={{ scale: 1, opacity: 1, rotate: 0 }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="relative group"
             >
-              <div className="w-20 h-20 rounded-2xl bg-primary flex items-center justify-center shadow-2xl shadow-primary/30">
+              <div className="w-24 h-24 bg-card border border-border glass rounded-none-force flex items-center justify-center shadow-brand-sm relative z-10">
                 <ScanQrCodeIcon
-                  className="text-primary-foreground"
-                  size={160}
-                  duration={1}
-                  color="#e95a2b"
+                  className="text-brand"
+                  size={48}
+                  // Using currentColor allows it to map to the text-brand Tailwind class
+                  color="currentColor"
                 />
               </div>
+
+              {/* Expanding scan ring */}
               <motion.div
-                className="absolute inset-0 rounded-2xl border-2 border-primary"
-                initial={{ opacity: 0, scale: 1.5 }}
-                animate={{ opacity: [0, 0.5, 0], scale: [1.5, 2, 2.5] }}
-                transition={{ duration: 1, repeat: Infinity, delay: 0.3 }}
+                className="absolute inset-0 border border-brand/50 rounded-none-force"
+                initial={{ opacity: 1, scale: 1 }}
+                animate={{ opacity: 0, scale: 1.4 }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  ease: "easeOut",
+                }}
               />
             </motion.div>
 
-            {/* Brand name */}
+            {/* Brand Name */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
               className="text-center"
             >
-              <h1 className="text-3xl font-bold tracking-tight">
-                <span className="text-primary">Scan</span>
-                <span className="text-foreground"> & Dine</span>
+              <h1 className="font-display text-4xl font-bold tracking-tight">
+                <span className="text-brand">Scan</span> & Dine
               </h1>
-              <p className="text-muted-foreground text-sm mt-1">
-                The future of dining
+              <p className="text-muted-foreground font-ui text-xs mt-3 font-semibold tracking-[0.2em] uppercase">
+                Initializing Platform
               </p>
             </motion.div>
 
-            {/* Progress bar */}
+            {/* Sharp Progress Bar */}
             <motion.div
-              initial={{ width: 0, opacity: 0 }}
+              initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="w-48 h-0.5 bg-border rounded-full overflow-hidden"
+              transition={{ delay: 0.4 }}
+              className="w-56 h-1 bg-muted overflow-hidden rounded-none-force border border-border/50"
             >
               <motion.div
-                className="h-full bg-primary rounded-full"
+                className="h-full bg-brand"
                 initial={{ width: "0%" }}
                 animate={{ width: "100%" }}
-                transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
+                transition={{
+                  duration: 1.4,
+                  ease: [0.22, 1, 0.36, 1],
+                  delay: 0.4,
+                }}
               />
             </motion.div>
           </div>

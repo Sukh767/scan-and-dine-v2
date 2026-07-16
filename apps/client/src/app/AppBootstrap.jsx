@@ -1,22 +1,21 @@
+import { useEffect } from "react";
 import { RouterProvider } from "react-router-dom";
 
 import { router } from "@/router";
-// import { AppLoader } from "@/shared";
+
+import { restoreSession, useAuthStore } from "@scan/auth";
+
+import { AppLoader } from "@/shared";
 
 export const AppBootstrap = () => {
-  /**
-   * Future Startup Pipeline
-   *
-   * - Restore Theme
-   * - Restore Session
-   * - Fetch Current User
-   * - Initialize App
-   */
+  const isInitializing = useAuthStore((state) => state.isInitializing);
 
-  const isInitializing = false;
+  useEffect(() => {
+    restoreSession();
+  }, []);
 
   if (isInitializing) {
-    // return <AppLoader />;
+    return <AppLoader />;
   }
 
   return <RouterProvider router={router} />;

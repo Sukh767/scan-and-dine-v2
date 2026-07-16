@@ -14,10 +14,10 @@ export default function MainLayout() {
   const location = useLocation();
 
   return (
-    <div className={clsx("antialiased bg-[#181818] relative")}>
+    <div>
       {SHOW_ANNOUNCEMENT && <AnnouncementBar />}
 
-      <MainHeader></MainHeader>
+      <MainHeader/>
 
       <main>
         <AnimatePresence mode="wait">
