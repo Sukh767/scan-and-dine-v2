@@ -1,35 +1,59 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Eye, EyeOff, ArrowRight, Mail, Lock, Loader2 } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  Mail,
+  Lock,
+  Loader2,
+  ArrowRight,
+  Check,
+} from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { useAuth } from "@scan/auth";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
-// Updated to use currentColor mapping to --brand variable
-function DiamondDecor({ className }) {
+// ─── Interactive Diner Pull-Chain Theme Toggle ────────────────
+const ThemePullChain = () => {
+  const handleDragEnd = (event, info) => {
+    // If pulled down more than 40px, trigger the theme toggle
+    if (info.offset.y > 40) {
+      document.documentElement.classList.toggle("dark");
+    }
+  };
+
   return (
-    <svg className={className} viewBox="0 0 48 48" fill="none">
-      <path
-        d="M24 2L46 24L24 46L2 24L24 2Z"
-        className="stroke-brand"
-        strokeWidth="1"
-        strokeOpacity="0.35"
-      />
-      <circle cx="24" cy="24" r="3" className="fill-brand" fillOpacity="0.4" />
-    </svg>
+    <div className="absolute top-0 right-10 md:right-24 z-50 flex flex-col items-center">
+      <motion.div
+        drag="y"
+        dragConstraints={{ top: 0, bottom: 80 }}
+        dragElastic={0.2}
+        onDragEnd={handleDragEnd}
+        className="relative flex flex-col items-center cursor-grab active:cursor-grabbing w-16"
+        whileTap={{ scale: 0.95 }}
+      >
+        <div className="w-[2px] h-16 sm:h-24 bg-gradient-to-b from-foreground/40 to-foreground/20" />
+        <div className="w-5 h-8 bg-brand border-2 border-brand-foreground/20 rounded-b-full rounded-t-sm shadow-[0_10px_20px_rgba(233,90,43,0.4)] flex items-end justify-center pb-1">
+          <div className="w-2 h-2 bg-brand-foreground/30 rounded-full" />
+        </div>
+      </motion.div>
+      <span className="text-[9px] font-ui font-bold text-muted-foreground uppercase tracking-widest mt-2 select-none opacity-50">
+        Pull Theme
+      </span>
+    </div>
   );
-}
+};
 
+// ─── Main Login Component ─────────────────────────────────────
 const LoginPage = () => {
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-
   const { login } = useAuth();
 
   const handleSubmit = async (e) => {
@@ -55,7 +79,6 @@ const LoginPage = () => {
       if (response.success) {
         toast.success(response.message || "Login successful");
         navigate("/");
-
         return;
       }
 
@@ -75,249 +98,229 @@ const LoginPage = () => {
     }
   };
 
+  // Simple visual validation checks
+  const isEmailValid = email.includes("@") && email.includes(".");
+  const isPassValid = password.length > 0;
+
   return (
-    <div className="min-h-screen flex bg-background text-foreground">
-      {/* Left — Visual panel (Now fully theme-adaptive) */}
+    <div className="min-h-screen flex items-center justify-center p-5 bg-background relative overflow-hidden">
+      <ThemePullChain />
+
+      {/* Ambient Background Glows & Textures */}
+      <div className="absolute inset-0 bg-noise opacity-[0.02] dark:opacity-[0.05] pointer-events-none" />
+      <div className="absolute inset-0 bg-grid opacity-[0.03] dark:opacity-[0.05] pointer-events-none" />
       <motion.div
-        className="hidden lg:flex flex-col w-1/2 relative overflow-hidden bg-card border-r border-border"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
+        className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-brand/10 blur-[120px] rounded-full pointer-events-none"
+        animate={{ scale: [1, 1.1, 1] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-amber-500/10 blur-[120px] rounded-full pointer-events-none"
+        animate={{ scale: [1, 1.2, 1] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+      />
+
+      {/* Main Floating Card Container (Bento Style) */}
+      <motion.div
+        className="w-full max-w-[1000px] bg-card border border-border shadow-2xl relative z-10 flex flex-col lg:flex-row min-h-[600px] rounded-none-force"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       >
-        {/* BG image with theme-responsive overlay */}
-        <div className="absolute inset-0">
-          <img
-            src="https://images.pexels.com/photos/67468/pexels-photo-67468.jpeg?auto=compress&cs=tinysrgb&w=1200"
-            className="w-full h-full object-cover opacity-10 dark:opacity-20 mix-blend-luminosity"
-            alt=""
-          />
-          <div className="absolute inset-0 bg-gradient-to-br from-card/95 via-card/80 to-transparent" />
-        </div>
-
-        {/* Textures from index.css */}
-        <div className="absolute inset-0 bg-grid opacity-20" />
-        <div className="absolute inset-0 bg-dots opacity-10 animate-grain" />
-
-        {/* Animated brand glow */}
-        <motion.div
-          className="absolute top-1/4 left-1/4 w-80 h-80 bg-brand/10 blur-3xl"
-          animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.8, 0.4] }}
-          transition={{ duration: 6, repeat: Infinity }}
-        />
-
-        {/* Decorative SVGs */}
-        <DiamondDecor className="absolute top-20 right-20 w-14 h-14 animate-float" />
-        <DiamondDecor className="absolute bottom-32 left-16 w-10 h-10 animate-float-delay opacity-40" />
-
-        {/* Content */}
-        <div className="relative z-10 flex flex-col h-full p-12">
-          <Link to="/">
-            <Logo size="md" />
-          </Link>
-
-          <div className="flex-1 flex flex-col justify-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: 0.3,
-                duration: 0.7,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-            >
-              <p className="text-brand text-xs font-ui tracking-[0.25em] uppercase mb-4 font-bold">
-                — Restaurant Platform
-              </p>
-              <h2 className="font-display text-4xl font-bold text-foreground leading-[1.05] mb-6">
-                Run your restaurant
-                <br />
-                <em className="not-italic text-gradient">like never before.</em>
-              </h2>
-              <p className="text-muted-foreground text-base leading-relaxed max-w-sm font-ui">
-                QR-powered dining sessions, real-time kitchen management, and
-                deep analytics — all in one elegant platform.
-              </p>
-            </motion.div>
-
-            {/* Feature list */}
-            <motion.div
-              className="mt-10 space-y-3"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              {[
-                "Instant QR dining sessions",
-                "Real-time kitchen display",
-                "Revenue analytics dashboard",
-                "Multi-table management",
-              ].map((f, i) => (
-                <motion.div
-                  key={f}
-                  className="flex items-center gap-3"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.6 + i * 0.1 }}
-                >
-                  <div className="w-4 h-4 border border-brand/40 flex items-center justify-center rounded-none-force bg-card">
-                    <div className="w-1.5 h-1.5 bg-brand" />
-                  </div>
-                  <span className="text-muted-foreground text-sm font-ui">
-                    {f}
-                  </span>
-                </motion.div>
-              ))}
-            </motion.div>
+        {/* Left Side: Visual / Brand Context */}
+        <div className="hidden lg:flex w-5/12 relative overflow-hidden bg-zinc-950 p-10 flex-col justify-between border-r border-border/10">
+          <div className="absolute inset-0 z-0">
+            <img
+              src="https://images.pexels.com/photos/67468/pexels-photo-67468.jpeg?auto=compress&cs=tinysrgb&w=1200"
+              className="w-full h-full object-cover opacity-40 grayscale-[20%]"
+              alt="Restaurant Service"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/60 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-transparent to-transparent opacity-80" />
           </div>
 
-          {/* Bottom quote */}
+          <div className="relative z-10">
+            <Link to="/">
+              <Logo size="md" theme="dark" />
+            </Link>
+          </div>
+
+          <div className="relative z-10 mb-8">
+            <span className="inline-block px-3 py-1 bg-brand/20 border border-brand/30 text-brand text-[10px] font-ui font-bold tracking-[0.2em] uppercase mb-4 rounded-none-force backdrop-blur-sm">
+              Welcome Back
+            </span>
+            <h2 className="font-display text-4xl font-bold text-white leading-[1.1] mb-4">
+              Resume your
+              <br />
+              <span className="text-gradient drop-shadow-sm">Service.</span>
+            </h2>
+            <p className="text-white/60 text-sm leading-relaxed font-ui max-w-[250px]">
+              Access your dashboard to manage active sessions, kitchen flow, and
+              real-time analytics.
+            </p>
+          </div>
+        </div>
+
+        {/* Right Side: Form Area */}
+        <div className="w-full lg:w-7/12 p-8 sm:p-12 lg:p-16 flex flex-col justify-center relative bg-card">
           <motion.div
-            className="relative border border-border p-5 rounded-none-force glass"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="max-w-sm mx-auto w-full"
           >
-            <div className="absolute -top-3 left-5 w-6 h-6 bg-card border border-border flex items-center justify-center">
-              <span className="text-brand font-display text-2xl leading-none mt-2">
-                "
-              </span>
+            {/* Mobile Logo Fallback */}
+            <div className="lg:hidden mb-10 flex justify-center">
+              <Logo size="md" />
             </div>
-            <p className="text-foreground/80 text-sm italic font-ui leading-relaxed">
-              Scan & Dine transformed our table turnover by 30% in the first
-              month.
-            </p>
-            <p className="text-muted-foreground text-xs mt-3 font-ui font-semibold">
-              — Marcus Webb, Ember & Oak
-            </p>
+
+            {/* Centered Header */}
+            <div className="mb-10 text-center flex flex-col items-center">
+              <h1 className="font-display text-4xl font-black text-foreground mb-2">
+                Sign In
+              </h1>
+              <p className="text-muted-foreground text-sm font-ui font-medium">
+                Don't have an account?{" "}
+                <Link
+                  to="/register"
+                  className="text-brand font-bold hover:underline transition-colors"
+                >
+                  Create one
+                </Link>
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Email Input */}
+              <div>
+                <label className="block text-xs font-ui font-bold text-muted-foreground mb-2">
+                  Your Email
+                </label>
+                <div className="relative flex items-center">
+                  <Mail
+                    size={16}
+                    className="absolute left-4 text-muted-foreground"
+                  />
+                  <input
+                    type="email"
+                    placeholder="johndoe@gmail.com"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full pl-11 pr-12 py-3.5 bg-muted/30 border border-border text-foreground placeholder:text-muted-foreground text-sm font-ui focus:outline-none focus:border-brand/60 focus:bg-card transition-colors rounded-none-force"
+                  />
+                  {isEmailValid && (
+                    <Check
+                      size={16}
+                      className="absolute right-4 text-emerald-500"
+                    />
+                  )}
+                </div>
+              </div>
+
+              {/* Password Input */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-xs font-ui font-bold text-muted-foreground">
+                    Your Password
+                  </label>
+                  <Link
+                    to="#"
+                    className="text-xs text-brand hover:underline font-ui font-bold transition-colors"
+                  >
+                    Forgot password?
+                  </Link>
+                </div>
+                <div className="relative flex items-center">
+                  <Lock
+                    size={16}
+                    className="absolute left-4 text-muted-foreground"
+                  />
+                  <input
+                    type={showPass ? "text" : "password"}
+                    placeholder="••••••••"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full pl-11 pr-20 py-3.5 bg-muted/30 border border-border text-foreground placeholder:text-muted-foreground text-sm font-ui focus:outline-none focus:border-brand/60 focus:bg-card transition-colors rounded-none-force"
+                  />
+                  <div className="absolute right-4 flex items-center gap-3">
+                    {isPassValid && (
+                      <Check size={16} className="text-emerald-500" />
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => setShowPass(!showPass)}
+                      className="text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      {showPass ? <EyeOff size={15} /> : <Eye size={15} />}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full mt-4 flex items-center justify-center gap-3 py-4 bg-foreground text-background font-ui font-bold text-sm hover:opacity-90 transition-all shadow-md disabled:opacity-60 rounded-none-force group"
+              >
+                {loading ? (
+                  <Loader2 size={16} className="animate-spin" />
+                ) : (
+                  <>
+                    Sign In{" "}
+                    <ArrowRight
+                      size={14}
+                      className="group-hover:translate-x-1 transition-transform"
+                    />
+                  </>
+                )}
+              </button>
+
+              {/* Social Logins */}
+              <div className="pt-6">
+                <div className="relative flex items-center justify-center mb-6">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-border" />
+                  </div>
+                  <span className="relative px-4 bg-card text-xs font-ui font-medium text-muted-foreground uppercase">
+                    Or continue with
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <button
+                    type="button"
+                    className="flex items-center justify-center gap-2 py-3 border border-border bg-transparent text-foreground hover:bg-accent transition-colors font-ui text-xs font-bold rounded-none-force"
+                  >
+                    <svg
+                      className="w-4 h-4"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
+                    </svg>
+                    Google
+                  </button>
+                  <button
+                    type="button"
+                    className="flex items-center justify-center gap-2 py-3 border border-border bg-transparent text-foreground hover:bg-accent transition-colors font-ui text-xs font-bold rounded-none-force"
+                  >
+                    <svg
+                      className="w-4 h-4"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                    </svg>
+                    Facebook
+                  </button>
+                </div>
+              </div>
+            </form>
           </motion.div>
         </div>
       </motion.div>
-
-      {/* Right — Form panel */}
-      <div className="flex-1 flex flex-col items-center justify-center px-5 sm:px-8 py-16 relative">
-        {/* Mobile logo */}
-        <div className="lg:hidden mb-10">
-          <Link to="/">
-            <Logo size="md" />
-          </Link>
-        </div>
-
-        <motion.div
-          className="w-full max-w-md"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        >
-          {/* Header */}
-          <div className="mb-10 text-center lg:text-left">
-            <h1 className="font-display text-3xl font-bold text-foreground mb-2">
-              Welcome back.
-            </h1>
-            <p className="text-muted-foreground text-sm font-ui">
-              Sign in to your restaurant dashboard.{" "}
-              <Link
-                to="/register"
-                className="text-brand font-bold hover:underline transition-colors"
-              >
-                Create account
-              </Link>
-            </p>
-          </div>
-
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Email */}
-            <div>
-              <label className="block text-xs font-ui font-semibold text-foreground uppercase tracking-widest mb-2">
-                Email
-              </label>
-              <div className="relative">
-                <Mail
-                  size={15}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"
-                />
-                <input
-                  type="email"
-                  placeholder="you@restaurant.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="w-full pl-11 pr-4 py-3.5 bg-background border border-border text-foreground placeholder:text-muted-foreground text-sm font-ui focus:outline-none focus:border-brand/60 focus:ring-1 focus:ring-brand/30 transition-all rounded-none-force"
-                />
-              </div>
-            </div>
-
-            {/* Password */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="text-xs font-ui font-semibold text-foreground uppercase tracking-widest">
-                  Password
-                </label>
-                <Link
-                  to="#"
-                  className="text-xs text-brand hover:underline font-ui transition-colors"
-                >
-                  Forgot password?
-                </Link>
-              </div>
-              <div className="relative">
-                <Lock
-                  size={15}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"
-                />
-                <input
-                  type={showPass ? "text" : "password"}
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="w-full pl-11 pr-12 py-3.5 bg-background border border-border text-foreground placeholder:text-muted-foreground text-sm font-ui focus:outline-none focus:border-brand/60 focus:ring-1 focus:ring-brand/30 transition-all rounded-none-force"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPass(!showPass)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {showPass ? <EyeOff size={15} /> : <Eye size={15} />}
-                </button>
-              </div>
-            </div>
-
-            <motion.button
-              type="submit"
-              disabled={loading}
-              className="w-full flex items-center justify-center gap-3 py-4 bg-brand text-brand-foreground font-ui font-bold text-sm hover:opacity-90 transition-all shadow-brand-sm disabled:opacity-60 mt-4 rounded-none-force"
-              whileTap={{ scale: 0.99 }}
-            >
-              {loading ? (
-                <Loader2 size={16} className="animate-spin" />
-              ) : (
-                <>
-                  Sign In <ArrowRight size={14} />
-                </>
-              )}
-            </motion.button>
-          </form>
-
-          <p className="text-muted-foreground text-xs mt-8 text-center font-ui leading-relaxed">
-            By signing in, you agree to our{" "}
-            <a
-              href="#"
-              className="text-brand hover:underline transition-colors"
-            >
-              Terms
-            </a>{" "}
-            and{" "}
-            <a
-              href="#"
-              className="text-brand hover:underline transition-colors"
-            >
-              Privacy Policy
-            </a>
-            .
-          </p>
-        </motion.div>
-      </div>
     </div>
   );
 };
