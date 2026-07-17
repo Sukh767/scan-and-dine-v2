@@ -209,8 +209,6 @@ function FullScreenMenu({ open, onClose, isAuthenticated, user, logout }) {
       console.log("Logout response:", response);
 
       toast.success("Logged out successfully");
-
-      clearUser();
     } catch (error) {
       toast.error(error?.message || "Failed to logout");
 

@@ -6,6 +6,7 @@ import categoryRoutes from "./category.routes.js";
 import menuRoutes from "./menu.routes.js";
 import tableRoutes from "./table.routes.js";
 import diningSessionRoutes from "./diningSession.routes.js";
+import publicRestaurantRoutes from "./publicRestaurant.routes.js";
 
 const router = Router();
 
@@ -16,6 +17,8 @@ router.get("/health", (req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+router.use("/public/restaurants", publicRestaurantRoutes);
 
 router.use("/auth", authRoutes);
 

@@ -63,17 +63,40 @@ const restaurantSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+
     name: {
       type: String,
       required: [true, "Restaurant name is required"],
       trim: true,
     },
+
     slug: {
       type: String,
       unique: true,
       lowercase: true,
       trim: true,
     },
+
+    isFeatured: {
+      type: Boolean,
+      default: false,
+    },
+
+    averageRating: {
+      type: Number,
+      default: 0,
+    },
+
+    reviewCount: {
+      type: Number,
+      default: 0,
+    },
+
+    completedOrders: {
+      type: Number,
+      default: 0,
+    },
+
     description: String,
 
     // Media
@@ -180,7 +203,12 @@ const restaurantSchema = new mongoose.Schema(
       default: RESTAURANT_APPROVAL_STATUS.PENDING,
     },
 
-    isActive: { type: Boolean, default: true }, // Global soft-delete/suspend
+    isActive: { type: Boolean, default: true },
+
+    isPublished: {
+      type: Boolean,
+      default: false,
+    },
 
     approval: {
       approvedBy: {

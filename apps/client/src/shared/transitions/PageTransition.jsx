@@ -12,7 +12,7 @@ const pageTransition = {
   duration: 0.35,
 };
 
-export default function PageTransition({ children, className = "" }) {
+const PageTransition = ({ children, className = "" }) => {
   return (
     <motion.div
       initial="initial"
@@ -25,4 +25,6 @@ export default function PageTransition({ children, className = "" }) {
       {children}
     </motion.div>
   );
-}
+};
+
+export default PageTransition;

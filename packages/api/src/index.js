@@ -7,3 +7,5 @@ export * from "./constants";
 export * from "./errors";
 
 export * from "./core";
+
+export * from "./services/public-restaurant.service";
