@@ -7,6 +7,12 @@ import ParallaxShowcase from "../components/ProblemSolution/ParallaxShowcase";
 import FeaturesSection from "../components/FeaturesBento/FeaturesSection";
 import HowItWorksSection from "../components/HowItWorks/HowItWorksSection";
 import ShowRestaurants from "@/features/discovery-restaurant/pages/ShowRestaurant";
+import AnalyticsSection from "../components/Analytics/AnalyticsSection";
+import TestimonialsSection from "../components/Testimonials/TestimonialsSection";
+import PricingSection from "../components/Pricing/PricingSection";
+import NewsletterSection from "../components/NewsLetter/NewsletterSection";
+import CTASection from "../components/CTA/CTASection";
+import FAQSection from "../components/FAQ/FAQSection";
 
 export default function LandingPage() {
   const [loaded, setLoaded] = useState(false);
@@ -23,6 +29,12 @@ export default function LandingPage() {
             <FeaturesSection />
             <HowItWorksSection />
             <ShowRestaurants />
+            <AnalyticsSection />
+            <TestimonialsSection />
+            <PricingSection />
+            <NewsletterSection />
+            <CTASection />
+            <FAQSection />
           </main>
         </PageTransition>
       )}
