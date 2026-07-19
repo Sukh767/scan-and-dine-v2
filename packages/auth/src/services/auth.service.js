@@ -72,4 +72,8 @@ export const authService = {
   getCurrentUser() {
     return api.get("/auth/me");
   },
+
+  updateProfile(payload) {
+    return api.patch("/auth/me", payload);
+  },
 };

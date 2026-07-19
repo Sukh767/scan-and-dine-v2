@@ -31,6 +31,14 @@ export const useAuth = () => {
     clearUser();
   };
 
+  const forgotPassword = async (payload) => {
+    return authService.forgotPassword(payload);
+  };
+
+  const resetPassword = async (payload) => {
+    return authService.resetPassword(payload);
+  };
+
   return {
     user,
     isAuthenticated,
@@ -39,5 +47,7 @@ export const useAuth = () => {
     login,
     register,
     logout,
+    forgotPassword,
+    resetPassword,
   };
 };

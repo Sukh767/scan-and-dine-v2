@@ -32,9 +32,9 @@ export default function LandingPage() {
             <AnalyticsSection />
             <TestimonialsSection />
             <PricingSection />
-            <NewsletterSection />
             <CTASection />
             <FAQSection />
+            <NewsletterSection />
           </main>
         </PageTransition>
       )}

@@ -12,6 +12,7 @@ import {
 } from "../constants/index.js";
 import { verifyRefreshToken } from "../utils/jwt.js";
 
+
 class AuthService {
   /**
    * Generate verification token and send verification email
@@ -184,7 +185,7 @@ class AuthService {
     /**
      * Development URL
      */
-    const resetPasswordUrl = `${process.env.API_URL}/api/v1/auth/reset-password?token=${resetPasswordToken}`;
+    const resetPasswordUrl = `${process.env.CLIENT_ORIGIN}/auth/reset-password?token=${resetPasswordToken}`;
 
     /**
      * Send email

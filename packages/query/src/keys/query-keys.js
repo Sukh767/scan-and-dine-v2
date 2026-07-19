@@ -8,4 +8,8 @@ export const QUERY_KEYS = {
 
     details: (slug) => ["restaurants", slug],
   },
+
+  auth: {
+    me: ["auth", "me"],
+  },
 };
