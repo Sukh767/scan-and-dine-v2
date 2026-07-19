@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useRestaurants } from "../hooks/useRestaurants";
+import { useRestaurants } from "@scan/restaurants";
 import { Search, X, ChevronDown, RefreshCcw } from "lucide-react";
 
 import { PageLoader } from "@/shared";

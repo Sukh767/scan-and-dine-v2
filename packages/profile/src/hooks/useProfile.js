@@ -1,7 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-
 import { authService } from "@scan/auth";
 import { QUERY_KEYS } from "@scan/query";
+import { useQuery } from "@tanstack/react-query";
 
 export const useProfile = () => {
   return useQuery({

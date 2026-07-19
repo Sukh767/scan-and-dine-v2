@@ -17,9 +17,9 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { useUpdateProfile } from "../hooks/useUpdateProfile";
-import { useProfile } from "../hooks/useProfile";
+
 import { useAuth } from "@scan/auth";
+import { useProfile, useUpdateProfile } from "@scan/profile";
 
 // Assume these are exported from your respective directories
 
