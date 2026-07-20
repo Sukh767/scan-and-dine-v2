@@ -33,7 +33,7 @@ export default function ShowRestaurants() {
   // 4. Fetch Data Using React Query (Auto-refetches on queryParams change)
   const { data, isLoading, error } = useRestaurants(queryParams);
 
-  console.log(data);
+  console.log("data received from useRestaurants hook:", data);
 
   const resetFilters = () => {
     setSearch("");

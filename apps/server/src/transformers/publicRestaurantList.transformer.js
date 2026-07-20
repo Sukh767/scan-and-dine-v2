@@ -17,6 +17,7 @@ export const toPublicRestaurantList = (restaurant) => ({
 
   averageRating: restaurant.averageRating,
 
+  operationalStatus: restaurant.operationalStatus,
 });
 
 export const toPublicRestaurantListResponse = (restaurants) =>

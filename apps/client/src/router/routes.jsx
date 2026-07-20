@@ -5,14 +5,20 @@ import { BlankLayout, MainLayout } from "@/layouts";
 import { GuestRoute, ProtectedRoute } from "@/router/guards";
 
 import { NotFound } from "@/shared";
-const RestaurantDetailsPage = lazy(() => import("@/features/restaurant/pages/RestaurantDetailsPage"));
-const ShowRestaurants = lazy(() => import("@/features/discovery-restaurant/pages/ShowRestaurant"));
 
 /* -------------------------------------------------------------------------- */
 /*                               Public Pages                                 */
 /* -------------------------------------------------------------------------- */
 
 const LandingPage = lazy(() => import("@/features/landing/pages/LandingPage"));
+
+const ShowRestaurants = lazy(
+  () => import("@/features/discovery-restaurant/pages/ShowRestaurant"),
+);
+
+const RestaurantDetailsPage = lazy(
+  () => import("@/features/restaurant/pages/RestaurantDetailsPage"),
+);
 
 /* -------------------------------------------------------------------------- */
 /*                              Authentication                                */
@@ -36,12 +42,6 @@ const ResetPasswordPage = lazy(
 
 const ProfilePage = lazy(() => import("@/features/profile/pages/UserProfile"));
 
-// const OrdersPage = lazy(() => import("@/features/orders/pages/OrdersPage"));
-
-// const BookingsPage = lazy(
-//   () => import("@/features/bookings/pages/BookingsPage"),
-// );
-
 /* -------------------------------------------------------------------------- */
 /*                                  Routes                                    */
 /* -------------------------------------------------------------------------- */
@@ -51,6 +51,7 @@ export const routes = [
   /* PUBLIC ROUTES                                                            */
   /* Accessible by everyone                                                   */
   /* ======================================================================== */
+
   {
     path: "/",
 
@@ -67,6 +68,30 @@ export const routes = [
         index: true,
         element: <LandingPage />,
       },
+
+      /* -------------------------------------------------------------------- */
+      /* Restaurant Discovery                                                 */
+      /* -------------------------------------------------------------------- */
+
+      {
+        path: "restaurants",
+
+        element: <ShowRestaurants />,
+
+        meta: {
+          title: "Restaurants",
+        },
+      },
+
+      {
+        path: "restaurants/:slug",
+
+        element: <RestaurantDetailsPage />,
+
+        meta: {
+          title: "Restaurant Details",
+        },
+      },
     ],
   },
 
@@ -74,6 +99,7 @@ export const routes = [
   /* GUEST ROUTES                                                             */
   /* Only accessible when NOT logged in                                       */
   /* ======================================================================== */
+
   {
     path: "/",
 
@@ -115,33 +141,14 @@ export const routes = [
           </GuestRoute>
         ),
       },
-
-      {
-        path: 'restaurants',
-
-        element: (
-          <GuestRoute>
-            <ShowRestaurants />
-          </GuestRoute>
-        ),
-      },
-
-      {
-        path: 'restaurants/:slug',
-
-        element: (
-          <GuestRoute>
-            <RestaurantDetailsPage />
-          </GuestRoute>
-        ),
-      },
     ],
   },
 
   /* ======================================================================== */
-  /* CUSTOMER PROTECTED ROUTES                                                */
-  /* Requires authentication                                                  */
+  /* PROTECTED ROUTES                                                         */
+  /* Only accessible when logged in                                           */
   /* ======================================================================== */
+
   {
     path: "/",
 
@@ -158,35 +165,32 @@ export const routes = [
     },
 
     children: [
-      /* -------------------------------------------------------------------- */
-      /* Profile                                                              */
-      /* -------------------------------------------------------------------- */
       {
         path: "profile",
+
         element: <ProfilePage />,
+
+        meta: {
+          title: "My Profile",
+        },
       },
 
-      /* -------------------------------------------------------------------- */
-      /* Orders                                                               */
-      /* -------------------------------------------------------------------- */
       // {
       //   path: "orders",
       //   element: <OrdersPage />,
       // },
 
-      /* -------------------------------------------------------------------- */
-      /* Bookings                                                             */
-      /* -------------------------------------------------------------------- */
-      //   {
-      //     path: "bookings",
-      //     element: <BookingsPage />,
-      //   },
+      // {
+      //   path: "bookings",
+      //   element: <BookingsPage />,
+      // },
     ],
   },
 
   /* ======================================================================== */
   /* 404                                                                      */
   /* ======================================================================== */
+
   {
     path: "*",
     element: <NotFound />,
