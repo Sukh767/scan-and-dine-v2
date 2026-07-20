@@ -24,22 +24,22 @@ const featuresDropdown = [
   {
     label: "QR Dining Sessions",
     desc: "Scan-to-order flow",
-    href: "/features",
+    href: "/#features",
   },
   {
     label: "Kitchen Display",
     desc: "Real-time order board",
-    href: "/features",
+    href: "/#features",
   },
   {
     label: "Analytics Dashboard",
     desc: "Revenue & insights",
-    href: "/features",
+    href: "/#analytics",
   },
   {
     label: "Table Management",
     desc: "Visual floor management",
-    href: "/features",
+    href: "/#how-it-works",
   },
 ];
 
@@ -53,12 +53,15 @@ const blogsDropdown = [
   },
 ];
 
+// ─── NavLinks Configuration ─────────────────────────────────────
+// Connected to landing page sections via hash (#) except Restaurants
 const navLinks = [
-  { label: "Discovery", to: "/app" },
-  { label: "Features", to: "/features", dropdown: featuresDropdown },
-  { label: "Restaurants", to: "/#restaurants" },
-  { label: "Blog", to: "#", dropdown: blogsDropdown },
-  { label: "Contact", to: "#contact" },
+  { label: "Discovery", to: "/#discovery" },
+  { label: "Features", to: "/#features", dropdown: featuresDropdown },
+  // Explicitly routes to a separate page, not a hash link
+  { label: "Restaurants", to: "/restaurants" },
+  { label: "Pricing", to: "/#pricing" },
+  { label: "FAQ", to: "/#faq" },
 ];
 
 // ─── Desktop Nav Dropdown Component ────────────────────────────
@@ -345,7 +348,7 @@ function FullScreenMenu({ open, onClose, isAuthenticated, user, logout }) {
 }
 
 // ─── Main Exported Navbar Component ─────────────────────────────
-export const Navbar = () => {
+const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -391,7 +394,14 @@ export const Navbar = () => {
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           scrolled
-            ? "bg-background/95 backdrop-blur-2xl border-b border-border shadow-sm"
+            /* 
+              VARIATION: Navbar styling on scroll.
+              - Changed to only blur with a semi-transparent background (bg-background/60).
+              - Removed solid black shadows for a cleaner, modern look. 
+              - If you want the shadow back later, add 'shadow-sm' or 'shadow-md'.
+              - If you want it darker, change 'bg-background/60' to 'bg-background/95'.
+            */
+            ? "bg-background/30 backdrop-blur-md border-b border-border/50"
             : "bg-transparent",
         )}
         initial={{ y: -80, opacity: 0 }}

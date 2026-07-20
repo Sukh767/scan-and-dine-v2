@@ -35,7 +35,7 @@ const FAQSection = () => {
   const [open, setOpen] = useState(null);
 
   return (
-    <section className="py-32 bg-background relative overflow-hidden border-t border-border select-none">
+    <section id="faq" className="py-32 bg-background relative overflow-hidden border-t border-border select-none">
       {/* Background Textures */}
       <div className="absolute inset-0 bg-noise opacity-[0.02] dark:opacity-[0.05] pointer-events-none" />
       <div className="absolute inset-0 bg-grid opacity-[0.03] dark:opacity-[0.05] pointer-events-none" />

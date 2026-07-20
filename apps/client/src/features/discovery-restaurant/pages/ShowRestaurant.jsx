@@ -33,6 +33,8 @@ export default function ShowRestaurants() {
   // 4. Fetch Data Using React Query (Auto-refetches on queryParams change)
   const { data, isLoading, error } = useRestaurants(queryParams);
 
+  console.log(data);
+
   const resetFilters = () => {
     setSearch("");
     setCity("");
@@ -76,7 +78,7 @@ export default function ShowRestaurants() {
     );
   }
 
-  const restaurants = data?.data ?? [];
+  const restaurants = data?.data?.restaurants ?? [];
 
   return (
     <section className="py-20 bg-background min-h-screen relative overflow-hidden">

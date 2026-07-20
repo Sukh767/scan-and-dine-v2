@@ -17,16 +17,11 @@ const router = Router();
 |--------------------------------------------------------------------------
 */
 
-router.get("/all", publicRestaurantController.getAllRestaurants);
 router.get(
   "/",
   validate(getPublicRestaurantsSchema),
   publicRestaurantController.getRestaurants,
 );
-
-router.get("/featured", publicRestaurantController.getFeaturedRestaurants);
-
-router.get("/popular", publicRestaurantController.getPopularRestaurants);
 
 router.get(
   "/:slug",

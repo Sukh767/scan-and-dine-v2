@@ -55,7 +55,7 @@ const plans = [
 
 const PricingSection = () => {
   return (
-    <section className="py-32 bg-background relative overflow-hidden border-y border-border select-none">
+    <section id="pricing" className="py-32 bg-background relative overflow-hidden border-y border-border select-none">
       {/* Dynamic Background Textures */}
       <div className="absolute inset-0 bg-noise opacity-[0.02] dark:opacity-[0.05] pointer-events-none" />
       <div className="absolute inset-0 bg-grid opacity-[0.03] dark:opacity-[0.05] pointer-events-none" />

@@ -28,7 +28,7 @@ export default function LandingPage() {
             <ParallaxShowcase />
             <FeaturesSection />
             <HowItWorksSection />
-            <ShowRestaurants />
+            {/* <ShowRestaurants /> */}
             <AnalyticsSection />
             <TestimonialsSection />
             <PricingSection />

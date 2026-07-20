@@ -3,11 +3,9 @@ import publicRestaurantRepository from "../repositories/publicRestaurant.reposit
 import ApiError from "../utils/ApiError.js";
 
 import { HTTP_STATUS, RESTAURANT_MESSAGES } from "../constants/index.js";
+import { toPublicRestaurantListResponse } from "../transformers/publicRestaurantList.transformer.js";
+import { toPublicRestaurantDetailsResponse } from "../transformers/publicRestaurantDetails.transformer.js";
 
-import {
-  toPublicRestaurantResponse,
-  toPublicRestaurantListResponse,
-} from "../transformers/publicRestaurant.transformer.js";
 
 class PublicRestaurantService {
   /*
@@ -36,13 +34,13 @@ class PublicRestaurantService {
     */
 
     /*
-|--------------------------------------------------------------------------
-| TODO
-|--------------------------------------------------------------------------
-| Replace regex search with MongoDB Atlas Search
-| when full-text search is introduced.
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | TODO
+    |--------------------------------------------------------------------------
+    | Replace regex search with MongoDB Atlas Search
+    | when full-text search is introduced.
+    |--------------------------------------------------------------------------
+    */
 
     if (search) {
       filter.$or = [
@@ -196,24 +194,15 @@ class PublicRestaurantService {
     const restaurant = await publicRestaurantRepository.findBySlug(slug);
 
     if (!restaurant) {
-      throw new ApiError(HTTP_STATUS.NOT_FOUND, RESTAURANT_MESSAGES.NOT_FOUND);
+      throw new ApiError(
+        HTTP_STATUS.NOT_FOUND,
+        RESTAURANT_MESSAGES.NOT_FOUND,
+      );
     }
 
-    return toPublicRestaurantResponse(restaurant);
+    return toPublicRestaurantDetailsResponse(restaurant);
   }
 
-  /*
-  |--------------------------------------------------------------------------
-  | Get All Restaurants (Without Filters)
-  |--------------------------------------------------------------------------
-  */
-
-  async getAllRestaurants() {
-    const restaurants =
-      await publicRestaurantRepository.findAllWithoutFilters();
-
-    return toPublicRestaurantListResponse(restaurants);
-  }
 }
 
 export default new PublicRestaurantService();

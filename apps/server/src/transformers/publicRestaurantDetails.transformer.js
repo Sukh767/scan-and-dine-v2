@@ -1,13 +1,25 @@
-export const toPublicRestaurantResponse = (restaurant) => ({
+export const toPublicRestaurantDetailsResponse = (restaurant) => ({
   id: restaurant.id,
 
   slug: restaurant.slug,
 
   name: restaurant.name,
 
+  phone: restaurant.phone,
+
+  website: restaurant.website,
+
+  facilities: restaurant.facilities,
+
+  socialLinks: restaurant.socialLinks,
+
+  email: restaurant.email,
+
   logo: restaurant.logo,
 
   coverImage: restaurant.coverImage,
+
+  galleryImages: restaurant.gallery,
 
   description: restaurant.description,
 
@@ -25,6 +37,10 @@ export const toPublicRestaurantResponse = (restaurant) => ({
 
   operationalStatus: restaurant.operationalStatus,
 
+  operatingHours: restaurant.operatingHours,
+
+  socialMedia: restaurant.socialMedia,
+
   address: {
     city: restaurant.address?.city,
 
@@ -33,6 +49,3 @@ export const toPublicRestaurantResponse = (restaurant) => ({
     country: restaurant.address?.country,
   },
 });
-
-export const toPublicRestaurantListResponse = (restaurants) =>
-  restaurants.map(toPublicRestaurantResponse);

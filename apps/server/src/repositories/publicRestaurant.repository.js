@@ -99,16 +99,6 @@ class PublicRestaurantRepository {
       approvalStatus: RESTAURANT_APPROVAL_STATUS.APPROVED,
     }).lean();
   }
-
-  /*
-  |--------------------------------------------------------------------------
-  | Find All Without Filters
-  |--------------------------------------------------------------------------
-  */
-
-  async findAllWithoutFilters() {
-    return Restaurant.find({}).sort({ createdAt: -1 }).lean();
-  }
 }
 
 export default new PublicRestaurantRepository();

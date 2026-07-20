@@ -5,6 +5,8 @@ import { BlankLayout, MainLayout } from "@/layouts";
 import { GuestRoute, ProtectedRoute } from "@/router/guards";
 
 import { NotFound } from "@/shared";
+const RestaurantDetailsPage = lazy(() => import("@/features/restaurant/pages/RestaurantDetailsPage"));
+const ShowRestaurants = lazy(() => import("@/features/discovery-restaurant/pages/ShowRestaurant"));
 
 /* -------------------------------------------------------------------------- */
 /*                               Public Pages                                 */
@@ -110,6 +112,26 @@ export const routes = [
         element: (
           <GuestRoute>
             <ResetPasswordPage />
+          </GuestRoute>
+        ),
+      },
+
+      {
+        path: 'restaurants',
+
+        element: (
+          <GuestRoute>
+            <ShowRestaurants />
+          </GuestRoute>
+        ),
+      },
+
+      {
+        path: 'restaurants/:slug',
+
+        element: (
+          <GuestRoute>
+            <RestaurantDetailsPage />
           </GuestRoute>
         ),
       },

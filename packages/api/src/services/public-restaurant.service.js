@@ -2,7 +2,7 @@ import { api } from "../request";
 
 export const publicRestaurantApi = {
   getRestaurants(params = {}) {
-    return api.get("/public/restaurants/all", params);
+    return api.get("/public/restaurants", params);
   },
 
   getFeaturedRestaurants() {

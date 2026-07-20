@@ -15,6 +15,9 @@ class PublicRestaurantController {
   getRestaurants = asyncHandler(async (req, res) => {
     const restaurants = await publicRestaurantService.getRestaurants(req.query);
 
+    console.log(req.query);
+    console.log(restaurants);
+
     return res
       .status(HTTP_STATUS.OK)
       .json(
@@ -84,26 +87,6 @@ class PublicRestaurantController {
           HTTP_STATUS.OK,
           GENERAL_MESSAGES.FETCH_SUCCESS,
           restaurant,
-        ),
-      );
-  });
-
-  /*
-  |--------------------------------------------------------------------------
-  | Get All Restaurants (Without Filters)
-  |--------------------------------------------------------------------------
-  */
-
-  getAllRestaurants = asyncHandler(async (req, res) => {
-    const restaurants = await publicRestaurantService.getAllRestaurants();
-
-    return res
-      .status(HTTP_STATUS.OK)
-      .json(
-        new ApiResponse(
-          HTTP_STATUS.OK,
-          GENERAL_MESSAGES.FETCH_SUCCESS,
-          restaurants,
         ),
       );
   });
