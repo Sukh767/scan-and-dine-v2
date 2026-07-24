@@ -6,6 +6,7 @@ import { Routes } from "react-router-dom";
 import AuthLayout from "@/layouts/AuthLayout";
 import { Route } from "react-router-dom";
 
+
 const App = () => {
   const [loading, setLoading] = useState(true);
 
@@ -14,13 +15,15 @@ const App = () => {
     return () => clearTimeout(t);
   }, []);
   return (
-    <ThemeProvider>
-      {/* <Preloader /> */}
-      <PreLoader show={loading} />
-      <Routes>
-        <Route path="auth/*" element={<AuthLayout />} />
-      </Routes>
-    </ThemeProvider>
+
+      <ThemeProvider>
+        {/* <Preloader /> */}
+        <PreLoader show={loading} />
+        <Routes>
+          <Route path="auth/*" element={<AuthLayout />} />
+        </Routes>
+      </ThemeProvider>
+
   );
 };
 

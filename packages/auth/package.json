@@ -1,20 +1,23 @@
 {
-    "name": "@scan/auth",
-    "version": "1.0.0",
-    "private": true,
-    "type": "module",
-    "main": "./src/index.js",
-    "exports": {
-        ".": "./src/index.js"
-    },
-    "files": [
-        "src"
-    ],
-    "dependencies": {
-        "@scan/api": "workspace:*",
-        "@scan/query": "workspace:*",
-        "react": "^19.2.7",
-        "react-router-dom": "^6.30.4",
-        "zustand": "^5.0.8"
-    }
+  "name": "@scan/auth",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": ["src"],
+
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19"
+  },
+
+  "dependencies": {
+    "@scan/api": "workspace:*",
+    "@scan/query": "workspace:*",
+    "react-router-dom": "^7.18.1",
+    "zustand": "^5.0.8"
+  }
 }

@@ -1,6 +1,7 @@
 {
   "name": "scan-and-dine-v2",
   "private": true,
+
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
@@ -8,13 +9,23 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types"
   },
+
   "devDependencies": {
     "prettier": "^3.7.4",
     "turbo": "^2.10.4",
     "typescript": "5.9.2",
     "yaml": "^2.9.0"
   },
+
+  "pnpm": {
+    "overrides": {
+      "react": "19.2.8",
+      "react-dom": "19.2.8"
+    }
+  },
+
   "packageManager": "pnpm@9.0.0",
+
   "engines": {
     "node": ">=18"
   }

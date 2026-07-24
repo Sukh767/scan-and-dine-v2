@@ -13,9 +13,11 @@
         "src"
     ],
 
+    "peerDependencies": {
+        "react": "^19"
+    },
     "dependencies": {
         "@tanstack/react-query": "^5.84.2",
-        "@tanstack/react-query-devtools": "^5.84.2",
-        "react": "^19.2.7"
+        "@tanstack/react-query-devtools": "^5.84.2"
     }
 }

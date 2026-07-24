@@ -3,9 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import InputField from "@/components/fields/InputField";
 import Checkbox from "@/components/ui/checkbox";
 import { FcGoogle } from "react-icons/fc";
+import { useAuth } from "@scan/auth";
+import { toast } from "sonner";
 
 export default function SignIn() {
   const navigate = useNavigate();
+
+  const { login } = useAuth();
 
   // Controlled form state
   const [formData, setFormData] = useState({
@@ -56,12 +60,45 @@ export default function SignIn() {
     if (!validateForm()) return;
 
     setLoading(true);
+    setErrors({});
+
     try {
-      // Simulated API Authentication request
-      await new Promise((resolve) => setTimeout(resolve, 900));
-      navigate("/admin/dashboard");
+      const response = await login({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (!response?.success) {
+        throw new Error(response?.message || "Login failed");
+      }
+
+      toast.success(response.message || "Login successful");
+
+      navigate("/admin/dashboard", {
+        replace: true,
+      });
     } catch (err) {
-      setErrors({ form: "Invalid email or password. Please try again." });
+      console.error(err);
+
+      // No response => network error
+      if (!err.response) {
+        toast.error("Unable to connect to the server.");
+        setErrors({
+          form: "Please check your internet connection or try again later.",
+        });
+        return;
+      }
+
+      const message =
+        err.response?.data?.message ||
+        err.message ||
+        "Invalid email or password.";
+
+      toast.error(message);
+
+      setErrors({
+        form: message,
+      });
     } finally {
       setLoading(false);
     }
