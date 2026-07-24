@@ -1,17 +1,21 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
-import heroImg from "./assets/hero.png";
-import "./App.css";
+import { ThemeProvider } from "@/context/ThemeContext";
+import Preloader from "@/components/ui/loader/PreLoader";
+import { PreLoader } from "@/components/ui/loader/Loader";
+import { useEffect, useState } from "react";
 
-function App() {
-  const [count, setCount] = useState(0);
+const App = () => {
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 1800);
+    return () => clearTimeout(t);
+  }, []);
   return (
-    <>
-      <h1>Restaurant Admin </h1>
-    </>
+    <ThemeProvider>
+      {/* <Preloader /> */}
+      <PreLoader show={loading} />
+    </ThemeProvider>
   );
-}
+};
 
 export default App;

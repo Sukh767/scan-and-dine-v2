@@ -1,11 +1,15 @@
-import tailwindcssRtl from "tailwindcss-rtl";
-
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: "class",
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      keyframes: {
+        preload: {
+          "0%": { width: "0%" },
+          "100%": { width: "100%" },
+        },
+      },
       width: {
         "1p": "1%",
         "2p": "2%",
@@ -326,5 +330,5 @@ export default {
       },
     }),
   },
-  plugins: [tailwindcssRtl],
+  plugins: [],
 };
