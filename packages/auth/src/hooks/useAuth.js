@@ -2,8 +2,15 @@ import { useAuthStore } from "../store";
 import { authService } from "../services";
 
 export const useAuth = () => {
-  const { user, isAuthenticated, isLoading, setUser, clearUser, setLoading } =
-    useAuthStore();
+  const {
+    user,
+    isAuthenticated,
+    isInitializing,
+    isLoading,
+    setUser,
+    clearUser,
+    setLoading,
+  } = useAuthStore();
 
   const login = async (payload) => {
     try {
@@ -27,7 +34,6 @@ export const useAuth = () => {
 
   const logout = async () => {
     await authService.logout();
-
     clearUser();
   };
 
@@ -42,6 +48,7 @@ export const useAuth = () => {
   return {
     user,
     isAuthenticated,
+    isInitializing,
     isLoading,
 
     login,

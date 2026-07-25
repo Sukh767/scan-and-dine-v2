@@ -3,13 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import InputField from "@/components/fields/InputField";
 import Checkbox from "@/components/ui/checkbox";
 import { FcGoogle } from "react-icons/fc";
-import { useAuth } from "@scan/auth";
+import { ROLES, useAuth } from "@scan/auth";
 import { toast } from "sonner";
 
 export default function SignIn() {
   const navigate = useNavigate();
 
-  const { login } = useAuth();
+  const { login, logout } = useAuth();
 
   // Controlled form state
   const [formData, setFormData] = useState({
@@ -68,8 +68,18 @@ export default function SignIn() {
         password: formData.password,
       });
 
+      console.log(response);
+
       if (!response?.success) {
         throw new Error(response?.message || "Login failed");
+      }
+
+      if (response.data.role !== ROLES.RESTAURANT_OWNER) {
+        await logout();
+
+        toast.error("You don't have permission to access Restaurant Admin.");
+
+        return;
       }
 
       toast.success(response.message || "Login successful");

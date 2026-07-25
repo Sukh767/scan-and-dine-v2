@@ -12,4 +12,12 @@ export const hasPermission = (role, allowedRoles = []) => {
   return allowedRoles.includes(role);
 };
 
+export function hasRole(user, allowedRoles = []) {
+  if (!user) return false;
+
+  if (!allowedRoles.length) return true;
+
+  return allowedRoles.includes(user.role);
+}
+
 export { ROLES };
