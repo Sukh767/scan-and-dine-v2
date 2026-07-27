@@ -1,10 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
-// FIX: these were previously imported from "@scan/auth", a workspace
-// package that isn't part of this app's source (only apps/restaurant-admin
-// was provided) — so this import could never resolve. The guards, the auth
-// hook, and the provider all now live locally under @/features/auth and
-// @/router/guards and stay in sync with each other.
 import GuestRoute from "@/router/guards/GuestRoute";
 import ProtectedRoute from "@/router/guards/ProtectedRoute";
 

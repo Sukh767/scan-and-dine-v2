@@ -26,3 +26,91 @@ input.defaultCheckbox::before {
 input:checked.defaultCheckbox::before { 
 	opacity: 1;
 }
+
+/* ==========================================================================
+   Custom Scrollbar Styles (WebKit + Firefox)
+   ========================================================================== */
+
+/* --- WebKit Browsers (Chrome, Edge, Safari, Opera) --- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f4f7fe; /* LightPrimary background */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1; /* Subtle slate-300 handle */
+  border-radius: 10px;
+  transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4318ff; /* Accent brand-500 color on hover */
+}
+
+/* --- WebKit Dark Mode Support --- */
+.dark ::-webkit-scrollbar-track {
+  background: #0b1437; /* Navy-900 background */
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #1b254b; /* Navy-700 handle */
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #7551ff; /* Accent brand-400 on hover */
+}
+
+/* --- Firefox Scrollbar Support --- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f4f7fe;
+}
+
+.dark * {
+  scrollbar-color: #1b254b #0b1437;
+}
+
+/* ==========================================================================
+   Utility Classes for Internal Elements
+   ========================================================================== */
+
+/* Thinner scrollbar for dropdown menus, card lists & sidebars */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(163, 174, 208, 0.4);
+  border-radius: 20px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #4318ff;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #7551ff;
+}
+
+/* Optional: Hide scrollbar utility class (for clean horizontal scroll areas) */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE & Edge */
+  scrollbar-width: none;  /* Firefox */
+}
