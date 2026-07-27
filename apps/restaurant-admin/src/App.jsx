@@ -13,6 +13,8 @@ import Forbidden from "@/pages/Forbidden";
 import Offline from "@/pages/Offline";
 import ServerError from "@/pages/ServerError";
 
+import Onboarding from "@/features/onboarding/Onboarding";
+
 import { PreLoader } from "@/components/ui/loader/Loader";
 import { ROLES, useAuth } from "@scan/auth";
 import RedirectPage from "@/utils/Redirect";
@@ -36,6 +38,8 @@ export default function App() {
           {/* Guest Only */}
           <Route element={<GuestRoute />}>
             <Route path="/auth/*" element={<AuthLayout />} />
+
+            <Route path="/onboarding/*" element={<Onboarding />} />
           </Route>
 
           {/* Logged In Users (any authenticated role — see ProtectedRoute) */}

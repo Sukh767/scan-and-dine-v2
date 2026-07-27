@@ -14,7 +14,7 @@ export default function AppProviders({ children }) {
         <ThemeProvider>
           {children}
 
-          <Toaster richColors closeButton position="top-right" />
+          <Toaster richColors closeButton position="bottom-right" />
         </ThemeProvider>
       </AuthProvider>
     </QueryClientProvider>

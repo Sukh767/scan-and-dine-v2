@@ -6,6 +6,7 @@ import Footer from "@/components/ui/footer/Footer";
 
 // Feature pages — lazy-loaded per route to keep the initial bundle lean
 const Dashboard = lazy(() => import("@/features/dashboard/Dashboard"));
+const MenuPage = lazy(() => import("@/features/menu/page/MenuPage"));
 
 function RouteFallback() {
   return (
@@ -37,7 +38,7 @@ export default function AdminLayout() {
               <Suspense fallback={<RouteFallback />}>
                 <Routes>
                   <Route path="dashboard" element={<Dashboard />} />
-
+                  <Route path="menu" element={<MenuPage />} />
                   <Route
                     path="*"
                     element={<Navigate to="dashboard" replace />}
