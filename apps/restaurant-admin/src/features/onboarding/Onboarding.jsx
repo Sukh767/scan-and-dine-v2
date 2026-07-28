@@ -19,13 +19,14 @@ import Step2Location from "./steps/Step2Location";
 import Step3Details from "./steps/Step3Details";
 import Step4Hours from "./steps/Step4Hours";
 import Step5Media from "./steps/Step5Media";
+import { ImProfile } from "react-icons/im";
 
 const STEPS = [
   {
     id: 1,
     title: "Basic Info",
     subtitle: "Restaurant details",
-    icon: FiFolder,
+    icon: ImProfile,
     component: Step1BasicInfo,
   },
   {
@@ -60,24 +61,23 @@ const STEPS = [
 
 const defaultData = {
   // Step 1
-  name: "Spice Garden",
-  email: "peetersparker617@gmail.com",
-  phone: "9876543210",
-  description:
-    "Premium multi-cuisine family restaurant serving authentic Indian and Asian dishes.",
-  website: "https://spicegarden.com",
+  name: "",
+  email: "",
+  phone: "",
+  description: "",
+  website: "",
   priceRange: "₹₹",
   // Step 2
-  street: "123 MG Road",
-  city: "Hyderabad",
-  state: "Telangana",
-  country: "India",
-  pincode: "500001",
-  lat: "17.385",
-  lng: "78.4867",
+  street: "",
+  city: "",
+  state: "",
+  country: "",
+  pincode: "",
+  lat: "",
+  lng: "",
   // Step 3
-  cuisineTypes: ["Indian", "Chinese", "Continental"],
-  facilities: ["Parking", "WiFi", "Live Music"],
+  cuisineTypes: ["", "", ""],
+  facilities: ["", "", ""],
   // Step 4
   operatingHours: {
     monday: { isOpen: true, open: "09:00", close: "22:00" },
@@ -90,9 +90,9 @@ const defaultData = {
   },
   // Step 5
   logo: null,
-  facebook: "https://facebook.com/spicegarden",
-  instagram: "https://instagram.com/spicegarden",
-  x: "https://x.com/spicegarden",
+  facebook: "",
+  instagram: "",
+  x: "",
 };
 
 export default function Onboarding() {
@@ -161,7 +161,7 @@ export default function Onboarding() {
       <div className="mx-auto max-w-4xl flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-tr from-brand-500 to-brand-400 text-white shadow-lg shadow-brand-500/30">
-            <FiFolder className="h-5 w-5" />
+            <ImProfile className="h-5 w-5" />
           </div>
           <div>
             <h1 className="text-lg font-bold text-navy-700 dark:text-white leading-tight">
@@ -199,7 +199,7 @@ export default function Onboarding() {
         </div>
 
         {/* Stepper Bar */}
-        <div className="mb-6 rounded-2xl bg-white/80 dark:bg-navy-800/80 p-4 shadow-xl backdrop-blur-md border border-gray-100 dark:border-navy-700">
+        <div className="mb-6 rounded-[20px] bg-white p-5 shadow-3xl shadow-shadow-500 dark:border dark:border-white/10 dark:bg-navy-800 dark:shadow-none font-dm">
           <div className="flex items-center justify-between overflow-x-auto no-scrollbar gap-2">
             {STEPS.map((s) => {
               const StepIcon = s.icon;
@@ -209,20 +209,21 @@ export default function Onboarding() {
               return (
                 <div
                   key={s.id}
-                  className="flex items-center flex-1 min-w-[120px]"
+                  className="flex flex-1 min-w-[120px] items-center"
                 >
                   <button
                     type="button"
                     onClick={() => setStep(s.id)}
-                    className="flex items-center gap-2.5 w-full text-left group focus:outline-none"
+                    className="group flex w-full items-center gap-3 text-left focus:outline-none"
                   >
+                    {/* Step Icon Container */}
                     <div
                       className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold transition-all duration-300 ${
                         isDone
-                          ? "bg-emerald-500 text-white shadow-md shadow-emerald-500/20"
+                          ? "bg-green-500 text-white shadow-md"
                           : isActive
-                            ? "bg-brand-500 text-white shadow-lg shadow-brand-500/30 ring-4 ring-brand-500/15"
-                            : "bg-gray-100 text-gray-400 dark:bg-navy-700 dark:text-gray-500"
+                            ? "bg-brand-500 text-white shadow-lg shadow-brand-500/30 ring-4 ring-brand-500/20 dark:bg-brand-400 dark:shadow-brand-400/30 dark:ring-brand-400/20"
+                            : "bg-lightPrimary text-gray-600 dark:bg-navy-900 dark:text-gray-400"
                       }`}
                     >
                       {isDone ? (
@@ -232,19 +233,20 @@ export default function Onboarding() {
                       )}
                     </div>
 
+                    {/* Step Text Container */}
                     <div className="hidden md:block">
                       <p
                         className={`text-xs font-bold transition-colors ${
                           isActive
                             ? "text-brand-500 dark:text-white"
                             : isDone
-                              ? "text-navy-700 dark:text-gray-200"
-                              : "text-gray-400 dark:text-gray-500"
+                              ? "text-navy-700 dark:text-white"
+                              : "text-gray-600 dark:text-gray-400"
                         }`}
                       >
                         {s.title}
                       </p>
-                      <p className="text-[10px] text-gray-400 dark:text-gray-500 truncate max-w-[90px]">
+                      <p className="max-w-[90px] truncate text-[10px] font-medium text-gray-500 dark:text-gray-400">
                         {s.subtitle}
                       </p>
                     </div>
@@ -255,9 +257,9 @@ export default function Onboarding() {
           </div>
 
           {/* Smooth Progress Bar */}
-          <div className="mt-4 h-1.5 w-full rounded-full bg-gray-100 dark:bg-navy-700 overflow-hidden">
+          <div className="mt-5 h-1.5 w-full overflow-hidden rounded-full bg-lightPrimary dark:bg-navy-900">
             <div
-              className="h-full bg-gradient-to-r from-brand-500 to-brand-400 transition-all duration-500 ease-out rounded-full"
+              className="h-full rounded-full bg-brand-500 transition-all duration-500 ease-out dark:bg-brand-400"
               style={{ width: `${progress}%` }}
             />
           </div>

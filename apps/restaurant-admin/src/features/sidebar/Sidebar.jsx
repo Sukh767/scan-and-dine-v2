@@ -14,6 +14,7 @@ import {
 } from "react-icons/md";
 import DashIcon from "@/components/ui/icons/DashIcon";
 import { useAuth } from "@scan/auth";
+import { BiDish } from "react-icons/bi";
 
 const routes = [
   {
@@ -25,6 +26,11 @@ const routes = [
     path: "/admin/menu",
     name: "Menu",
     icon: <MdRestaurantMenu className="h-6 w-6" />,
+  },
+  {
+    path: "/admin/category",
+    name: "Category",
+    icon: <BiDish className="h-6 w-6" />,
   },
   {
     path: "/admin/tables",

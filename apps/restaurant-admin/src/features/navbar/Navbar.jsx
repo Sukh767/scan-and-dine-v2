@@ -8,10 +8,12 @@ import Dropdown from "@/components/ui/dropdown";
 import { useTheme } from "@/context/ThemeContext";
 import { mockNotifications } from "@/data/mock";
 import { useAuth } from "@scan/auth";
+import { toast } from "sonner";
 
 const routeLabels = {
   "/admin/dashboard": "Dashboard",
   "/admin/menu": "Menu",
+  "/admin/category": "Categories",
   "/admin/tables": "Tables",
   "/admin/sessions": "Sessions",
   "/admin/orders": "Orders",

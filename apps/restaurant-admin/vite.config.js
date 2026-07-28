@@ -26,4 +26,14 @@ export default defineConfig({
     // Some libraries (e.g. apexcharts) probe `global` — map it to window in the browser
     global: "window",
   },
+
+  server: {
+    port: 5174,
+    proxy: {
+      "/api": {
+        target: "http://localhost:5000",
+        changeOrigin: true,
+      },
+    },
+  },
 });

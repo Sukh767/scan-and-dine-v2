@@ -133,6 +133,7 @@ const RegisterPage = () => {
   const [form, setForm] = useState({
     name: "",
     email: "",
+    phone: "",
     password: "",
     confirmPassword: "",
   });
@@ -144,6 +145,7 @@ const RegisterPage = () => {
   // Derived validation checks (live, after field touched)
   const isNameValid = form.name.length > 2;
   const isEmailValid = form.email.includes("@") && form.email.includes(".");
+  const isPhoneValid = form.phone.length >= 10;
   const isPassValid = form.password.length >= 6;
   const doPasswordsMatch = form.password === form.confirmPassword;
 
@@ -158,6 +160,7 @@ const RegisterPage = () => {
     if (!form.name || form.name.length < 3)
       newErrors.name = "Name must be at least 3 characters";
     if (!isEmailValid) newErrors.email = "Enter a valid email address";
+    if (!isPhoneValid) newErrors.phone = "Enter a valid phone number";
     if (!isPassValid)
       newErrors.password = "Password must be at least 6 characters";
     if (!doPasswordsMatch) newErrors.confirmPassword = "Passwords do not match";
@@ -171,6 +174,7 @@ const RegisterPage = () => {
     setTouched({
       name: true,
       email: true,
+      phone: true,
       password: true,
       confirmPassword: true,
     });
@@ -180,7 +184,15 @@ const RegisterPage = () => {
     setStatus("loading");
     try {
       // Simulate API call
-      await new Promise((r) => setTimeout(r, 1500));
+      const response = await register({
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        password: form.password,
+      });
+
+      console.log("Register response:", response);
+
       showToast("Verification email sent! Check your inbox.", "success");
       setStatus("success");
     } catch (error) {
@@ -412,6 +424,42 @@ const RegisterPage = () => {
                     {touched.email && errors.email && (
                       <p className="text-[10px] font-ui text-destructive mt-1">
                         {errors.email}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Phone Input */}
+                  <div>
+                    <label className="block text-xs font-ui font-bold text-muted-foreground mb-2">
+                      Phone Number
+                    </label>
+                    <div className="relative flex items-center">
+                      <input
+                        type="tel"
+                        placeholder="1234567890"
+                        required
+                        value={form.phone}
+                        onChange={(e) => handleChange("phone", e.target.value)}
+                        onBlur={() =>
+                          setTouched((t) => ({ ...t, phone: true }))
+                        }
+                        className={cn(
+                          "w-full pl-4 pr-12 py-3.5 bg-muted/30 border text-foreground placeholder:text-muted-foreground text-sm font-ui focus:outline-none focus:border-brand/60 focus:bg-card transition-colors rounded-none-force",
+                          errors.phone && touched.phone
+                            ? "border-destructive"
+                            : "border-border",
+                        )}
+                      />
+                      {isPhoneValid && !errors.phone && (
+                        <Check
+                          size={16}
+                          className="absolute right-4 text-emerald-500"
+                        />
+                      )}
+                    </div>
+                    {touched.phone && errors.phone && (
+                      <p className="text-[10px] font-ui text-destructive mt-1">
+                        {errors.phone}
                       </p>
                     )}
                   </div>

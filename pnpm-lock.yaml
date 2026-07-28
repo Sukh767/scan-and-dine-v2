@@ -199,6 +199,9 @@ importers:
       '@scan/config':
         specifier: workspace:*
         version: link:../../packages/config
+      '@scan/restaurants':
+        specifier: workspace:*
+        version: link:../../packages/restaurant
       '@tanstack/react-query':
         specifier: ^5.84.2
         version: 5.101.4(react@19.2.8)

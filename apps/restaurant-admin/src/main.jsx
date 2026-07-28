@@ -6,11 +6,14 @@ import App from "./App";
 import AppProviders from "./app/AppProviders";
 
 import "@/styles/index.css";
+import { ErrorBoundary } from "@/components/error";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <AppProviders>
-      <App />
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
     </AppProviders>
   </BrowserRouter>,
 );
