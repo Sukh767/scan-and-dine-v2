@@ -71,6 +71,7 @@ class MenuRepository {
   */
 
   async create(data) {
+    console.log("menu create repo console : ", data);
     return MenuItem.create(data);
   }
 

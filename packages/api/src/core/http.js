@@ -13,9 +13,9 @@ export const http = axios.create({
 
   timeout: runtimeConfig.requestTimeout,
 
-  headers: {
-    "Content-Type": CONTENT_TYPES.JSON,
-  },
+  // headers: {
+  //   "Content-Type": CONTENT_TYPES.JSON,
+  // },
 
   withCredentials: true,
 });

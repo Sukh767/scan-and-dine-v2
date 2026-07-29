@@ -2,6 +2,8 @@ import restaurantRepository from "../repositories/restaurant.repository.js";
 import categoryRepository from "../repositories/category.repository.js";
 import menuRepository from "../repositories/menu.repository.js";
 
+import uploadService from "./upload.service.js";
+
 import {
   toMenuResponse,
   toMenuListResponse,
@@ -32,14 +34,49 @@ class MenuService {
 
   /*
   |--------------------------------------------------------------------------
+  | Prepare Images
+  |--------------------------------------------------------------------------
+  */
+
+  async prepareImages(files = [], imageUrls = []) {
+    const images = [];
+
+    // Upload local files to Cloudinary
+    if (files?.length) {
+      for (const file of files) {
+        const uploadedImages = await Promise.all(
+          files.map((file) =>
+            uploadService.uploadImage(file, "scan-and-dine/menu-items"),
+          ),
+        );
+
+        images.push(...uploadedImages);
+      }
+    }
+
+    // External URLs
+    if (imageUrls?.length) {
+      for (const url of imageUrls) {
+        images.push({
+          url,
+          publicId: null,
+        });
+      }
+    }
+
+    return images;
+  }
+
+  /*
+  |--------------------------------------------------------------------------
   | Create Menu Item
   |--------------------------------------------------------------------------
   */
 
-  async createMenuItem(user, body) {
+  async createMenuItem(user, body, files) {
     const restaurant = await this.getRestaurant(user);
 
-    const category = await this.getCategory(restaurant.id, body.categoryId);
+    await this.getCategory(restaurant.id, body.categoryId);
 
     const existingMenu = await menuRepository.findByName(
       restaurant.id,
@@ -50,9 +87,14 @@ class MenuService {
       throw new ApiError(HTTP_STATUS.CONFLICT, MENU_MESSAGES.ALREADY_EXISTS);
     }
 
+    const images = await this.prepareImages(files, body.imageUrls);
+
+    delete body.imageUrls;
+
     const menuItem = await menuRepository.create({
       restaurantId: restaurant.id,
       ...body,
+      images,
     });
 
     const createdMenu = await menuRepository.findById(
@@ -97,7 +139,7 @@ class MenuService {
   |--------------------------------------------------------------------------
   */
 
-  async updateMenuItem(user, menuItemId, body) {
+  async updateMenuItem(user, menuItemId, body, files) {
     const restaurant = await this.getRestaurant(user);
 
     const menuItem = await this.getMenuItem(restaurant.id, menuItemId);
@@ -116,6 +158,15 @@ class MenuService {
         throw new ApiError(HTTP_STATUS.CONFLICT, MENU_MESSAGES.ALREADY_EXISTS);
       }
     }
+
+    if (files?.length || body.imageUrls?.length) {
+      body.images = await this.prepareImages(files, body.imageUrls);
+    }
+
+    delete body.imageUrls;
+
+    console.log("Updating menu item with body:", body);
+    console.log("Files provided:", files);
 
     const updatedMenu = await menuRepository.update(
       menuItem.id,

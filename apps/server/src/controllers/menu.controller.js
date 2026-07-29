@@ -7,7 +7,11 @@ import { HTTP_STATUS, MENU_MESSAGES } from "../constants/index.js";
 
 class MenuController {
   createMenuItem = asyncHandler(async (req, res) => {
-    const menuItem = await menuService.createMenuItem(req.user, req.body);
+    const menuItem = await menuService.createMenuItem(
+      req.user,
+      req.body,
+      req.files,
+    );
 
     return res
       .status(HTTP_STATUS.CREATED)
@@ -43,6 +47,7 @@ class MenuController {
       req.user,
       req.params.id,
       req.body,
+      req.files,
     );
 
     return res

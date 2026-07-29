@@ -5,6 +5,7 @@ import menuController from "../controllers/menu.controller.js";
 import authMiddleware from "../middlewares/auth.middleware.js";
 import authorize from "../middlewares/authorize.middleware.js";
 import validate from "../middlewares/validate.middleware.js";
+import { uploadMultiple } from "../middlewares/upload.middleware.js";
 
 import {
   createMenuItemSchema,
@@ -13,7 +14,7 @@ import {
   updateAvailabilitySchema,
 } from "../validators/menu.validator.js";
 
-import { ROLES } from "../constants/index.js";
+import { FILE_UPLOAD_LIMITS, ROLES } from "../constants/index.js";
 
 const router = Router();
 
@@ -21,7 +22,16 @@ router.use(authMiddleware);
 
 router.use(authorize(ROLES.RESTAURANT_OWNER));
 
-router.post("/", validate(createMenuItemSchema), menuController.createMenuItem);
+router.post(
+  "/",
+  uploadMultiple({
+    fieldName: "images",
+    maxCount: 5,
+    maxSize: FILE_UPLOAD_LIMITS.MENU_IMAGE,
+  }),
+  validate(createMenuItemSchema),
+  menuController.createMenuItem,
+);
 
 router.get("/", menuController.getMenuItems);
 
@@ -29,6 +39,11 @@ router.get("/:id", menuController.getMenuItem);
 
 router.patch(
   "/:id",
+  uploadMultiple({
+    fieldName: "images",
+    maxCount: 5,
+    maxSize: FILE_UPLOAD_LIMITS.MENU_IMAGE,
+  }),
   validate(updateMenuItemSchema),
   menuController.updateMenuItem,
 );

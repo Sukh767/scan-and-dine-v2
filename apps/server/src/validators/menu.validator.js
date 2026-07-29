@@ -2,6 +2,25 @@ import { z } from "zod";
 
 /*
 |--------------------------------------------------------------------------
+| Helpers
+|--------------------------------------------------------------------------
+*/
+
+const jsonParser = (schema) =>
+  z.preprocess((value) => {
+    if (typeof value === "string") {
+      try {
+        return JSON.parse(value);
+      } catch {
+        return value;
+      }
+    }
+
+    return value;
+  }, schema);
+
+/*
+|--------------------------------------------------------------------------
 | Variant Schema
 |--------------------------------------------------------------------------
 */
@@ -9,11 +28,11 @@ import { z } from "zod";
 const variantSchema = z.object({
   name: z.string().trim().min(1).max(100),
 
-  price: z.number().min(0),
+  price: z.coerce.number().min(0),
 
-  isAvailable: z.boolean().optional(),
+  isAvailable: z.coerce.boolean().optional(),
 
-  sortOrder: z.number().int().min(0).optional(),
+  sortOrder: z.coerce.number().int().min(0).optional(),
 });
 
 /*
@@ -23,7 +42,7 @@ const variantSchema = z.object({
 */
 
 const nutritionSchema = z.object({
-  calories: z.number().min(0).optional(),
+  calories: z.coerce.number().min(0).optional(),
 
   servingSize: z.string().trim().optional(),
 });
@@ -42,35 +61,43 @@ export const createMenuItemSchema = z.object({
 
     description: z.string().trim().max(1000).optional(),
 
-    price: z.number().min(0),
+    imageUrls: z.preprocess((value) => {
+      if (value === undefined) return undefined;
 
-    isVeg: z.boolean().optional(),
+      if (Array.isArray(value)) return value;
 
-    isVegan: z.boolean().optional(),
+      return [value];
+    }, z.array(z.string().url()).optional()),
 
-    isJain: z.boolean().optional(),
+    price: z.coerce.number().min(0),
 
-    isGlutenFree: z.boolean().optional(),
+    isVeg: z.coerce.boolean().optional(),
+
+    isVegan: z.coerce.boolean().optional(),
+
+    isJain: z.coerce.boolean().optional(),
+
+    isGlutenFree: z.coerce.boolean().optional(),
 
     spiceLevel: z
       .enum(["none", "mild", "medium", "hot", "extra_hot"])
       .optional(),
 
-    preparationTime: z.number().int().min(1).optional(),
+    preparationTime: z.coerce.number().int().min(1).optional(),
 
-    variants: z.array(variantSchema).optional(),
+    variants: jsonParser(z.array(variantSchema)).optional(),
 
-    nutrition: nutritionSchema.optional(),
+    nutrition: jsonParser(nutritionSchema).optional(),
 
-    allowCustomNote: z.boolean().optional(),
+    allowCustomNote: z.coerce.boolean().optional(),
 
-    isFeatured: z.boolean().optional(),
+    isFeatured: z.coerce.boolean().optional(),
 
-    isBestSeller: z.boolean().optional(),
+    isBestSeller: z.coerce.boolean().optional(),
 
-    isRecommended: z.boolean().optional(),
+    isRecommended: z.coerce.boolean().optional(),
 
-    sortOrder: z.number().int().min(0).optional(),
+    sortOrder: z.coerce.number().int().min(0).optional(),
   }),
 });
 
@@ -92,7 +119,7 @@ export const updateMenuItemSchema = z.object({
 
 export const updateMenuStatusSchema = z.object({
   body: z.object({
-    isActive: z.boolean(),
+    isActive: z.coerce.boolean(),
   }),
 });
 
@@ -104,6 +131,6 @@ export const updateMenuStatusSchema = z.object({
 
 export const updateAvailabilitySchema = z.object({
   body: z.object({
-    isAvailable: z.boolean(),
+    isAvailable: z.coerce.boolean(),
   }),
 });
