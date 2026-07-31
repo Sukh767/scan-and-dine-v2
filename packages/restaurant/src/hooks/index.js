@@ -1,6 +1,11 @@
-export * from "./category/useCategories";
-export * from "./category/useCreateCategory";
-export * from "./category/useUpdateCategory";
-export * from "./category/useDeleteCategory";
+// Restaurants
+export * from "./restaurant";
 
+// Category
+export * from "./category";
+
+// Menu
 export * from "./menu";
+
+// Table
+export * from "./table";

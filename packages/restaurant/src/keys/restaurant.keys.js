@@ -8,4 +8,8 @@ export const restaurantKeys = {
   menus: (params = {}) => [...restaurantKeys.all, "menus", params],
 
   menu: (id) => [...restaurantKeys.all, "menu", id],
+
+  tables: () => [...restaurantKeys.all, "tables"],
+  
+  table: (id) => [...restaurantKeys.tables(), id],
 };
