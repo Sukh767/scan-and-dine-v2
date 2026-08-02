@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { HiX } from "react-icons/hi";
+
 import {
   MdDashboard,
   MdRestaurantMenu,
@@ -15,6 +16,7 @@ import {
 import DashIcon from "@/components/ui/icons/DashIcon";
 import { useAuth } from "@scan/auth";
 import { BiDish } from "react-icons/bi";
+import { toast } from "sonner";
 
 const routes = [
   {
@@ -79,6 +81,7 @@ export default function Sidebar({ open, onClose }) {
     await logout();
 
     toast.success("Logged out successfully");
+
     navigate("/auth/sign-in");
   };
 
@@ -160,7 +163,7 @@ export default function Sidebar({ open, onClose }) {
                       {route.icon || <DashIcon />}
                     </span>
                     <p
-                      className={`leading-1 ml-4 flex flex-1 text-sm ${active ? "font-bold text-navy-700 dark:text-white" : "font-medium text-gray-600"}`}
+                      className={`leading-1 ml-4 flex flex-1 text-sm ${active ? "font-bold text-gray-700 dark:text-white" : "font-medium text-gray-600"}`}
                     >
                       {route.name}
                     </p>

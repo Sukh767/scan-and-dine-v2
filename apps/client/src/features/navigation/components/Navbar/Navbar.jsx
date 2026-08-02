@@ -394,14 +394,14 @@ const Navbar = () => {
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           scrolled
-            /* 
+            ? /* 
               VARIATION: Navbar styling on scroll.
               - Changed to only blur with a semi-transparent background (bg-background/60).
               - Removed solid black shadows for a cleaner, modern look. 
               - If you want the shadow back later, add 'shadow-sm' or 'shadow-md'.
               - If you want it darker, change 'bg-background/60' to 'bg-background/95'.
             */
-            ? "bg-background/30 backdrop-blur-md border-b border-border/50"
+              "bg-background/30 backdrop-blur-md border-b border-border/50"
             : "bg-transparent",
         )}
         initial={{ y: -80, opacity: 0 }}

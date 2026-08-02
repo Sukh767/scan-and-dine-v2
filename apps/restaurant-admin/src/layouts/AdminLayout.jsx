@@ -12,6 +12,8 @@ const CategoryPage = lazy(
 );
 const TablePage = lazy(() => import("@/features/table/page/TablePage"));
 
+const SessionPage = lazy(() => import("@/features/session/page/SessionPage"));
+
 function RouteFallback() {
   return (
     <div className="flex h-[60vh] w-full items-center justify-center">
@@ -45,6 +47,7 @@ export default function AdminLayout() {
                   <Route path="menu" element={<MenuPage />} />
                   <Route path="category" element={<CategoryPage />} />
                   <Route path="tables" element={<TablePage />} />
+                  <Route path="sessions/*" element={<SessionPage />} />
                   <Route
                     path="*"
                     element={<Navigate to="dashboard" replace />}

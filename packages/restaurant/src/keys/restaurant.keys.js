@@ -10,6 +10,10 @@ export const restaurantKeys = {
   menu: (id) => [...restaurantKeys.all, "menu", id],
 
   tables: () => [...restaurantKeys.all, "tables"],
-  
+
   table: (id) => [...restaurantKeys.tables(), id],
+
+  sessions: () => [...restaurantKeys.all, "sessions"],
+
+  session: (id) => [...restaurantKeys.sessions(), id],
 };
