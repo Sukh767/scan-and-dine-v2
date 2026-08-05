@@ -7,6 +7,8 @@ import menuRoutes from "./menu.routes.js";
 import tableRoutes from "./table.routes.js";
 import diningSessionRoutes from "./diningSession.routes.js";
 import publicRestaurantRoutes from "./publicRestaurant.routes.js";
+import publicScanRoutes from "./publicScan.routes.js";
+import publicSessionRoutes from "./publicSession.routes.js";
 
 const router = Router();
 
@@ -33,5 +35,9 @@ router.use("/menu", menuRoutes);
 router.use("/tables", tableRoutes);
 
 router.use("/sessions", diningSessionRoutes);
+
+router.use("/public/scan", publicScanRoutes);
+
+router.use("/public/session", publicSessionRoutes);
 
 export default router;

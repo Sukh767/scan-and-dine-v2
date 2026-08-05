@@ -62,9 +62,10 @@ class DiningSessionRepository {
   async findActiveByToken(sessionToken) {
     return DiningSession.findOne({
       sessionToken,
-
       status: SESSION_STATUS.ACTIVE,
-    });
+    })
+      .populate("restaurantId", "name slug logo coverImage operationalStatus")
+      .populate("tableId", "tableNumber label capacity status");
   }
 
   /*
@@ -133,10 +134,10 @@ class DiningSessionRepository {
   async update(id, data) {
     return DiningSession.findByIdAndUpdate(id, data, {
       new: true,
-
       runValidators: true,
     })
-      .populate("tableId", "tableNumber label")
+      .populate("restaurantId", "name slug logo coverImage operationalStatus")
+      .populate("tableId", "tableNumber label capacity status")
       .populate("customerId", "name email");
   }
 

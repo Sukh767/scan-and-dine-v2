@@ -125,6 +125,10 @@ export const TABLE_MESSAGES = Object.freeze({
   NOT_FOUND: "Table not found.",
 
   ALREADY_EXISTS: "Table number already exists.",
+
+  RESERVED: "This table is currently reserved.",
+
+  UNAVAILABLE: "This table is currently unavailable.",
 });
 
 export const DINING_SESSION_MESSAGES = Object.freeze({

@@ -131,12 +131,17 @@ export const RESTAURANT_MESSAGES = Object.freeze({
 
   REJECTED_SUCCESS: "Restaurant rejected successfully.",
 
-  RESTAURANT_CREATED:
-  "Restaurant registration received",
+  RESTAURANT_CREATED: "Restaurant registration received",
 
-RESTAURANT_APPROVED:
-  "🎉 Your restaurant has been approved",
+  RESTAURANT_APPROVED: "🎉 Your restaurant has been approved",
 
-RESTAURANT_REJECTED:
-  "Restaurant verification update",
+  RESTAURANT_REJECTED: "Restaurant verification update",
+
+  CLOSED: "Restaurant is currently closed.",
+
+  BUSY: "Restaurant is currently busy.",
+
+  MAINTENANCE: "Restaurant is under maintenance.",
+
+  UNAVAILABLE: "Restaurant is currently unavailable.",
 });

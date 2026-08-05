@@ -40,6 +40,16 @@ class DiningSessionService {
 
   /*
   |--------------------------------------------------------------------------
+  | Public Helper (used by PublicScanService)
+  |--------------------------------------------------------------------------
+  */
+
+  async getActiveSessionByTable(tableId) {
+    return diningSessionRepository.findActiveByTable(tableId);
+  }
+
+  /*
+  |--------------------------------------------------------------------------
   | Start Session
   |--------------------------------------------------------------------------
   */
@@ -49,36 +59,15 @@ class DiningSessionService {
 
     const table = await this.getTable(restaurant.id, body.tableId);
 
-    const activeSession = await diningSessionRepository.findActiveByTable(
-      table.id,
-    );
-
-    if (activeSession) {
-      return {
-        resumed: true,
-
-        session: toDiningSessionResponse(activeSession),
-      };
-    }
-
-    const session = await diningSessionRepository.create({
-      restaurantId: restaurant.id,
-
-      tableId: table.id,
-
-      sessionToken: crypto.randomUUID(),
-
-      guestCount: body.guestCount ?? 1, //|| treats 0, false, "", and null as falsy.
-    });
-
-    await tableRepository.update(table.id, restaurant.id, {
-      status: TABLE_STATUS.OCCUPIED,
+    const result = await this.createSessionCore({
+      restaurant,
+      table,
+      guestCount: body.guestCount,
     });
 
     return {
-      resumed: false,
-
-      session: toDiningSessionResponse(session),
+      resumed: result.resumed,
+      session: toDiningSessionResponse(result.session),
     };
   }
 
@@ -98,10 +87,6 @@ class DiningSessionService {
         DINING_SESSION_MESSAGES.NO_ACTIVE_SESSION,
       );
     }
-
-    await diningSessionRepository.update(session.id, {
-      lastActivityAt: new Date(),
-    });
 
     const updatedSession = await diningSessionRepository.update(session.id, {
       lastActivityAt: new Date(),
@@ -153,7 +138,6 @@ class DiningSessionService {
 
     const session = await diningSessionRepository.update(sessionId, {
       guestCount,
-
       lastActivityAt: new Date(),
     });
 
@@ -167,8 +151,6 @@ class DiningSessionService {
   */
 
   async endSession(sessionId, endReason) {
-    //await this.getSession(sessionId);
-
     const existingSession = await this.getSession(sessionId);
 
     const session = await diningSessionRepository.update(sessionId, {
@@ -187,6 +169,79 @@ class DiningSessionService {
     );
 
     return toDiningSessionResponse(session);
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Create Session Core (shared internal logic)
+  |--------------------------------------------------------------------------
+  */
+
+  async createSessionCore({
+    restaurant,
+    table,
+    guestCount = 1,
+    customerId = null,
+    reservationId = null,
+  }) {
+    /*
+    |--------------------------------------------------------------------------
+    | Existing Active Session
+    |--------------------------------------------------------------------------
+    */
+
+    const activeSession = await diningSessionRepository.findActiveByTable(
+      table.id,
+    );
+
+    if (activeSession) {
+      return {
+        resumed: true,
+        session: activeSession,
+      };
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Create Session
+    |--------------------------------------------------------------------------
+    */
+
+    console.log("Restaurant:", restaurant);
+    console.log("Restaurant ID:", restaurant.id);
+    console.log("Restaurant _ID:", restaurant._id);
+
+    console.log("Table:", table);
+    console.log("Table ID:", table.id);
+    console.log("Table _ID:", table._id);
+
+    const session = await diningSessionRepository.create({
+      restaurantId: restaurant._id ?? restaurant.id,
+      tableId: table._id ?? table.id,
+      customerId,
+      reservationId,
+      guestCount,
+      sessionToken: crypto.randomUUID(),
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Occupy Table
+    |--------------------------------------------------------------------------
+    */
+
+    await tableRepository.update(
+      table._id ?? table.id,
+      restaurant._id ?? restaurant.id,
+      {
+        status: TABLE_STATUS.OCCUPIED,
+      },
+    );
+
+    return {
+      resumed: false,
+      session,
+    };
   }
 }
 
