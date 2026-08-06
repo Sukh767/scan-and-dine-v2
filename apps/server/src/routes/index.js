@@ -9,6 +9,7 @@ import diningSessionRoutes from "./diningSession.routes.js";
 import publicRestaurantRoutes from "./publicRestaurant.routes.js";
 import publicScanRoutes from "./publicScan.routes.js";
 import publicSessionRoutes from "./publicSession.routes.js";
+import publicMenuRoutes from "./publicMenu.routes.js";
 
 const router = Router();
 
@@ -39,5 +40,7 @@ router.use("/sessions", diningSessionRoutes);
 router.use("/public/scan", publicScanRoutes);
 
 router.use("/public/session", publicSessionRoutes);
+
+router.use("/public/menu", publicMenuRoutes);
 
 export default router;
